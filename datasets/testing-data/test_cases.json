@@ -1,0 +1,41 @@
+[
+  {
+    "test_id": "TC_001_NORMAL",
+    "description": "Healthy profile: normal pH, medium TDS, zero glucose/ketones.",
+    "input_sensors": {
+      "temperature_c": 36.8,
+      "ph": 6.4,
+      "tds_ppm": 450,
+      "turbidity_ntu": 8.0,
+      "gas_ratio": 1.0,
+      "flow_volume_ml": 280
+    },
+    "input_rgb": { "r": 250, "g": 540, "b": 200 },
+    "expected_outputs": {
+      "ph_class": 6.5,
+      "glucose_class": "Negative",
+      "protein_class": "Negative",
+      "ketones_class": "Negative",
+      "hydration": "Optimal Hydration"
+    }
+  },
+  {
+    "test_id": "TC_002_KETOSIS_DEHYDRATION",
+    "description": "High TDS, high ketone pad match indicating mild dehydration and ketogenesis.",
+    "input_sensors": {
+      "temperature_c": 36.4,
+      "ph": 5.2,
+      "tds_ppm": 880,
+      "turbidity_ntu": 15.0,
+      "gas_ratio": 0.85,
+      "flow_volume_ml": 110
+    },
+    "input_rgb": { "r": 480, "g": 310, "b": 230 },
+    "expected_outputs": {
+      "glucose_class": "Negative",
+      "protein_class": "Negative",
+      "ketones_class": "Moderate",
+      "hydration": "Dehydrated - Increase Fluid Intake"
+    }
+  }
+]

@@ -1,0 +1,6 @@
+timestamp,ph,tds_ppm,turbidity_ntu,temperature_c,glucose,protein,ketones
+1781640000,6.2,420,10.2,36.5,Negative,Negative,Negative
+1781643600,6.0,460,11.5,36.7,Negative,Negative,Trace
+1781647200,6.5,480,12.5,36.8,Negative,Negative,Trace
+1781650800,5.8,720,25.0,36.2,Negative,Trace,Moderate
+1781654400,6.3,310,8.5,36.9,Negative,Negative,Negative

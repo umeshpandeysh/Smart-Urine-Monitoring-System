@@ -1,0 +1,28 @@
+{
+  "calibration_metadata": {
+    "sensor_model": "TCS34725",
+    "led_illuminant": "Warm_White_LED_CRI95",
+    "calibration_date": "2026-06-16",
+    "notes": "Values are normalized chromaticity vectors (R / (R+G+B))."
+  },
+  "parameters": {
+    "glucose": [
+      { "grade": "Negative", "r": 0.250, "g": 0.550, "b": 0.200 },
+      { "grade": "Trace", "r": 0.350, "g": 0.450, "b": 0.200 },
+      { "grade": "Moderate", "r": 0.450, "g": 0.380, "b": 0.170 },
+      { "grade": "High", "r": 0.580, "g": 0.280, "b": 0.140 }
+    ],
+    "protein": [
+      { "grade": "Negative", "r": 0.380, "g": 0.440, "b": 0.180 },
+      { "grade": "Trace", "r": 0.320, "g": 0.480, "b": 0.200 },
+      { "grade": "Moderate", "r": 0.250, "g": 0.520, "b": 0.230 },
+      { "grade": "High", "r": 0.180, "g": 0.550, "b": 0.270 }
+    ],
+    "ketones": [
+      { "grade": "Negative", "r": 0.450, "g": 0.420, "b": 0.130 },
+      { "grade": "Trace", "r": 0.460, "g": 0.380, "b": 0.160 },
+      { "grade": "Moderate", "r": 0.480, "g": 0.300, "b": 0.220 },
+      { "grade": "High", "r": 0.490, "g": 0.200, "b": 0.310 }
+    ]
+  }
+}

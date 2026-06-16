@@ -1,0 +1,16 @@
+Manufacturer,Part Number,Description,Quantity,Reference,Approx Unit Price (USD)
+Espressif Systems,ESP32-WROOM-32E,ESP32 DevKitC Microcontroller,1,U1,6.00
+Adafruit,1334,TCS34725 Color Sensor I2C,1,U2,7.95
+Dallas Semiconductor,DS18B20,Waterproof OneWire Temp Sensor,1,U3,3.50
+DFRobot,SEN0161,Analog pH Sensor Board and Probe,1,U4,29.50
+DFRobot,SEN0244,Analog TDS/EC Sensor Module,1,U5,19.50
+DFRobot,SEN0189,Analog Turbidity Sensor,1,U6,12.00
+Shenzhen Kejie,YF-S201,Hall-Effect Water Flow Sensor G1/2,1,U7,5.50
+SparkFun,SEN-09403,MQ-2 Gas / Odor Sensor,1,U8,4.95
+Cree LED,C503B-WAS,Cold White LED 5mm high-CRI,1,D1,0.40
+ON Semiconductor,2N7000,N-Channel MOSFET TO-92,2,Q1-Q2,0.25
+Generic,12V-Solenoid-NC,Normally Closed 12V Solenoid Drain Valve,1,VALVE1,8.00
+Yageo,RC0805FR-074K7L,4.7k Ohm Resistor 0805,4,R1-R4,0.02
+Yageo,RC0805FR-07220RL,220 Ohm Resistor 0805,2,R5-R6,0.02
+Panasonic,EEU-FR1E101,100uF Electrolytic Capacitor 25V,2,C1-C2,0.15
+Mean Well,GST25U05-P1J,5V DC 5A Power Adapter wall plug,1,PWR1,12.50

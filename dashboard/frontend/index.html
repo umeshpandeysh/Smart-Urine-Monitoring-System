@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Urine Monitoring System | Health Analytics Dashboard</title>
+    <meta name="description" content="Real-time, IoT-enabled health screening and clinical urinalysis visualization.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- ChartJS for telemetry plotting -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-droplet logo-icon"></i>
+                <h2>Urine<span>Scan</span></h2>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="active" id="nav-dash"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="#" id="nav-history"><i class="fa-solid fa-history"></i> Historical Logs</a>
+                <a href="#" id="nav-calib"><i class="fa-solid fa-sliders"></i> Calibration</a>
+                <a href="#" id="nav-settings"><i class="fa-solid fa-cog"></i> Device Settings</a>
+            </nav>
+            <div class="device-status-card">
+                <div class="status-indicator online"></div>
+                <div class="status-details">
+                    <p class="status-title">ESP32 Device Status</p>
+                    <p class="status-value" id="device-status-val">Connected (Online)</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h1>Real-Time Urine Analytics</h1>
+                    <p>Health screening and biochemical parameters telemetry.</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" id="refresh-btn"><i class="fa-solid fa-rotate"></i> Sync Data</button>
+                </div>
+            </header>
+
+            <!-- Warning Alerts Container -->
+            <section class="alerts-container" id="alerts-wrapper">
+                <!-- Dynamically generated alerts go here -->
+            </section>
+
+            <!-- Grid Layout for Telemetry -->
+            <section class="grid-layout">
+                <!-- Physical Sensors Column -->
+                <div class="card glass-card span-2">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-gauge-high"></i> Physical Sensor Readings</h3>
+                        <span class="badge" id="hydration-badge">Optimal Hydration</span>
+                    </div>
+                    <div class="sensor-grid">
+                        <div class="sensor-card">
+                            <span class="sensor-icon ph-icon"><i class="fa-solid fa-scale-balanced"></i></span>
+                            <div class="sensor-info">
+                                <p class="sensor-label">Acidity (pH)</p>
+                                <h2 class="sensor-value" id="val-ph">6.5</h2>
+                            </div>
+                        </div>
+                        <div class="sensor-card">
+                            <span class="sensor-icon tds-icon"><i class="fa-solid fa-bolt"></i></span>
+                            <div class="sensor-info">
+                                <p class="sensor-label">Total Dissolved Solids (TDS)</p>
+                                <h2 class="sensor-value" id="val-tds">480 <span>ppm</span></h2>
+                            </div>
+                        </div>
+                        <div class="sensor-card">
+                            <span class="sensor-icon turb-icon"><i class="fa-solid fa-smog"></i></span>
+                            <div class="sensor-info">
+                                <p class="sensor-label">Turbidity</p>
+                                <h2 class="sensor-value" id="val-turbidity">12.5 <span>NTU</span></h2>
+                            </div>
+                        </div>
+                        <div class="sensor-card">
+                            <span class="sensor-icon temp-icon"><i class="fa-solid fa-thermometer"></i></span>
+                            <div class="sensor-info">
+                                <p class="sensor-label">Temperature</p>
+                                <h2 class="sensor-value" id="val-temp">36.8 <span>°C</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reagent Strip Results Column -->
+                <div class="card glass-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-vial"></i> 10-Parameter Reagent Strip</h3>
+                    </div>
+                    <div class="reagent-list">
+                        <div class="reagent-row">
+                            <span>Glucose</span>
+                            <span class="reagent-value negative" id="strip-glucose">Negative</span>
+                        </div>
+                        <div class="reagent-row">
+                            <span>Protein</span>
+                            <span class="reagent-value negative" id="strip-protein">Negative</span>
+                        </div>
+                        <div class="reagent-row">
+                            <span>Ketones</span>
+                            <span class="reagent-value warning" id="strip-ketones">Trace (+1)</span>
+                        </div>
+                        <div class="reagent-row">
+                            <span>Blood</span>
+                            <span class="reagent-value negative" id="strip-blood">Negative</span>
+                        </div>
+                        <div class="reagent-row">
+                            <span>Nitrite</span>
+                            <span class="reagent-value negative" id="strip-nitrite">Negative</span>
+                        </div>
+                        <div class="reagent-row">
+                            <span>Leukocytes</span>
+                            <span class="reagent-value negative" id="strip-leukocytes">Negative</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Historical Trend Chart -->
+                <div class="card glass-card span-3">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-chart-area"></i> Parameter Trends</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
