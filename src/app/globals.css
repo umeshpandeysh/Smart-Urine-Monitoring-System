@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   UroSense Design Tokens — CSS Custom Properties
+   Aligned with Phase 16 Design System specification
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* Light mode tokens */
+    --background: 210 40% 98%;
+    --foreground: 210 24% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 24% 12%;
+
+    --primary: 192 95% 40%;
+    --primary-foreground: 0 0% 100%;
+    --primary-deep: 192 95% 28%;
+
+    --muted: 210 40% 94%;
+    --muted-foreground: 210 16% 50%;
+
+    --accent: 210 40% 94%;
+    --accent-foreground: 210 24% 12%;
+
+    --border: 210 30% 90%;
+    --input: 210 30% 90%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Health Status Semantic Colors */
+    --health-optimal: 142 72% 29%;
+    --health-caution: 38 92% 50%;
+    --health-critical: 350 89% 52%;
+
+    /* Border radius */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark mode tokens — Obsidian theme */
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
+
+    --card: 224 25% 9%;
+    --card-foreground: 210 40% 98%;
+
+    --primary: 192 95% 48%;
+    --primary-foreground: 224 71% 4%;
+    --primary-deep: 192 95% 60%;
+
+    --muted: 224 22% 14%;
+    --muted-foreground: 224 12% 60%;
+
+    --accent: 224 22% 14%;
+    --accent-foreground: 210 40% 98%;
+
+    --border: 224 22% 18%;
+    --input: 224 22% 18%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --health-optimal: 142 72% 35%;
+    --health-caution: 38 92% 50%;
+    --health-critical: 350 89% 55%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Custom scrollbar for dark mode */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground;
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism card surface */
+  .glass {
+    @apply bg-card/80 backdrop-blur-md border border-border;
+  }
+
+  /* Glow effect for primary elements */
+  .glow-primary {
+    box-shadow: 0 0 15px hsl(192 95% 48% / 0.2);
+  }
+
+  /* Health status indicator dot */
+  .status-dot-optimal {
+    @apply w-2 h-2 rounded-full bg-health-optimal;
+  }
+  .status-dot-caution {
+    @apply w-2 h-2 rounded-full bg-health-caution;
+  }
+  .status-dot-critical {
+    @apply w-2 h-2 rounded-full bg-health-critical animate-pulse;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-primary-deep bg-clip-text text-transparent;
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-glow hover:-translate-y-0.5;
+  }
+}
