@@ -1,0 +1,48 @@
+# CODEOWNERS
+# This file defines code ownership for the UroSense repository.
+# When a PR modifies these paths, the assigned owners are automatically
+# requested as reviewers.
+# Syntax: <pattern> <owner> [<owner2> ...]
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# --- Global fallback ---
+# All files not matched below default to the primary maintainer
+*                                       @umeshpandeysh
+
+# --- Source Code ---
+/src/                                   @umeshpandeysh
+/src/app/                               @umeshpandeysh
+/src/components/                        @umeshpandeysh
+/src/lib/auth/                          @umeshpandeysh
+/src/lib/supabase/                      @umeshpandeysh
+
+# --- Authentication & Security (require explicit review) ---
+/src/lib/auth/                          @umeshpandeysh
+/src/middleware.ts                      @umeshpandeysh
+/supabase/migrations/                   @umeshpandeysh
+
+# --- Database ---
+/supabase/                              @umeshpandeysh
+/scripts/                               @umeshpandeysh
+
+# --- Firmware ---
+/firmware/                              @umeshpandeysh
+
+# --- Hardware ---
+/hardware/                              @umeshpandeysh
+
+# --- CI/CD & Deployment ---
+/.github/workflows/                     @umeshpandeysh
+/Dockerfile                             @umeshpandeysh
+/docker-compose.yml                     @umeshpandeysh
+/vercel.json                            @umeshpandeysh
+/monitoring/                            @umeshpandeysh
+
+# --- Tests ---
+/tests/                                 @umeshpandeysh
+
+# --- Documentation ---
+/docs/                                  @umeshpandeysh
+/README.md                              @umeshpandeysh
+/SECURITY.md                            @umeshpandeysh
+/CONTRIBUTING.md                        @umeshpandeysh

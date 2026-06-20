@@ -1,0 +1,22 @@
+# UroSense CODEOWNERS
+# This file is used to automatically request reviews from code owners when a pull request is opened.
+
+# Default catch-all
+*       @umeshpandeysh
+
+# Frontend / Next.js
+/src/app/       @umeshpandeysh
+/src/components/ @umeshpandeysh
+
+# Database & API
+/src/app/api/   @umeshpandeysh
+/src/lib/       @umeshpandeysh
+/supabase/      @umeshpandeysh
+
+# Hardware / IoT Firmware
+/firmware/      @umeshpandeysh
+/docs/hardware/ @umeshpandeysh
+
+# CI/CD & Infrastructure
+/.github/       @umeshpandeysh
+/vercel.json    @umeshpandeysh

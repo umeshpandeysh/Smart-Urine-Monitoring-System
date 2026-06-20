@@ -1,0 +1,57 @@
+name: Feature Request
+description: Propose a new feature or enhancement for UroSense
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to improve UroSense? We'd love to hear it!
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Feature Area
+      options:
+        - Firmware / Hardware
+        - Sensor / Biomarkers
+        - User Portal
+        - Admin Dashboard
+        - Operations Dashboard
+        - AI Reports
+        - Realtime / Telemetry
+        - API
+        - Security / Auth
+        - CI/CD / DevOps
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem this Feature Solves
+      description: What problem does this feature address?
+      placeholder: "Currently, users cannot..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should this feature work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any other approaches you considered?
+
+  - type: checkboxes
+    id: docs
+    attributes:
+      label: Related Docs
+      options:
+        - label: I have reviewed the relevant architecture document in `docs/architecture/`
