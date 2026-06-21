@@ -35,26 +35,52 @@ export async function middleware(request: NextRequest) {
 
   // Protected route groups
   const isPortalRoute =
-    pathname.startsWith('/dashboard') ||
     pathname.startsWith('/reports') ||
     pathname.startsWith('/notifications') ||
     pathname.startsWith('/settings') ||
     pathname.startsWith('/history') ||
     pathname.startsWith('/insights');
 
-  const isAdminRoute = pathname.startsWith('/admin');
-  const isOperationsRoute = pathname.startsWith('/operations');
+  const isAdminRoute = pathname.startsWith('/admin') && !pathname.startsWith('/admin-center');
 
   // Redirect unauthenticated users to login
-  if ((isPortalRoute || isAdminRoute || isOperationsRoute) && !user) {
+  if ((isPortalRoute || isAdminRoute) && !user) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
-    return NextResponse.redirect(loginUrl);
+    const redirectResponse = NextResponse.redirect(loginUrl);
+    
+    // Copy cookies to redirect response to prevent dropping refreshed session tokens
+    response.cookies.getAll().forEach(cookie => {
+      redirectResponse.cookies.set(cookie.name, cookie.value, {
+        path: cookie.path,
+        domain: cookie.domain,
+        maxAge: cookie.maxAge,
+        expires: cookie.expires,
+        secure: cookie.secure,
+        httpOnly: cookie.httpOnly,
+        sameSite: cookie.sameSite,
+      });
+    });
+    return redirectResponse;
   }
 
   // Redirect authenticated users away from auth pages
   if (user && (pathname === '/login' || pathname === '/verify')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    const redirectResponse = NextResponse.redirect(new URL('/patient-portal', request.url));
+    
+    // Copy cookies to redirect response
+    response.cookies.getAll().forEach(cookie => {
+      redirectResponse.cookies.set(cookie.name, cookie.value, {
+        path: cookie.path,
+        domain: cookie.domain,
+        maxAge: cookie.maxAge,
+        expires: cookie.expires,
+        secure: cookie.secure,
+        httpOnly: cookie.httpOnly,
+        sameSite: cookie.sameSite,
+      });
+    });
+    return redirectResponse;
   }
 
   return response;

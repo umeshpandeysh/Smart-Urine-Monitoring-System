@@ -6,6 +6,7 @@ const adminNav = [
   { href: '/admin/users', icon: '👥', label: 'Users' },
   { href: '/admin/devices', icon: '📡', label: 'Devices' },
   { href: '/admin/reports', icon: '📄', label: 'Reports' },
+  { href: '/admin/compliance', icon: '🛡️', label: 'Compliance' },
 ];
 
 export default async function AdminLayout({
@@ -40,11 +41,8 @@ export default async function AdminLayout({
           ))}
         </nav>
         <div className="px-4 py-4 border-t border-border space-y-1">
-          <Link href="/dashboard" className="block px-3 py-2 text-xs text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">
+          <Link href="/patient-portal" className="block px-3 py-2 text-xs text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">
             ← User Portal
-          </Link>
-          <Link href="/operations/dashboard" className="block px-3 py-2 text-xs text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">
-            → Operations
           </Link>
         </div>
       </aside>

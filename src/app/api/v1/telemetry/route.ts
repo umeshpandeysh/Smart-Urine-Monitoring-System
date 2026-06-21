@@ -1,32 +1,53 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
+import { hashToken } from '@/lib/security/telemetry';
 import type { TelemetryPayload } from '@/types';
 
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as TelemetryPayload;
 
-    // Validate API key
+    if (!body.device_id) {
+      return NextResponse.json({ error: 'Device ID is required' }, { status: 400 });
+    }
+
+    // 1. Resolve client token from headers or request payload
     const apiKey = request.headers.get('x-api-key') ?? body.api_key;
-    if (apiKey !== process.env.TELEMETRY_INGEST_API_KEY) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!apiKey) {
+      return NextResponse.json({ error: 'Missing authentication credentials' }, { status: 401 });
     }
 
     const supabase = createServiceClient();
 
-    // Verify device exists
-    const { data: device, error: deviceError } = await supabase
+    // 2. Fetch device telemetry credentials
+    const { data: device, error: deviceError } = (await supabase
       .from('devices')
-      .select('id')
+      .select('id, hashed_api_token, token_expires_at')
       .eq('id', body.device_id)
-      .single();
+      .single()) as any;
 
     if (deviceError || !device) {
-      return NextResponse.json({ error: 'Device not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Device not registered' }, { status: 404 });
     }
 
-    // Insert sensor reading
+    // 3. Enforce device validation: Check if token exists on device
+    if (!device.hashed_api_token) {
+      return NextResponse.json({ error: 'Device credentials not initialized' }, { status: 401 });
+    }
+
+    // 4. Validate token expiration
+    if (device.token_expires_at && new Date(device.token_expires_at) < new Date()) {
+      return NextResponse.json({ error: 'Device credentials expired' }, { status: 401 });
+    }
+
+    // 5. Compare hashed incoming token with database record
+    const incomingHashed = hashToken(apiKey);
+    if (incomingHashed !== device.hashed_api_token) {
+      return NextResponse.json({ error: 'Invalid authentication credentials' }, { status: 401 });
+    }
+
+    // 6. Insert sensor reading (authorized)
     const { data: reading, error: readingError } = await supabase
       .from('sensor_readings')
       .insert({
@@ -48,10 +69,11 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (readingError) {
+      console.error('Failed to write telemetry data:', readingError.message);
       return NextResponse.json({ error: readingError.message }, { status: 500 });
     }
 
-    // Update device last_seen_at and status
+    // 7. Update device operational state
     await supabase
       .from('devices')
       // @ts-expect-error - Supabase type inference issue
@@ -62,7 +84,7 @@ export async function POST(request: NextRequest) {
       } as any)
       .eq('id', body.device_id);
 
-    // Insert device telemetry if provided
+    // 8. Log hardware health metrics if present
     if (body.device_health) {
       await supabase.from('device_telemetry').insert({
         device_id: body.device_id,
@@ -79,8 +101,8 @@ export async function POST(request: NextRequest) {
       { success: true, reading_id: (reading as unknown as { id: string }).id },
       { status: 201 }
     );
-  } catch (error) {
-    console.error('Telemetry ingestion error:', error);
+  } catch (error: any) {
+    console.error('Telemetry ingestion failure:', error.message);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

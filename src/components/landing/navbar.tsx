@@ -1,156 +1,176 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, Activity } from 'lucide-react';
+import { Menu, X, Activity } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
-  const toggleAccordion = (name: string) => {
-    setActiveAccordion(activeAccordion === name ? null : name);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const links = [
+    { href: '/', label: 'Home' },
+    { href: '/how-it-works', label: 'How It Works' },
+    { href: '/technology', label: 'Technology' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
+  ];
 
   return (
-    <motion.nav 
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-[#E5E7EB] bg-[#FAFAF8]/90 backdrop-blur-md"
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 transition-all duration-300">
+      <motion.nav 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`w-full max-w-7xl px-6 md:px-8 py-3.5 flex items-center justify-between rounded-full border transition-all duration-300 ${
+          scrolled 
+            ? 'bg-[#0B1B33]/80 border-white/10 shadow-[0_8px_32px_rgba(11,27,51,0.2)] backdrop-blur-md' 
+            : 'bg-white/80 border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)] backdrop-blur-md'
+        }`}
+      >
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-6 h-6 flex items-center justify-center rounded bg-[#0F7AF3] shadow-[0_2px_8px_rgba(15,122,243,0.2)]">
-            <Activity className="w-3.5 h-3.5 text-white" />
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#2563EB] shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+            <Activity className="w-4.5 h-4.5 text-white" />
           </div>
-          <span className="font-display font-medium text-lg tracking-tight text-[#111827]">UroSense</span>
+          <span className={`font-semibold text-lg tracking-tight transition-colors duration-300 ${
+            scrolled ? 'text-white' : 'text-[#0B1B33]'
+          }`} style={{ fontFamily: 'var(--font-plus-jakarta), var(--font-manrope), sans-serif' }}>
+            UroSense
+          </span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-10 text-sm font-medium text-[#6B7280]">
-          <div className="relative group">
-            <button 
-              onClick={() => toggleAccordion('solutions')}
-              className="flex items-center gap-1 hover:text-[#111827] transition-colors focus:outline-none"
-            >
-              Solutions
-              <motion.div
-                animate={{ rotate: activeAccordion === 'solutions' ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
+        <div className="hidden lg:flex items-center gap-8 text-sm font-medium">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link 
+                key={link.href} 
+                href={link.href} 
+                className={`relative py-1 transition-colors duration-300 group ${
+                  scrolled 
+                    ? (isActive ? 'text-white' : 'text-gray-300 hover:text-white')
+                    : (isActive ? 'text-[#2563EB]' : 'text-gray-600 hover:text-[#0B1B33]')
+                }`}
+                style={{ fontFamily: 'var(--font-inter), sans-serif' }}
               >
-                <ChevronDown className="w-4 h-4" />
-              </motion.div>
-            </button>
-            {/* Simple dropdown menu */}
-            <AnimatePresence>
-              {activeAccordion === 'solutions' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute left-0 mt-3 w-56 rounded-xl border border-[#E5E7EB] bg-[#FFFFFF] shadow-lg p-3 space-y-1"
-                >
-                  <Link href="#ecosystem" onClick={() => setActiveAccordion(null)} className="block px-3 py-2 text-xs text-[#111827] hover:bg-[#FAFAF8] rounded-lg transition-colors">Airport Terminals</Link>
-                  <Link href="#ecosystem" onClick={() => setActiveAccordion(null)} className="block px-3 py-2 text-xs text-[#111827] hover:bg-[#FAFAF8] rounded-lg transition-colors">Clinical Facilities</Link>
-                  <Link href="#ecosystem" onClick={() => setActiveAccordion(null)} className="block px-3 py-2 text-xs text-[#111827] hover:bg-[#FAFAF8] rounded-lg transition-colors">Civic Spaces</Link>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          
-          <Link href="#technology" className="hover:text-[#111827] transition-colors">Technology</Link>
-          <Link href="#intelligence" className="hover:text-[#111827] transition-colors">About</Link>
-          <Link href="#trust" className="hover:text-[#111827] transition-colors">Contact</Link>
+                {link.label}
+                {/* Underline/Indicator hover animation */}
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-[#2563EB] transform transition-transform duration-300 origin-left ${
+                  isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                }`} />
+              </Link>
+            );
+          })}
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
           <Link 
-            href="/login" 
-            className="text-sm font-semibold text-[#6B7280] hover:text-[#111827] transition-colors"
+            href="/admin-center" 
+            className={`text-xs font-mono font-semibold border px-3.5 py-2 rounded-full transition-all duration-300 hover:scale-[1.02] ${
+              scrolled 
+                ? 'border-white/10 text-white bg-white/5 hover:bg-white/10'
+                : 'border-gray-200 text-[#0B1B33] bg-white hover:bg-gray-50 shadow-sm'
+            }`}
           >
-            Sign In
+            Admin Center
           </Link>
           <Link 
-            href="/login" 
-            className="px-5 py-2 rounded-full bg-[#0F7AF3] text-white text-xs font-semibold hover:bg-[#0F7AF3]/95 shadow-[0_4px_12px_rgba(15,122,243,0.15)] transition-all duration-200"
+            href="/patient-portal" 
+            className={`px-5 py-2 rounded-full text-xs font-semibold shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
+              scrolled
+                ? 'bg-white text-[#0B1B33] hover:bg-gray-50 shadow-white/5'
+                : 'bg-[#0B1B33] text-white hover:bg-[#0B1B33]/90 shadow-blue-900/10'
+            }`}
+            style={{ fontFamily: 'var(--font-inter), sans-serif' }}
           >
-            Access Portal
+            Patient Portal
           </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden text-[#111827] focus:outline-none p-1"
+          className={`lg:hidden focus:outline-none p-1 rounded-full ${
+            scrolled ? 'text-white hover:bg-white/10' : 'text-[#0B1B33] hover:bg-gray-100'
+          }`}
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
-      </div>
+      </motion.nav>
 
       {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-[#E5E7EB] bg-[#FAFAF8] px-6 py-6 space-y-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25 }}
+            className={`absolute top-20 left-4 right-4 rounded-2xl border p-6 flex flex-col gap-5 shadow-xl lg:hidden ${
+              scrolled 
+                ? 'bg-[#0B1B33]/95 border-white/10 text-white backdrop-blur-md'
+                : 'bg-white border-gray-100 text-[#0B1B33] backdrop-blur-md'
+            }`}
           >
-            <div className="space-y-3">
-              <button 
-                onClick={() => toggleAccordion('solutions-mobile')}
-                className="w-full flex items-center justify-between text-sm font-medium text-[#111827]"
-              >
-                Solutions
-                <motion.div
-                  animate={{ rotate: activeAccordion === 'solutions-mobile' ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
+            <div className="flex flex-col gap-4">
+              {links.map((link) => (
+                <Link 
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`text-base font-medium transition-colors ${
+                    scrolled ? 'text-gray-200 hover:text-white' : 'text-gray-700 hover:text-[#0B1B33]'
+                  }`}
+                  style={{ fontFamily: 'var(--font-inter), sans-serif' }}
                 >
-                  <ChevronDown className="w-4 h-4" />
-                </motion.div>
-              </button>
-              <AnimatePresence>
-                {activeAccordion === 'solutions-mobile' && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="pl-4 space-y-2 border-l border-[#E5E7EB] overflow-hidden"
-                  >
-                    <Link href="#ecosystem" onClick={() => setIsOpen(false)} className="block text-xs text-[#6B7280]">Airports</Link>
-                    <Link href="#ecosystem" onClick={() => setIsOpen(false)} className="block text-xs text-[#6B7280]">Clinics</Link>
-                    <Link href="#ecosystem" onClick={() => setIsOpen(false)} className="block text-xs text-[#6B7280]">Civic Areas</Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <Link href="#technology" onClick={() => setIsOpen(false)} className="block text-sm font-medium text-[#111827]">Technology</Link>
-              <Link href="#intelligence" onClick={() => setIsOpen(false)} className="block text-sm font-medium text-[#111827]">About</Link>
-              <Link href="#trust" onClick={() => setIsOpen(false)} className="block text-sm font-medium text-[#111827]">Contact</Link>
+                  {link.label}
+                </Link>
+              ))}
             </div>
-            <div className="border-t border-[#E5E7EB] pt-4 flex flex-col gap-3">
+            <div className={`border-t pt-4 flex flex-col gap-3 ${
+              scrolled ? 'border-white/10' : 'border-gray-100'
+            }`}>
               <Link 
-                href="/login" 
+                href="/admin-center" 
                 onClick={() => setIsOpen(false)}
-                className="text-center text-sm font-semibold text-[#111827] py-2"
+                className={`w-full text-center text-xs font-mono font-semibold py-2.5 border rounded-xl transition-all ${
+                  scrolled 
+                    ? 'border-white/10 text-white bg-white/5 hover:bg-white/10'
+                    : 'border-gray-200 text-[#0B1B33] bg-white hover:bg-gray-50'
+                }`}
               >
-                Sign In
+                Admin Center
               </Link>
               <Link 
-                href="/login" 
+                href="/patient-portal" 
                 onClick={() => setIsOpen(false)}
-                className="text-center text-xs font-semibold bg-[#0F7AF3] text-white py-2.5 rounded-full shadow-md"
+                className={`w-full text-center text-xs font-semibold py-2.5 rounded-xl shadow-md ${
+                  scrolled
+                    ? 'bg-white text-[#0B1B33]'
+                    : 'bg-[#0B1B33] text-white'
+                }`}
+                style={{ fontFamily: 'var(--font-inter), sans-serif' }}
               >
-                Access Portal
+                Patient Portal
               </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </div>
   );
 }
