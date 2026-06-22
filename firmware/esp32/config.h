@@ -4,14 +4,15 @@
 // ==========================================
 // Device Configuration
 // ==========================================
-#define DEVICE_ID "ESP32_URINE_MONITOR_01"
+#define DEVICE_ID "US-NOD-1001"
+#define DEVICE_API_KEY "uro_key_usnod1001_test"
 
 // ==========================================
 // Network Settings
 // ==========================================
 #define WIFI_SSID "YOUR_WIFI_SSID"
 #define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
-#define BACKEND_API_URL "http://192.168.1.100:3000/api/telemetry"
+#define BACKEND_API_URL "http://192.168.1.100:3001/api/device/upload"
 #define WIFI_TIMEOUT_MS 10000
 
 // ==========================================

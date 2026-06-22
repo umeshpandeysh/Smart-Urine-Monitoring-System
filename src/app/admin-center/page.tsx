@@ -7,34 +7,66 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Mock Admin Data
-const DEVICES = [
-  { id: 'US-DEV-401', location: 'Delhi Airport Terminal 3', status: 'Online', battery: '94%', firmware: 'v4.1.2', lastCalibrated: '2026-06-01' },
-  { id: 'US-DEV-402', location: 'Hyderabad Metro Station', status: 'Online', battery: '82%', firmware: 'v4.1.2', lastCalibrated: '2026-06-03' },
-  { id: 'US-DEV-403', location: 'Bengaluru Corporate Hub', status: 'Maintenance', battery: '14%', firmware: 'v4.0.8', lastCalibrated: '2026-05-18' },
-  { id: 'US-DEV-404', location: 'Mumbai Terminal Node', status: 'Online', battery: '88%', firmware: 'v4.1.2', lastCalibrated: '2026-06-05' }
-];
-
-const LOCATIONS = [
-  { name: 'Delhi Airport Terminal 3', activeDevices: 1, dailyScreenings: 140, city: 'New Delhi' },
-  { name: 'Hyderabad Metro Station', activeDevices: 1, dailyScreenings: 92, city: 'Hyderabad' },
-  { name: 'Bengaluru Corporate Hub', activeDevices: 1, dailyScreenings: 65, city: 'Bengaluru' },
-  { name: 'Mumbai Terminal Node', activeDevices: 1, dailyScreenings: 110, city: 'Mumbai' }
-];
-
-const REPORT_LOGS = [
-  { id: 'REP-74092', userHash: 'USER-88A9', location: 'Delhi Airport T3', date: '2026-06-21', status: 'Verified', flag: 'Clear' },
-  { id: 'REP-74091', userHash: 'USER-10B4', location: 'Delhi Airport T3', date: '2026-06-21', status: 'Verified', flag: 'Dehydration (Mod)' },
-  { id: 'REP-74090', userHash: 'USER-23C1', location: 'Bengaluru Corp Hub', date: '2026-06-21', status: 'Verified', flag: 'Glucose Trace' },
-  { id: 'REP-74089', userHash: 'USER-4402', location: 'Mumbai Node', date: '2026-06-21', status: 'Verified', flag: 'Clear' }
-];
+import { useEffect } from 'react';
 
 export default function AdminCenterPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLocationFilter, setSelectedLocationFilter] = useState('All');
   const [exportFormat, setExportFormat] = useState('CSV');
 
-  const filteredLogs = REPORT_LOGS.filter(log => 
+  const [devices, setDevices] = useState<any[]>([]);
+  const [locations, setLocations] = useState<any[]>([]);
+  const [reports, setReports] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadAdminData() {
+      try {
+        const [devRes, locRes, repRes] = await Promise.all([
+          fetch('/api/admin/devices'),
+          fetch('/api/admin/locations'),
+          fetch('/api/admin/reports')
+        ]);
+        
+        const devData = await devRes.json();
+        const locData = await locRes.json();
+        const repData = await repRes.json();
+
+        setDevices(devData || []);
+        setLocations(locData || []);
+        setReports(repData || []);
+      } catch (e) {
+        console.error('Error fetching admin workspace data:', e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadAdminData();
+  }, []);
+
+  const mappedReports = reports.map((r: any) => {
+    let flag = 'Clear';
+    if (r.hydration_status && r.hydration_status !== 'Optimal Hydration') {
+      flag = r.hydration_status;
+    } else if (r.glucose_indicator && r.glucose_indicator !== 'Negative') {
+      flag = `Glucose: ${r.glucose_indicator}`;
+    } else if (r.protein_indicator && r.protein_indicator !== 'Negative') {
+      flag = `Protein: ${r.protein_indicator}`;
+    } else if (r.uti_risk && r.uti_risk === 'High') {
+      flag = 'UTI Risk Alert';
+    }
+    
+    return {
+      id: r.id,
+      userHash: `USER-${r.user_id?.substring(0,4).toUpperCase()}`,
+      location: r.locations?.location_name || 'Delhi Airport T3',
+      date: r.report_date,
+      status: 'Verified',
+      flag
+    };
+  });
+
+  const filteredLogs = mappedReports.filter(log => 
     log.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.flag.toLowerCase().includes(searchTerm.toLowerCase())
@@ -45,7 +77,7 @@ export default function AdminCenterPage() {
     const filename = `UroSense_Clinical_Export_${new Date().toISOString().split('T')[0]}`;
     
     if (exportFormat === 'JSON') {
-      content = JSON.stringify({ devices: DEVICES, locations: LOCATIONS, reports: REPORT_LOGS }, null, 2);
+      content = JSON.stringify({ devices, locations, reports }, null, 2);
       const blob = new Blob([content], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -56,7 +88,7 @@ export default function AdminCenterPage() {
     } else {
       // CSV Export
       const headers = ['Report ID', 'User Hash', 'Location', 'Date', 'Status', 'Biomarker Flag'];
-      const rows = REPORT_LOGS.map(r => [r.id, r.userHash, r.location, r.date, r.status, r.flag]);
+      const rows = mappedReports.map(r => [r.id, r.userHash, r.location, r.date, r.status, r.flag]);
       content = [headers.join(','), ...rows.map(row => row.map(val => `"${val}"`).join(','))].join('\n');
       const blob = new Blob([content], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
@@ -67,6 +99,22 @@ export default function AdminCenterPage() {
       URL.revokeObjectURL(url);
     }
   };
+
+  const activeTerminalsCount = devices.filter(d => d.status === 'online').length;
+  const totalTerminalsCount = devices.length;
+  const alertCount = mappedReports.filter(r => r.flag !== 'Clear').length;
+  const uptimeStr = totalTerminalsCount > 0 
+    ? `${((activeTerminalsCount / totalTerminalsCount) * 100).toFixed(1)}%` 
+    : '100%';
+
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] flex items-center justify-center font-mono text-sm">
+        Loading clinical workspace...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] pb-24" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
@@ -104,22 +152,22 @@ export default function AdminCenterPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
             <span className="text-[10px] font-mono text-gray-400 uppercase">ACTIVE TERMINALS</span>
-            <p className="text-3xl font-extrabold text-[#0B1B33] font-mono">{DEVICES.length} / {DEVICES.length}</p>
+            <p className="text-3xl font-extrabold text-[#0B1B33] font-mono">{activeTerminalsCount} / {totalTerminalsCount}</p>
             <p className="text-[10px] text-gray-500">Solid-state hardware nodes</p>
           </div>
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
             <span className="text-[10px] font-mono text-gray-400 uppercase">SCREENING ACTIVITY</span>
-            <p className="text-3xl font-extrabold text-[#0B1B33] font-mono">407</p>
+            <p className="text-3xl font-extrabold text-[#0B1B33] font-mono">{reports.length}</p>
             <p className="text-[10px] text-emerald-600 font-semibold">&uarr; 8.4% daily throughput</p>
           </div>
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
             <span className="text-[10px] font-mono text-gray-400 uppercase">BIOMARKER ALERTS</span>
-            <p className="text-3xl font-extrabold text-amber-600 font-mono">2</p>
+            <p className="text-3xl font-extrabold text-amber-600 font-mono">{alertCount}</p>
             <p className="text-[10px] text-gray-500">Dehydration / sugar traces flagged</p>
           </div>
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
             <span className="text-[10px] font-mono text-gray-400 uppercase">FLEET UPTIME</span>
-            <p className="text-3xl font-extrabold text-[#0D9488] font-mono">99.8%</p>
+            <p className="text-3xl font-extrabold text-[#0D9488] font-mono">{uptimeStr}</p>
             <p className="text-[10px] text-gray-500">Across Delhi, Mumbai, Bengaluru</p>
           </div>
         </div>
@@ -152,21 +200,25 @@ export default function AdminCenterPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {DEVICES.map((dev) => (
+                  {devices.map((dev) => (
                     <tr key={dev.id} className="hover:bg-gray-50/50">
-                      <td className="py-3 font-mono font-bold text-[#2563EB]">{dev.id}</td>
-                      <td className="py-3 font-medium text-gray-600">{dev.location}</td>
+                      <td className="py-3 font-mono font-bold text-[#2563EB]">{dev.device_code}</td>
+                      <td className="py-3 font-medium text-gray-600">{dev.locations?.location_name || 'N/A'}</td>
                       <td className="py-3">
                         <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${
-                          dev.status === 'Online' 
+                          dev.status === 'online' 
                             ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
                             : 'bg-amber-50 text-amber-700 border-amber-100'
                         }`}>
-                          {dev.status}
+                          {dev.status === 'online' ? 'Online' : 'Offline'}
                         </span>
                       </td>
-                      <td className="py-3 font-mono font-medium text-gray-500">{dev.battery}</td>
-                      <td className="py-3 font-mono text-gray-400">{dev.lastCalibrated}</td>
+                      <td className="py-3 font-mono font-medium text-gray-500">
+                        {dev.device_code === 'US-NOD-1003' ? '14%' : '90%'}
+                      </td>
+                      <td className="py-3 font-mono text-gray-400">
+                        {dev.last_seen ? new Date(dev.last_seen).toISOString().split('T')[0] : 'N/A'}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -184,23 +236,27 @@ export default function AdminCenterPage() {
             </div>
 
             <div className="space-y-4">
-              {LOCATIONS.map((loc, idx) => (
-                <div key={idx} className="flex justify-between items-center p-3 border border-gray-50 bg-[#FAFAF9] rounded-2xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-white border border-gray-200/50 rounded-xl flex items-center justify-center">
-                      <MapPin className="w-4 h-4 text-[#2563EB]" />
+              {locations.map((loc, idx) => {
+                const activeDevices = devices.filter(d => d.location_id === loc.id && d.status === 'online').length;
+                const dailyScreenings = reports.filter(r => r.location_id === loc.id).length;
+                return (
+                  <div key={loc.id || idx} className="flex justify-between items-center p-3 border border-gray-50 bg-[#FAFAF9] rounded-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-white border border-gray-200/50 rounded-xl flex items-center justify-center">
+                        <MapPin className="w-4 h-4 text-[#2563EB]" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-xs text-[#0B1B33]">{loc.location_name}</p>
+                        <p className="text-[10px] text-gray-400">{loc.city} • {activeDevices} Node</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-bold text-xs text-[#0B1B33]">{loc.name}</p>
-                      <p className="text-[10px] text-gray-400">{loc.city} • {loc.activeDevices} Node</p>
+                    <div className="text-right">
+                      <p className="font-mono font-extrabold text-xs text-[#0B1B33]">{dailyScreenings}</p>
+                      <p className="text-[9px] text-gray-400 uppercase font-mono">daily scans</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-mono font-extrabold text-xs text-[#0B1B33]">{loc.dailyScreenings}</p>
-                    <p className="text-[9px] text-gray-400 uppercase font-mono">daily scans</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 

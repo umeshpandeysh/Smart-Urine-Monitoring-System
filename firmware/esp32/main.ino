@@ -15,24 +15,15 @@
  */
 
 #include "config.h"
-#include "sensors/ph_sensor.h"
-#include "sensors/tds_sensor.h"
-#include "sensors/turbidity_sensor.h"
-#include "sensors/ds18b20_sensor.h"
-#include "sensors/mq2_sensor.h"
+#include "sensors/sensor_manager.h"
 #include "sensors/flow_sensor.h"
 #include "sensors/color_sensor.h"
 #include "strip_reader/strip_reader.h"
 #include "wifi/wifi_manager.h"
-#include "dashboard/dashboard_api.h"
+#include "dashboard/api_client.h"
 #include "utils/helpers.h"
 
-// Instantiate Sensor Modules
-PHSensor phSensor(PIN_PH_PROBE);
-TDSSensor tdsSensor(PIN_TDS_PROBE);
-TurbiditySensor turbiditySensor(PIN_TURBIDITY_SENSOR);
-DS18B20Sensor tempSensor(PIN_DS18B20_BUS);
-MQ2Sensor gasSensor(PIN_MQ2_GAS);
+// Instantiate Core Modules
 FlowSensor flowSensor(PIN_FLOW_SENSOR);
 ColorSensor colorSensor;
 
@@ -64,20 +55,15 @@ void setup() {
     // Initialize I2C and Dallas Bus
     Wire.begin(21, 22); // SDA, SCL
     
-    // Initialize Sensor Objects
-    phSensor.begin();
-    tdsSensor.begin();
-    turbiditySensor.begin();
-    tempSensor.begin();
-    gasSensor.begin();
+    // Initialize Sensor Manager (Abstraction Layer)
+    SensorManager::begin();
+
+    // Initialize Flow & Color Sensors
     flowSensor.begin();
     colorSensor.begin();
 
     // Strip Classifier Setup
     StripReader::begin();
-
-    // MQ-2 Preheating & Air Calibration
-    gasSensor.calibrateRo();
 
     // Network Setup
     WiFiManager::connect();
@@ -132,12 +118,13 @@ void loop() {
             colorSensor.setLED(true);
             delay(1000); // Allow light sensor to adapt
 
-            // Read physical parameters
-            float temperature = tempSensor.readTemperatureC();
-            float ph = phSensor.readPH(temperature);
-            float tds = tdsSensor.readTDS(temperature);
-            float turbidity = turbiditySensor.readNTU();
-            float gasRatio = gasSensor.readGasRatio();
+            // Read physical parameters from Sensor Manager
+            SensorData sensorVals = SensorManager::readAllSensors();
+            float temperature = sensorVals.temperature;
+            float ph = sensorVals.ph;
+            float tds = sensorVals.tds;
+            float turbidity = sensorVals.turbidity;
+            float gasRatio = sensorVals.gas;
             float finalVolume = flowSensor.getVolumeML();
 
             // Perform optical scan of reagent strip (simulate manual mechanical indexer delay)
@@ -176,8 +163,8 @@ void loop() {
             // Push to Dashboard Backend
             currentState = STATE_TRANSMITTING;
             
-            // Store variables temporarily using ESP32 state variables or upload immediately
-            bool postSuccess = DashboardAPI::sendTelemetry(logData);
+            // Send telemetry using APIClient
+            bool postSuccess = APIClient::sendTelemetry(logData);
             if (postSuccess) {
                 Serial.println("[API] Telemetry sent successfully!");
             } else {
@@ -190,7 +177,6 @@ void loop() {
         }
 
         case STATE_TRANSMITTING:
-            // Placeholder: currently handled synchronously in STATE_OPTICAL_READ.
             currentState = STATE_FLUSHING;
             break;
 

@@ -8,97 +8,64 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Mock Patient Health Journal Data
-const PATIENT_PROFILE = {
-  name: 'Umesh Pandey',
-  age: 28,
-  memberSince: 'June 2025',
-  overallWellnessScore: 92, // Wellness score out of 100
-  lastScreened: 'June 21, 2026 at 10:15 PM'
-};
-
-const SCREENINGS = [
-  {
-    id: 'rep-001',
-    date: '2026-06-21',
-    time: '22:15',
-    location: 'Delhi Airport Terminal 3',
-    wellnessScore: 92,
-    interpretations: {
-      hydration: 'Optimal',
-      glucose: 'Negative',
-      protein: 'Normal / Trace',
-      utiRisk: 'Low',
-      kidneyStress: 'Normal'
-    },
-    rawParameters: {
-      ph: 6.5,
-      tds: 420, // ppm
-      temperature: 36.8, // °C
-      turbidity: 1.1 // NTU
-    },
-    recommendations: [
-      'Maintain current water intake: 2.8L to 3.0L daily.',
-      'Optimal biomarker filtering detected. Continue high-fiber nutrition.'
-    ],
-    hash: 'SHA-256: d83a8b48f93e32b...'
-  },
-  {
-    id: 'rep-002',
-    date: '2026-06-14',
-    time: '09:30',
-    location: 'Hyderabad Metro Station',
-    wellnessScore: 85,
-    interpretations: {
-      hydration: 'Moderate Dehydration',
-      glucose: 'Negative',
-      protein: 'Normal / Trace',
-      utiRisk: 'Low',
-      kidneyStress: 'Normal'
-    },
-    rawParameters: {
-      ph: 6.2,
-      tds: 580,
-      temperature: 37.1,
-      turbidity: 1.8
-    },
-    recommendations: [
-      'Increase hydration level. Drink 500ml water immediately.',
-      'Reduce processed sodium load in next meals.'
-    ],
-    hash: 'SHA-256: 7f4a1b88e89f31a...'
-  },
-  {
-    id: 'rep-003',
-    date: '2026-06-05',
-    time: '14:20',
-    location: 'Bengaluru Corporate Hub',
-    wellnessScore: 78,
-    interpretations: {
-      hydration: 'Severe Dehydration',
-      glucose: 'Trace Detected',
-      protein: 'Elevated Stress Alert',
-      utiRisk: 'Moderate Risk',
-      kidneyStress: 'Mild Load Alert'
-    },
-    rawParameters: {
-      ph: 5.8,
-      tds: 710,
-      temperature: 37.4,
-      turbidity: 2.9
-    },
-    recommendations: [
-      'Critical: Hydrate immediately. Drink electrolyte-balanced fluids.',
-      'Re-screen in 24 hours to monitor elevated biomarker stress levels.',
-      'Limit simple refined sugars to counter trace glucose elevations.'
-    ],
-    hash: 'SHA-256: c38b4d89a74f32e...'
-  }
-];
+import { useEffect } from 'react';
 
 export default function PatientPortalPage() {
   const [showTechnical, setShowTechnical] = useState(false);
-  const [selectedScreening, setSelectedScreening] = useState(SCREENINGS[0]);
+  const [screenings, setScreenings] = useState<any[]>([]);
+  const [selectedScreening, setSelectedScreening] = useState<any | null>(null);
+  const [profile, setProfile] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [profRes, repRes] = await Promise.all([
+          fetch('/api/patient/profile'),
+          fetch('/api/patient/reports')
+        ]);
+        const profData = await profRes.json();
+        const repData = await repRes.json();
+
+        setProfile(profData);
+        
+        if (repData && repData.length > 0) {
+          const mapped = repData.map((r: any) => {
+            const reading = r.sensor_readings?.[0] || {};
+            return {
+              id: r.id,
+              date: r.report_date,
+              time: new Date(r.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+              location: r.locations?.location_name || 'UroSense Terminal',
+              wellnessScore: r.overall_score || 0,
+              interpretations: {
+                hydration: r.hydration_status || 'Unknown',
+                glucose: r.glucose_indicator || 'Negative',
+                protein: r.protein_indicator || 'Normal',
+                utiRisk: r.uti_risk || 'Low',
+                kidneyStress: r.protein_indicator || 'Normal'
+              },
+              rawParameters: {
+                ph: Number(reading.ph || 6.0),
+                tds: Number(reading.tds || 400),
+                temperature: Number(reading.temperature || 36.5),
+                turbidity: Number(reading.turbidity || 1.0)
+              },
+              recommendations: r.generated_recommendations || (r.recommendation ? [r.recommendation] : ['Follow standard daily hydration guidelines.']),
+              hash: `SHA-256: ${r.id.replace(/-/g, '').substring(0, 16)}`
+            };
+          });
+          setScreenings(mapped);
+          setSelectedScreening(mapped[0]);
+        }
+      } catch (e) {
+        console.error('Error loading patient data:', e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
 
   // Wellness score colour helper
   const getWellnessColor = (score: number) => {
@@ -115,17 +82,40 @@ export default function PatientPortalPage() {
     return 'text-rose-700 bg-rose-50 border-rose-200'; // Severe
   };
 
-  // Safe PDF download bypass handler
+  // Safe PDF download handler
   const handlePdfDownload = (id: string, date: string, location: string) => {
-    const content = `UroSense Report ID: ${id}\nDate: ${date}\nLocation: ${location}\nWellness Index: ${selectedScreening.wellnessScore}/100\nParameters:\n- Hydration: ${selectedScreening.interpretations.hydration}\n- Glucose: ${selectedScreening.interpretations.glucose}\n- Protein: ${selectedScreening.interpretations.protein}\n- UTI Risk: ${selectedScreening.interpretations.utiRisk}\n- Kidney Stress: ${selectedScreening.interpretations.kidneyStress}\n\nCalibrated Raw Biomarkers:\n- pH: ${selectedScreening.rawParameters.ph}\n- TDS: ${selectedScreening.rawParameters.tds} ppm\n- Temp: ${selectedScreening.rawParameters.temperature} C\n- Turbidity: ${selectedScreening.rawParameters.turbidity} NTU\n\nSecurity Hash: ${selectedScreening.hash}`;
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `UroSense_Report_${date}_${id.substring(0,6)}.txt`;
-    link.click();
-    URL.revokeObjectURL(url);
+    window.open(`/api/v1/reports/${id}/pdf`, '_blank');
   };
+
+  const uniqueLocations = Array.from(new Set(screenings.map(s => s.location))).map(locName => {
+    const s = screenings.find(x => x.location === locName);
+    return {
+      name: locName,
+      city: 'New Delhi',
+      lastVisited: s?.date || ''
+    };
+  });
+
+  const overallWellnessScore = screenings.length > 0 
+    ? Math.round(screenings.reduce((acc, s) => acc + s.wellnessScore, 0) / screenings.length) 
+    : 0;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] flex items-center justify-center font-mono text-sm">
+        Loading personal health journal...
+      </div>
+    );
+  }
+
+  if (!selectedScreening) {
+    return (
+      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] flex flex-col items-center justify-center gap-4">
+        <p className="font-mono text-sm">No screening history found. Visit a kiosk to begin.</p>
+        <Link href="/" className="text-xs bg-[#2563EB] text-white px-4 py-2 rounded-lg font-mono">Exit</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] pb-24" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
@@ -143,7 +133,7 @@ export default function PatientPortalPage() {
           </div>
           <div className="flex items-center gap-4">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-gray-500 font-mono">
-              <User className="w-3.5 h-3.5 text-[#2563EB]" /> {PATIENT_PROFILE.name}
+              <User className="w-3.5 h-3.5 text-[#2563EB]" /> {profile?.name || 'Aarav Sharma'}
             </span>
             <Link href="/" className="text-xs font-mono font-semibold text-gray-500 hover:text-[#0B1B33]">
               Exit Journal
@@ -172,7 +162,7 @@ export default function PatientPortalPage() {
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest block">CURRENT WELLNESS INDEX</span>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-extrabold text-[#0B1B33] font-mono">{PATIENT_PROFILE.overallWellnessScore}</span>
+                  <span className="text-5xl font-extrabold text-[#0B1B33] font-mono">{overallWellnessScore}</span>
                   <span className="text-gray-400 text-sm">/ 100</span>
                 </div>
                 <p className="text-xs text-gray-500 leading-relaxed mt-1">
@@ -182,7 +172,7 @@ export default function PatientPortalPage() {
 
               <div className="flex flex-col gap-1.5 w-full sm:w-auto">
                 <div className="text-xs font-semibold text-gray-500 font-mono text-right hidden sm:block">
-                  Last Checked: {PATIENT_PROFILE.lastScreened}
+                  Last Checked: {screenings[0]?.date} at {screenings[0]?.time}
                 </div>
                 <button 
                   onClick={() => setShowTechnical(!showTechnical)}
@@ -291,14 +281,14 @@ export default function PatientPortalPage() {
 
               {/* Graphical Trend Representation */}
               <div className="flex items-end justify-between h-40 pt-4 px-4 border-b border-gray-200">
-                {SCREENINGS.slice().reverse().map((s, idx) => (
+                {screenings.slice().reverse().map((s, idx) => (
                   <div key={idx} className="flex flex-col items-center gap-2 flex-1">
                     <span className="text-xs font-bold text-[#2563EB] font-mono">{s.wellnessScore}%</span>
                     <div 
                       className="w-10 sm:w-16 bg-blue-500 hover:bg-blue-600 rounded-t-lg transition-all" 
                       style={{ height: `${s.wellnessScore * 1.2}px` }}
                     />
-                    <span className="text-[10px] text-gray-400 font-mono mt-1">{s.date.split('-')[2]} Jun</span>
+                    <span className="text-[10px] text-gray-400 font-mono mt-1">{s.date.split('-')[2]} {new Date(s.date).toLocaleString('default', { month: 'short' })}</span>
                   </div>
                 ))}
               </div>
@@ -306,11 +296,15 @@ export default function PatientPortalPage() {
               <div className="grid grid-cols-3 gap-2 text-center text-xs">
                 <div>
                   <span className="text-[10px] text-gray-400 uppercase font-mono">HIGHEST SCORE</span>
-                  <p className="font-bold text-[#0B1B33]">92% (Delhi)</p>
+                  <p className="font-bold text-[#0B1B33]">
+                    {screenings.length > 0 ? `${Math.max(...screenings.map(s => s.wellnessScore))}%` : 'N/A'}
+                  </p>
                 </div>
                 <div>
                   <span className="text-[10px] text-gray-400 uppercase font-mono">LOWEST SCORE</span>
-                  <p className="font-bold text-[#0B1B33]">78% (Bengaluru)</p>
+                  <p className="font-bold text-[#0B1B33]">
+                    {screenings.length > 0 ? `${Math.min(...screenings.map(s => s.wellnessScore))}%` : 'N/A'}
+                  </p>
                 </div>
                 <div>
                   <span className="text-[10px] text-gray-400 uppercase font-mono">RECOMMENDED GOAL</span>
@@ -329,7 +323,7 @@ export default function PatientPortalPage() {
           <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
             <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider">Clinical Guidance</h3>
             <div className="space-y-3">
-              {selectedScreening.recommendations.map((rec, idx) => (
+              {selectedScreening.recommendations.map((rec: any, idx: number) => (
                 <div key={idx} className="flex items-start gap-2.5 text-xs text-gray-600 leading-relaxed bg-[#FAFAF9] p-3 rounded-xl border border-gray-100">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] mt-1.5 shrink-0" />
                   <span>{rec}</span>
@@ -346,7 +340,7 @@ export default function PatientPortalPage() {
             </div>
 
             <div className="relative border-l border-gray-100 pl-4 ml-2 space-y-6">
-              {SCREENINGS.map((s) => (
+              {screenings.map((s) => (
                 <button 
                   key={s.id} 
                   onClick={() => setSelectedScreening(s)}
@@ -377,11 +371,7 @@ export default function PatientPortalPage() {
             </div>
             
             <div className="space-y-3">
-              {[
-                { name: 'Delhi Airport Terminal 3', city: 'New Delhi', lastVisited: 'June 2026' },
-                { name: 'Hyderabad Metro Station', city: 'Hyderabad', lastVisited: 'June 2026' },
-                { name: 'Bengaluru Corporate Hub', city: 'Bengaluru', lastVisited: 'June 2026' }
-              ].map((loc, idx) => (
+              {uniqueLocations.map((loc, idx) => (
                 <div key={idx} className="flex justify-between items-center text-xs p-2.5 border border-gray-50 hover:border-gray-100 bg-[#FAFAF9] rounded-xl">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0" />
@@ -400,7 +390,7 @@ export default function PatientPortalPage() {
           <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
             <h3 className="text-xs font-mono text-gray-400 uppercase tracking-widest">Download Reports</h3>
             <div className="space-y-2">
-              {SCREENINGS.map((s) => (
+              {screenings.map((s) => (
                 <button 
                   key={s.id}
                   onClick={() => handlePdfDownload(s.id, s.date, s.location)}
