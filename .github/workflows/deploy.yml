@@ -25,16 +25,6 @@ jobs:
       - name: Type check
         run: npm run type-check
 
-      - name: Debug Secrets
-        run: |
-          echo "Token length: ${#TOKEN}"
-          echo "Org ID length: ${#ORG}"
-          echo "Project ID length: ${#PROJECT}"
-        env:
-          TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          ORG: ${{ secrets.VERCEL_ORG_ID }}
-          PROJECT: ${{ secrets.VERCEL_PROJECT_ID }}
-
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
@@ -42,3 +32,4 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
+          vercel-version: 54.14.5
