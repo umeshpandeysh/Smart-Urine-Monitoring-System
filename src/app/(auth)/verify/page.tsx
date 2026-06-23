@@ -52,10 +52,9 @@ export default function VerifyPage() {
 
       // Smooth delay before redirecting to allow success animation
       setTimeout(() => {
-        router.refresh(); // Refresh page tree to load cookies in server layout
         const dest = sessionStorage.getItem('urosense_redirect') || '/patient-portal';
         sessionStorage.removeItem('urosense_redirect');
-        router.push(dest);
+        window.location.replace(dest);
       }, 2000);
     } catch (err) {
       setError('A network error occurred. Please try again.');

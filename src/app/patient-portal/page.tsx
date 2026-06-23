@@ -110,9 +110,124 @@ export default function PatientPortalPage() {
 
   if (!selectedScreening) {
     return (
-      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] flex flex-col items-center justify-center gap-4">
-        <p className="font-mono text-sm">No screening history found. Visit a kiosk to begin.</p>
-        <Link href="/" className="text-xs bg-[#2563EB] text-white px-4 py-2 rounded-lg font-mono">Exit</Link>
+      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] pb-24" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+        {/* HEADER NAVIGATION */}
+        <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-gray-100 z-10 px-6 py-4">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-[#2563EB] flex items-center justify-center">
+                <BookOpen className="w-4.5 h-4.5 text-white" />
+              </div>
+              <span className="font-semibold text-lg tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                My UroSense Journal
+              </span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-gray-500 font-mono">
+                <User className="w-3.5 h-3.5 text-[#2563EB]" /> {profile?.name || 'New Patient'}
+              </span>
+              <Link href="/" className="text-xs font-mono font-semibold text-gray-500 hover:text-[#0B1B33]">
+                Exit Journal
+              </Link>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-4xl mx-auto px-6 mt-10 space-y-10">
+          
+          {/* Welcome / Onboarding Card */}
+          <div className="bg-white border border-gray-100 rounded-3xl p-8 space-y-6 shadow-sm text-center max-w-2xl mx-auto">
+            <div className="w-16 h-16 rounded-full bg-[#2563EB]/10 flex items-center justify-center text-[#2563EB] mx-auto animate-pulse">
+              <Sparkles className="w-8 h-8" />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-3xl font-extrabold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Welcome to UroSense!
+              </h1>
+              <p className="text-sm text-gray-500">
+                Hi {profile?.name || 'New Patient'}, your biological wellness journal is active. Get started by syncing your first smart urine analysis.
+              </p>
+            </div>
+
+            <div className="p-4 bg-blue-50/50 border border-blue-100/50 rounded-2xl text-xs text-[#2563EB] font-medium leading-relaxed max-w-md mx-auto">
+              No report synchronized yet. Visit a nearest kiosk to run your first touchless diagnostic.
+            </div>
+          </div>
+
+          {/* How to Get Started Steps */}
+          <div className="space-y-6">
+            <div className="text-center max-w-xl mx-auto space-y-1">
+              <h2 className="text-xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                How to Get Your First Report
+              </h2>
+              <p className="text-xs text-gray-400">Follow these simple steps at any UroSense terminal</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  step: '01',
+                  title: 'Locate Kiosk',
+                  desc: 'Find a UroSense telemetry station at airports, corporate parks, or health facilities.',
+                  icon: MapPin
+                },
+                {
+                  step: '02',
+                  title: 'Submit Diagnostic',
+                  desc: 'Use the terminal naturally. Solid-state sensors analyze pH, TDS, and turbidity indexes in 3 seconds.',
+                  icon: Activity
+                },
+                {
+                  step: '03',
+                  title: 'Scan QR & Verify',
+                  desc: 'Scan the generated QR code with your mobile camera and enter OTP to link the report privately.',
+                  icon: FileText
+                }
+              ].map((s, idx) => (
+                <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-6 space-y-4 shadow-sm relative overflow-hidden">
+                  <div className="absolute top-4 right-4 text-4xl font-extrabold text-gray-100/70 font-mono select-none">{s.step}</div>
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#2563EB]">
+                    <s.icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-bold text-sm text-[#0B1B33]">{s.title}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Active Kiosk Locations */}
+          <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+            <div>
+              <h3 className="text-base font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Active Telemetry Locations
+              </h3>
+              <p className="text-xs text-gray-400">Find a kiosk near you to sync your first molecular health record</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {[
+                { name: 'Delhi Airport T3 Node', city: 'New Delhi', status: 'Active' },
+                { name: 'Mumbai Central Node', city: 'Mumbai', status: 'Active' },
+                { name: 'Bengaluru Corporate Hub', city: 'Bengaluru', status: 'Active' }
+              ].map((loc, idx) => (
+                <div key={idx} className="flex justify-between items-center text-xs p-3 border border-gray-50 bg-[#FAFAF9] rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                    <div>
+                      <p className="font-bold text-[#0B1B33] text-[11px] leading-tight">{loc.name}</p>
+                      <p className="text-[9px] text-gray-400">{loc.city}</p>
+                    </div>
+                  </div>
+                  <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
+                    {loc.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </main>
       </div>
     );
   }
