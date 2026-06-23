@@ -32,9 +32,9 @@ export default function AdminCenterPage() {
         const locData = await locRes.json();
         const repData = await repRes.json();
 
-        setDevices(devData || []);
-        setLocations(locData || []);
-        setReports(repData || []);
+        setDevices(Array.isArray(devData) ? devData : []);
+        setLocations(Array.isArray(locData) ? locData : []);
+        setReports(Array.isArray(repData) ? repData : []);
       } catch (e) {
         console.error('Error fetching admin workspace data:', e);
       } finally {
@@ -44,7 +44,8 @@ export default function AdminCenterPage() {
     loadAdminData();
   }, []);
 
-  const mappedReports = reports.map((r: any) => {
+  const reportsList = Array.isArray(reports) ? reports : [];
+  const mappedReports = reportsList.map((r: any) => {
     let flag = 'Clear';
     if (r.hydration_status && r.hydration_status !== 'Optimal Hydration') {
       flag = r.hydration_status;

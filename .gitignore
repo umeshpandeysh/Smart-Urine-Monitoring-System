@@ -93,3 +93,5 @@ public/reports/*.pdf
 # ================================
 .vercel
 *.pem
+
+.vercel

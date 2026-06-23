@@ -20,7 +20,7 @@ function LoginForm() {
     setError('');
 
     const formattedPhone = phone.startsWith('+') ? phone : `+${phone}`;
-    const redirectTo = searchParams.get('redirectTo');
+    const redirectTo = searchParams.get('redirect');
     if (redirectTo) {
       sessionStorage.setItem('urosense_redirect', redirectTo);
     } else {

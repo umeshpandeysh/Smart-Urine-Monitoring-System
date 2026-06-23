@@ -35,13 +35,14 @@ export async function middleware(request: NextRequest) {
 
   // Protected route groups
   const isPortalRoute =
+    pathname.startsWith('/patient-portal') ||
     pathname.startsWith('/reports') ||
     pathname.startsWith('/notifications') ||
     pathname.startsWith('/settings') ||
     pathname.startsWith('/history') ||
     pathname.startsWith('/insights');
 
-  const isAdminRoute = pathname.startsWith('/admin') && !pathname.startsWith('/admin-center');
+  const isAdminRoute = pathname.startsWith('/admin') || pathname.startsWith('/admin-center');
 
   // Redirect unauthenticated users to login
   if ((isPortalRoute || isAdminRoute) && !user) {

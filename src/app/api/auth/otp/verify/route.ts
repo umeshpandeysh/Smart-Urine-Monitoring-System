@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { verifyOtp } from '@/lib/auth/dev-otp-store';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -114,8 +115,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const responseHeaders = new Headers();
+    const cookieStore = await cookies();
+
+    const supabase = createServerClient(
+      SUPABASE_URL,
+      ANON_KEY,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll();
+          },
+          setAll(cookiesToSet: any[]) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) => {
+                cookieStore.set(name, value, options);
+                
+                let cookieString = `${name}=${encodeURIComponent(value)}`;
+                if (options.path) cookieString += `; Path=${options.path}`;
+                if (options.domain) cookieString += `; Domain=${options.domain}`;
+                if (options.maxAge !== undefined) cookieString += `; Max-Age=${options.maxAge}`;
+                if (options.expires) cookieString += `; Expires=${options.expires.toUTCString()}`;
+                if (options.secure) cookieString += `; Secure`;
+                if (options.httpOnly) cookieString += `; HttpOnly`;
+                if (options.sameSite) cookieString += `; SameSite=${options.sameSite}`;
+                responseHeaders.append('Set-Cookie', cookieString);
+              });
+            } catch (e) {
+              // Ignore
+            }
+          },
+        },
+      }
+    );
+
     // 2. Try native Supabase phone OTP verification first
-    const supabase = await createClient();
     const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
       phone: normalizedPhone,
       token,
@@ -127,6 +161,8 @@ export async function POST(request: NextRequest) {
         success: true,
         user: verifyData.user,
         session: verifyData.session,
+      }, {
+        headers: responseHeaders
       });
     }
 
@@ -156,7 +192,6 @@ export async function POST(request: NextRequest) {
 
     if (setSessionError) {
       console.error('[OTP] setSession error:', setSessionError.message);
-      // Still return the tokens — client can handle session restoration
     }
 
     console.log(`[OTP] Session set via supabase.auth.setSession for user ${sessionData.user?.id}`);
@@ -169,6 +204,8 @@ export async function POST(request: NextRequest) {
         refresh_token: sessionData.refresh_token,
         expires_in: sessionData.expires_in,
       },
+    }, {
+      headers: responseHeaders
     });
   } catch (error: any) {
     console.error('[OTP] Verify route failure:', error.message);
