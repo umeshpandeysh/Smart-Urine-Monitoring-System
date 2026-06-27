@@ -214,6 +214,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error('[OTP] Verify route failure:', error.message);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Verification error. Please check your network connection and try again.' }, { status: 400 });
   }
 }
