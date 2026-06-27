@@ -2,10 +2,44 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+/**
+ * Copies refreshed session cookies from an existing response to a target redirect response.
+ */
+function attachCookiesToRedirect(sourceResponse: NextResponse, redirectResponse: NextResponse): NextResponse {
+  try {
+    sourceResponse.cookies.getAll().forEach(cookie => {
+      redirectResponse.cookies.set(cookie.name, cookie.value, {
+        path: cookie.path,
+        domain: cookie.domain,
+        maxAge: cookie.maxAge,
+        expires: cookie.expires,
+        secure: cookie.secure,
+        httpOnly: cookie.httpOnly,
+        sameSite: cookie.sameSite,
+      });
+    });
+  } catch (cookieCopyError) {
+    console.error('[Middleware] Cookie propagation to redirect response failed:', cookieCopyError);
+  }
+  return redirectResponse;
+}
+
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  
-  // Create a default response to return if auth operations fail or are bypassed
+  const { pathname, searchParams } = request.nextUrl;
+
+  // Protected route definitions
+  const isPortalRoute =
+    pathname.startsWith('/patient-portal') ||
+    pathname.startsWith('/reports') ||
+    pathname.startsWith('/notifications') ||
+    pathname.startsWith('/settings') ||
+    pathname.startsWith('/history') ||
+    pathname.startsWith('/insights');
+
+  const isAdminRoute = pathname.startsWith('/admin') || pathname.startsWith('/admin-center');
+  const isProtectedRoute = isPortalRoute || isAdminRoute;
+
+  // Create default baseline response
   let response = NextResponse.next({
     request: { headers: request.headers },
   });
@@ -14,16 +48,21 @@ export async function middleware(request: NextRequest) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    // Validate Supabase environment variables before using them
+    // Validate Supabase environment variables before initialization
     if (
-      !supabaseUrl || 
-      supabaseUrl.trim() === '' || 
+      !supabaseUrl ||
+      supabaseUrl.trim() === '' ||
       supabaseUrl === 'https://placeholder.supabase.co' ||
-      !supabaseAnonKey || 
-      supabaseAnonKey.trim() === '' || 
+      !supabaseAnonKey ||
+      supabaseAnonKey.trim() === '' ||
       supabaseAnonKey === 'placeholder-anon-key'
     ) {
-      console.warn('Supabase env credentials missing or placeholder in middleware. Bypassing auth checks.');
+      console.warn('[Middleware] Supabase env credentials uninitialized or placeholder.');
+      if (isProtectedRoute) {
+        const loginUrl = new URL('/login', request.url);
+        loginUrl.searchParams.set('error', 'config_missing');
+        return NextResponse.redirect(loginUrl);
+      }
       return response;
     }
 
@@ -45,78 +84,42 @@ export async function middleware(request: NextRequest) {
                 response.cookies.set(name, value, options)
               );
             } catch (cookieError) {
-              console.error('Middleware cookie setAll error:', cookieError);
+              console.error('[Middleware] Cookie setAll error:', cookieError);
             }
           },
         },
       }
     );
 
-    // Refresh session if expired (getUser matches session refresh behavior)
+    // Refresh auth session securely
     const { data: { user } } = await supabase.auth.getUser();
 
-    // Protected route groups
-    const isPortalRoute =
-      pathname.startsWith('/patient-portal') ||
-      pathname.startsWith('/reports') ||
-      pathname.startsWith('/notifications') ||
-      pathname.startsWith('/settings') ||
-      pathname.startsWith('/history') ||
-      pathname.startsWith('/insights');
-
-    const isAdminRoute = pathname.startsWith('/admin') || pathname.startsWith('/admin-center');
-
-    // Redirect unauthenticated users to login
-    if ((isPortalRoute || isAdminRoute) && !user) {
+    // 1. Redirect unauthenticated users away from protected healthcare / admin routes
+    if (isProtectedRoute && !user) {
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('redirect', pathname);
       const redirectResponse = NextResponse.redirect(loginUrl);
-      
-      // Copy cookies to redirect response to prevent dropping refreshed session tokens
-      try {
-        response.cookies.getAll().forEach(cookie => {
-          redirectResponse.cookies.set(cookie.name, cookie.value, {
-            path: cookie.path,
-            domain: cookie.domain,
-            maxAge: cookie.maxAge,
-            expires: cookie.expires,
-            secure: cookie.secure,
-            httpOnly: cookie.httpOnly,
-            sameSite: cookie.sameSite,
-          });
-        });
-      } catch (cookieCopyError) {
-        console.error('Middleware redirect cookie copy error:', cookieCopyError);
-      }
-      return redirectResponse;
+      return attachCookiesToRedirect(response, redirectResponse);
     }
 
-    // Redirect authenticated users away from auth pages
+    // 2. Redirect authenticated users away from auth login / verify pages
     if (user && (pathname === '/login' || pathname === '/verify')) {
-      const redirectResponse = NextResponse.redirect(new URL('/patient-portal', request.url));
+      const redirectTarget = searchParams.get('redirect');
+      const targetUrl = (redirectTarget && redirectTarget.startsWith('/')) 
+        ? redirectTarget 
+        : '/patient-portal';
       
-      // Copy cookies to redirect response
-      try {
-        response.cookies.getAll().forEach(cookie => {
-          redirectResponse.cookies.set(cookie.name, cookie.value, {
-            path: cookie.path,
-            domain: cookie.domain,
-            maxAge: cookie.maxAge,
-            expires: cookie.expires,
-            secure: cookie.secure,
-            httpOnly: cookie.httpOnly,
-            sameSite: cookie.sameSite,
-          });
-        });
-      } catch (cookieCopyError) {
-        console.error('Middleware auth redirect cookie copy error:', cookieCopyError);
-      }
-      return redirectResponse;
+      const redirectResponse = NextResponse.redirect(new URL(targetUrl, request.url));
+      return attachCookiesToRedirect(response, redirectResponse);
     }
 
   } catch (error) {
-    console.error('Middleware execution failed with exception:', error);
-    // Bypassing middleware on exception to avoid MIDDLEWARE_INVOCATION_FAILED 500 error
+    console.error('[Middleware] Unhandled execution exception:', error);
+    if (isProtectedRoute) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('error', 'auth_exception');
+      return attachCookiesToRedirect(response, NextResponse.redirect(loginUrl));
+    }
     return NextResponse.next({
       request: { headers: request.headers },
     });
@@ -130,3 +133,4 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
   ],
 };
+
