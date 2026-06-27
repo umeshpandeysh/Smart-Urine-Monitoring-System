@@ -25,7 +25,7 @@ async function createDevBypassSession(phone: string): Promise<{
   try {
     const serviceClient = createServiceClient();
     const phoneRaw = phone.replace(/^\+/, '');
-    const internalEmail = `phone${phoneRaw}@urosense-internal.dev`;
+    const internalEmail = `phone${phoneRaw}@gmail.com`;
 
     // 1. Check if user exists
     const { data: listData } = await serviceClient.auth.admin.listUsers();
