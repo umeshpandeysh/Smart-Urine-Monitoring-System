@@ -8,7 +8,7 @@ export default async function QRReportRedirectPage({ params }: { params: Promise
 
   if (!user) {
     // Redirect to login and instruct it to return back to the authenticated reports page
-    redirect(`/login?redirectTo=/reports/${id}`);
+    redirect(`/login?redirect=/reports/${id}`);
   }
 
   // If already authenticated, redirect directly to the portal report view

@@ -56,7 +56,7 @@ export async function requireRole(requiredRole: UserRole | UserRole[]) {
   const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
 
   if (!roles.includes(profile.role as UserRole)) {
-    redirect('/dashboard');
+    redirect('/patient-portal');
   }
 
   return { user, profile };
