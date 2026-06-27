@@ -129,20 +129,26 @@ export async function POST(request: NextRequest) {
           setAll(cookiesToSet: any[]) {
             try {
               cookiesToSet.forEach(({ name, value, options }) => {
-                cookieStore.set(name, value, options);
+                const updatedOptions = {
+                  path: '/',
+                  sameSite: 'lax' as const,
+                  secure: process.env.NODE_ENV === 'production',
+                  ...options,
+                };
+                cookieStore.set(name, value, updatedOptions);
                 
-                let cookieString = `${name}=${encodeURIComponent(value)}`;
-                if (options.path) cookieString += `; Path=${options.path}`;
-                if (options.domain) cookieString += `; Domain=${options.domain}`;
-                if (options.maxAge !== undefined) cookieString += `; Max-Age=${options.maxAge}`;
-                if (options.expires) cookieString += `; Expires=${options.expires.toUTCString()}`;
-                if (options.secure) cookieString += `; Secure`;
-                if (options.httpOnly) cookieString += `; HttpOnly`;
-                if (options.sameSite) cookieString += `; SameSite=${options.sameSite}`;
+                let cookieString = `${name}=${value}`;
+                if (updatedOptions.path) cookieString += `; Path=${updatedOptions.path}`;
+                if (updatedOptions.domain) cookieString += `; Domain=${updatedOptions.domain}`;
+                if (updatedOptions.maxAge !== undefined) cookieString += `; Max-Age=${updatedOptions.maxAge}`;
+                if (updatedOptions.expires) cookieString += `; Expires=${updatedOptions.expires.toUTCString()}`;
+                if (updatedOptions.secure) cookieString += `; Secure`;
+                if (updatedOptions.httpOnly) cookieString += `; HttpOnly`;
+                if (updatedOptions.sameSite) cookieString += `; SameSite=${updatedOptions.sameSite}`;
                 responseHeaders.append('Set-Cookie', cookieString);
               });
             } catch (e) {
-              // Ignore
+              console.error('[OTP] Set-Cookie error:', e);
             }
           },
         },

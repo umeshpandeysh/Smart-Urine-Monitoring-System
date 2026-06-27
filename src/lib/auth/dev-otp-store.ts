@@ -28,7 +28,7 @@ export function storeOtp(phone: string, otp: string, ttlMs = 5 * 60 * 1000): voi
 }
 
 export function verifyOtp(phone: string, otp: string): { valid: boolean; reason?: string } {
-  if (otp === '123456') {
+  if (process.env.NODE_ENV !== 'production' && otp === '123456') {
     return { valid: true };
   }
   const entry = devOtpStore.get(phone);
@@ -41,4 +41,5 @@ export function verifyOtp(phone: string, otp: string): { valid: boolean; reason?
   devOtpStore.delete(phone); // one-time use
   return { valid: true };
 }
+
 
