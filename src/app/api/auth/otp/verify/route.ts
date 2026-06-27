@@ -14,17 +14,8 @@ function normalise(phone: string) {
   return phone.startsWith('+') ? phone : `+${phone}`;
 }
 
-async function adminFetch(path: string, opts: RequestInit = {}) {
-  return fetch(`${SUPABASE_URL}/auth/v1${path}`, {
-    ...opts,
-    headers: {
-      Authorization: `Bearer ${SERVICE_KEY}`,
-      apikey: SERVICE_KEY,
-      'Content-Type': 'application/json',
-      ...(opts.headers ?? {}),
-    },
-  });
-}
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { createServiceClient } from '@/lib/supabase/server';
 
 async function createDevBypassSession(phone: string): Promise<{
   access_token: string;
@@ -32,65 +23,73 @@ async function createDevBypassSession(phone: string): Promise<{
   expires_in: number;
   user: any;
 } | null> {
-  // 1. Find user by phone (Supabase stores without leading +)
-  const phoneRaw = phone.replace(/^\+/, '');
-  const listRes = await adminFetch('/admin/users');
-  const listData = await listRes.json();
-  let user = listData?.users?.find((u: any) => u.phone === phoneRaw);
+  try {
+    const serviceClient = createServiceClient();
+    const phoneRaw = phone.replace(/^\+/, '');
+    const internalEmail = `phone${phoneRaw}@urosense-internal.dev`;
 
-  // 2. Create user if not found
-  if (!user) {
-    const createRes = await adminFetch('/admin/users', {
-      method: 'POST',
-      body: JSON.stringify({ phone: phoneRaw, phone_confirm: true }),
+    // 1. Check if user exists
+    const { data: listData } = await serviceClient.auth.admin.listUsers();
+    let user = listData?.users?.find((u) => u.phone === phoneRaw || u.email === internalEmail);
+
+    if (!user) {
+      const { data: newUser, error: createError } = await serviceClient.auth.admin.createUser({
+        phone: phone.startsWith('+') ? phone : `+${phone}`,
+        email: internalEmail,
+        email_confirm: true,
+        phone_confirm: true,
+      });
+      if (!createError && newUser?.user) {
+        user = newUser.user;
+      } else {
+        const { data: fallbackUser } = await serviceClient.auth.admin.createUser({
+          email: internalEmail,
+          email_confirm: true,
+        });
+        if (fallbackUser?.user) user = fallbackUser.user;
+      }
+    }
+
+    if (!user) return null;
+
+    // 2. Generate magic link token for immediate session exchange
+    const { data: linkData, error: linkError } = await serviceClient.auth.admin.generateLink({
+      type: 'magiclink',
+      email: internalEmail,
     });
-    const createData = await createRes.json();
-    if (createData.error || !createData.id) {
-      console.error('[OTP] Admin createUser error:', createData);
+
+    if (linkError || !linkData?.properties?.email_otp) {
+      console.error('[OTP] generateLink error:', linkError?.message);
       return null;
     }
-    user = createData;
-  }
 
-  // 3. Ensure the user has a confirmed email for password sign-in
-  const internalEmail = `phone${phoneRaw}@urosense-internal.dev`;
-  if (!user.email || user.email !== internalEmail) {
-    await adminFetch(`/admin/users/${user.id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ email: internalEmail, email_confirm: true }),
+    // 3. Exchange OTP via Supabase Auth client to retrieve session tokens
+    const anonClient = createSupabaseClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://placeholder.supabase.co',
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'placeholder-anon-key'
+    );
+
+    const { data: authData, error: verifyErr } = await anonClient.auth.verifyOtp({
+      email: internalEmail,
+      token: linkData.properties.email_otp,
+      type: 'email',
     });
-  }
 
-  // 4. Set a short-lived temporary password
-  const tempPassword = `USdev_${user.id.replace(/-/g, '').substring(0, 12)}_bypass`;
-  const pwRes = await adminFetch(`/admin/users/${user.id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ password: tempPassword }),
-  });
-  const pwData = await pwRes.json();
-  if (pwData.error) {
-    console.error('[OTP] Set password error:', pwData);
+    if (verifyErr || !authData?.session) {
+      console.error('[OTP] verifyOtp email session exchange error:', verifyErr?.message);
+      return null;
+    }
+
+    return {
+      access_token: authData.session.access_token,
+      refresh_token: authData.session.refresh_token,
+      expires_in: authData.session.expires_in,
+      user: { ...authData.user, phone: phone },
+    };
+  } catch (err: any) {
+    console.error('[OTP] createDevBypassSession exception:', err.message);
     return null;
   }
-
-  // 5. Exchange email+password for a real JWT session
-  const tokenRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-    method: 'POST',
-    headers: { apikey: ANON_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: internalEmail, password: tempPassword }),
-  });
-  const tokenData = await tokenRes.json();
-  if (!tokenData.access_token) {
-    console.error('[OTP] Token exchange error:', tokenData);
-    return null;
-  }
-
-  return {
-    access_token: tokenData.access_token,
-    refresh_token: tokenData.refresh_token,
-    expires_in: tokenData.expires_in,
-    user: { ...tokenData.user, phone: phone },
-  };
 }
 
 export async function POST(request: NextRequest) {
@@ -185,8 +184,8 @@ export async function POST(request: NextRequest) {
 
     if (!sessionData) {
       return NextResponse.json(
-        { error: 'Session creation failed. Please try again.' },
-        { status: 500 }
+        { error: 'Verification failed. Please request a new code.' },
+        { status: 400 }
       );
     }
 

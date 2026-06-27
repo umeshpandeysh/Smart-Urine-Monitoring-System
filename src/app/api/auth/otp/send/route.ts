@@ -62,24 +62,20 @@ export async function POST(request: NextRequest) {
 
     const serviceClient = createServiceClient();
 
-    // Ensure the user exists in Supabase Auth
-    const { data: listData, error: listError } = await serviceClient.auth.admin.listUsers();
-    if (listError) {
-      console.error('[OTP] Admin listUsers error:', listError.message);
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-    }
-
     const phoneRaw = normalizedPhone.replace(/^\+/, ''); // Supabase stores without leading +
-    const existingUser = listData?.users?.find((u) => u.phone === phoneRaw);
-    if (!existingUser) {
-      const { error: createError } = await serviceClient.auth.admin.createUser({
-        phone: normalizedPhone,
-        phone_confirm: true,
-      });
-      if (createError) {
-        console.error('[OTP] Admin createUser error:', createError.message);
-        return NextResponse.json({ error: 'Failed to initialize user.' }, { status: 500 });
+    try {
+      const { data: listData } = await serviceClient.auth.admin.listUsers();
+      const existingUser = listData?.users?.find((u) => u.phone === phoneRaw || u.email === `phone${phoneRaw}@urosense-internal.dev`);
+      if (!existingUser) {
+        await serviceClient.auth.admin.createUser({
+          phone: normalizedPhone,
+          email: `phone${phoneRaw}@urosense-internal.dev`,
+          email_confirm: true,
+          phone_confirm: true,
+        }).catch((e) => console.warn('[OTP] Create user warning:', e.message));
       }
+    } catch (e: any) {
+      console.warn('[OTP] Dev bypass user check warning:', e.message);
     }
 
     // Generate OTP and store in-process (5 min TTL)
