@@ -27,47 +27,32 @@ async function createDevBypassSession(phone: string): Promise<{
     const phoneRaw = phone.replace(/^\+/, '');
     const internalEmail = `phone${phoneRaw}@gmail.com`;
 
-    // 1. Check if user exists
-    const { data: listData } = await serviceClient.auth.admin.listUsers();
-    let user = listData?.users?.find((u) => u.phone === phoneRaw || u.email === internalEmail);
-
-    if (!user) {
-      const { data: newUser, error: createError } = await serviceClient.auth.admin.createUser({
-        phone: phone.startsWith('+') ? phone : `+${phone}`,
-        email: internalEmail,
-        email_confirm: true,
-        phone_confirm: true,
-      });
-      if (!createError && newUser?.user) {
-        user = newUser.user;
-      } else {
-        const { data: fallbackUser } = await serviceClient.auth.admin.createUser({
-          email: internalEmail,
-          email_confirm: true,
-        });
-        if (fallbackUser?.user) user = fallbackUser.user;
-      }
-    }
-
-    if (!user) return null;
-
-    // 2. Generate magic link token for immediate session exchange
-    const { data: linkData, error: linkError } = await serviceClient.auth.admin.generateLink({
+    // 1. Generate link token (try magiclink first, fallback to signup for new user)
+    let linkRes = await serviceClient.auth.admin.generateLink({
       type: 'magiclink',
       email: internalEmail,
     });
 
-    if (linkError || !linkData?.properties?.email_otp) {
-      console.error('[OTP] generateLink error:', linkError?.message);
+    if (linkRes.error || !linkRes.data?.properties?.email_otp) {
+      linkRes = await serviceClient.auth.admin.generateLink({
+        type: 'signup',
+        email: internalEmail,
+        password: 'USdev_temp_pass_123!',
+      });
+    }
+
+    const emailOtp = linkRes.data?.properties?.email_otp;
+    if (!emailOtp) {
+      console.error('[OTP] Failed to generate link OTP:', linkRes.error?.message);
       return null;
     }
 
-    // 3. Exchange OTP via Supabase Auth client to retrieve session tokens
+    // 2. Exchange OTP via Supabase Auth client to retrieve session tokens
     const anonClient = createSupabaseClient(SUPABASE_URL, ANON_KEY);
 
     const { data: authData, error: verifyErr } = await anonClient.auth.verifyOtp({
       email: internalEmail,
-      token: linkData.properties.email_otp,
+      token: emailOtp,
       type: 'email',
     });
 
