@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import LoginLayout from '@/components/auth/login-layout';
 import OtpInput from '@/components/auth/otp-input';
 import AuthSuccess from '@/components/auth/auth-success';
 
-export default function VerifyPage() {
+function VerifyForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -52,7 +53,10 @@ export default function VerifyPage() {
 
       // Smooth delay before redirecting to allow success animation
       setTimeout(() => {
-        const dest = sessionStorage.getItem('urosense_redirect') || '/patient-portal';
+        const redirectParam = searchParams.get('redirect');
+        const dest = (redirectParam && redirectParam.startsWith('/')) 
+          ? redirectParam 
+          : (sessionStorage.getItem('urosense_redirect') || '/patient-portal');
         sessionStorage.removeItem('urosense_redirect');
         window.location.replace(dest);
       }, 2000);
@@ -87,7 +91,7 @@ export default function VerifyPage() {
   };
 
   return (
-    <LoginLayout>
+    <>
       {success ? (
         <AuthSuccess />
       ) : (
@@ -99,6 +103,17 @@ export default function VerifyPage() {
           error={error}
         />
       )}
+    </>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <LoginLayout>
+      <Suspense fallback={<div className="font-mono text-xs text-gray-400">Loading verification...</div>}>
+        <VerifyForm />
+      </Suspense>
     </LoginLayout>
   );
 }
+

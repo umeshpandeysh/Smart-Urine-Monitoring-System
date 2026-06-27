@@ -105,9 +105,14 @@ export async function middleware(request: NextRequest) {
     // 2. Redirect authenticated users away from auth login / verify pages
     if (user && (pathname === '/login' || pathname === '/verify')) {
       const redirectTarget = searchParams.get('redirect');
-      const targetUrl = (redirectTarget && redirectTarget.startsWith('/')) 
+      let targetUrl = (redirectTarget && redirectTarget.startsWith('/')) 
         ? redirectTarget 
-        : '/patient-portal';
+        : null;
+
+      if (!targetUrl) {
+        const userRole = user.user_metadata?.role || user.app_metadata?.role;
+        targetUrl = userRole === 'admin' ? '/admin-center' : '/patient-portal';
+      }
       
       const redirectResponse = NextResponse.redirect(new URL(targetUrl, request.url));
       return attachCookiesToRedirect(response, redirectResponse);

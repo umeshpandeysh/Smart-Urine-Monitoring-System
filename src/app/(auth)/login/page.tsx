@@ -46,8 +46,9 @@ function LoginForm() {
       // Save phone number in sessionStorage for the verification stage
       sessionStorage.setItem('urosense_phone', formattedPhone);
       
-      // Auto-advance to OTP verification screen
-      router.push('/verify');
+      // Auto-advance to OTP verification screen with preserved redirect target
+      const verifyUrl = redirectTo ? `/verify?redirect=${encodeURIComponent(redirectTo)}` : '/verify';
+      router.push(verifyUrl);
     } catch (err) {
       setError('A network error occurred. Please try again.');
       setLoading(false);
