@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Loader2, RefreshCw, ShieldAlert, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Loader2, RefreshCw, ShieldAlert, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface OtpInputProps {

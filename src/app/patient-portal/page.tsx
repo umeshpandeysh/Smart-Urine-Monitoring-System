@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Activity, Calendar, MapPin, FileText, Droplets, Shield, 
-  AlertTriangle, Heart, Download, Clock, BookOpen, 
+  AlertTriangle, Download, BookOpen, 
   Sparkles, ToggleLeft, ToggleRight, User, TrendingUp, Info,
-  PlusCircle, CheckCircle2, RefreshCw, ChevronRight, X, UserPlus
+  PlusCircle, CheckCircle2, ChevronRight, X, UserPlus
 } from 'lucide-react';
 import Link from 'next/link';
 
