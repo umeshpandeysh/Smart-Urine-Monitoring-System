@@ -16,65 +16,57 @@ const STEPS = [
   { 
     step: '01', color: '#2563EB', bg: '#EFF6FF', title: 'Locate Station', desc: 'Find a UroSense-enabled checkpoint at transit terminals, corporate centers, or healthcare facilities.',
     details: [
-      'Interactive map helps navigate to the nearest active UroSense kiosk',
-      'Real-time status tracking verifies station availability before arrival',
-      'Integrated in high-traffic transit hubs, hospitals, and wellness centers',
-      'Touchless hardware interface operates 24/7 with zero waiting times'
+      '📍 Find your nearest smart station at malls, transit hubs, or offices!',
+      '⚡ Real-time status lets you check if a booth is free before walking over.',
+      '🚶 No appointments needed — just walk up whenever suits you!'
     ]
   },
   { 
     step: '02', color: '#0D9488', bg: '#F0FDFA', title: 'Submit Sample', desc: 'Use the system naturally. Built-in optoelectronic grids isolate and register a micro-volume sample touchlessly.',
     details: [
-      'Touchless optical sensor detects sample presence automatically',
-      'Micro-fluidic sampling channel extracts under 1mL for instant analysis',
-      'Self-cleaning fluidic pathway flushes clean between uses',
-      'Zero physical contact required during collection process'
+      '💧 Zero physical contact required — magic optical sensors handle detection!',
+      '🧼 Self-cleaning pathways keep everything squeaky clean between uses.',
+      '⏱️ Quick micro-sample collection done in a split second.'
     ]
   },
   { 
     step: '03', color: '#7C3AED', bg: '#F5F3FF', title: 'Sensor Analysis', desc: 'Four solid-state biosensors evaluate pH, ionic density, temperature, and turbidity indexes within 3 seconds.',
     details: [
-      'Multi-wavelength optical spectrometry checks turbidity and clarity',
-      'Integrated solid-state electrochemical sensors measure precise pH',
-      'TDS sensor computes ionic concentration for hydration scoring',
-      'Patented biological algorithm evaluates metabolic indicator risk'
+      '🤖 Biosensors jump into action analyzing vital health indicators!',
+      '🧪 Checking hydration, glucose, and kidney efficiency in under 3 seconds.',
+      '🧠 Smart AI algorithms crunch the chemistry without needing a lab tech.'
     ]
   },
   { 
     step: '04', color: '#DB2777', bg: '#FDF2F8', title: 'Scan QR Code', desc: 'An ephemeral QR token is generated locally on the station display, ensuring direct and private linkage.',
     details: [
-      'QR code generated instantly by the kiosk display',
-      'Links the sample to your secure mobile session',
-      'No personal data stored inside the physical QR token',
-      'Valid for a limited time window for maximum privacy',
-      'Enables encrypted report retrieval on your personal phone'
+      '🔒 Your QR works like a temporary digital key generated just for you.',
+      '📱 Scan with your phone camera to pair your confidential session.',
+      '👻 No personal data stored inside the QR code — super private!'
     ]
   },
   { 
     step: '05', color: '#D97706', bg: '#FFFBEB', title: 'Secure OTP Verify', desc: 'Confirm biological ownership through encrypted mobile verification codes. No persistent data stays on the device.',
     details: [
-      'One-Time Password sent directly to your registered mobile number',
-      'End-to-end encryption guarantees medical record privacy',
-      'Kiosk wipes local session memory immediately after verification',
-      'Strict HIPAA & DISHA compliant data transfer protocols'
+      '📲 Instant OTP sent to your phone to confirm it is really you!',
+      '🛡️ Military-grade encryption keeps your health info strictly confidential.',
+      '🧹 Kiosk memory wipes your session data right after verification!'
     ]
   },
   { 
     step: '06', color: '#059669', bg: '#ECFDF5', title: 'Clinical Insights', desc: 'Instantly load your results translated into plain language metrics. Avoid clinical terminology jargon.',
     details: [
-      'Results rendered in easy-to-understand color-coded indicators',
-      'Highlights risk factors for UTI, dehydration, and glucose spikes',
-      'Actionable dietary and hydration recommendations included',
-      'Option to export formatted PDF for doctor consultations'
+      '🎉 Voila! Results translated into plain English — no jargon needed!',
+      '💡 Friendly color-coded badges highlight your hydration and energy trends.',
+      '🥗 Quick lifestyle and hydration tips customized just for your body.'
     ]
   },
   { 
     step: '07', color: '#6366F1', bg: '#EEF2FF', title: 'Track History', desc: 'Store your measurements securely inside your personal biological health journal. Sync to track baseline trends.',
     details: [
-      'Historical trend graphs visualize health metrics over weeks and months',
-      'Automated baseline tracking alerts you to sudden metric deviations',
-      'Secure cloud backup allows seamless cross-device synchronization',
-      'Full data ownership with instant export and deletion controls'
+      '📈 Watch your health trends evolve like a personal health score!',
+      '☁️ Encrypted sync keeps your journal safe across all your devices.',
+      '📥 Export a neat summary anytime to show your personal doctor!'
     ]
   },
 ];
@@ -94,13 +86,13 @@ export default function HomePage() {
   const [selectedMapNode, setSelectedMapNode] = useState(0);
 
   const locationsRoadmap = [
-    { name: 'New Delhi Node', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
-    { name: 'Ahmedabad Node', zone: 'West Grid', x: '26%', y: '46%', density: 'Active Integration (11 Stations)', status: 'Active' },
-    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '30%', y: '58%', density: 'High Density (22 Stations)', status: 'Active' },
+    { name: 'Delhi Node', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
+    { name: 'Ahmedabad Node', zone: 'West Grid', x: '24%', y: '44%', density: 'Active Integration (11 Stations)', status: 'Active' },
+    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '28%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' },
     { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '48%', y: '60%', density: 'Active Integration (10 Stations)', status: 'Active' },
     { name: 'Bengaluru Station Node', zone: 'South Grid', x: '42%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
-    { name: 'Chennai Central Node', zone: 'South Grid', x: '54%', y: '78%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
-    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '74%', y: '44%', density: 'Active Integration (8 Stations)', status: 'Active' }
+    { name: 'Chennai Central Node', zone: 'South Grid', x: '54%', y: '76%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
+    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '74%', y: '42%', density: 'Active Integration (8 Stations)', status: 'Active' }
   ];
 
   return (
@@ -355,21 +347,22 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Spatial Map Display (7 Columns) */}
-              <div className="lg:col-span-7 h-[440px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-4">
+              <div className="lg:col-span-7 h-[460px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-4">
                 <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(#2563EB 1.2px, transparent 1.2px)', backgroundSize: '28px 28px' }} />
                 
-                {/* SVG India Authentic Monochrome Silhouette */}
-                <svg viewBox="0 0 400 480" className="w-[90%] h-[90%] max-w-[360px] opacity-25 absolute pointer-events-none drop-shadow-md">
+                {/* SVG India Continuous Contour Silhouette Matching Reference Image */}
+                <svg viewBox="0 0 500 580" className="w-[92%] h-[92%] max-w-[420px] opacity-25 absolute pointer-events-none drop-shadow-md">
                   <path 
-                    d="M 160,25 C 165,35 175,45 185,55 L 180,75 L 195,85 L 220,80 L 235,95 L 260,95 L 270,105 L 320,115 L 340,130 L 375,130 L 385,145 L 360,155 L 340,150 L 310,165 L 290,160 L 280,180 L 290,200 L 260,210 L 245,235 L 240,265 L 215,310 L 195,360 L 190,420 L 185,445 L 180,445 L 165,395 L 145,355 L 135,320 L 120,295 L 105,260 L 95,235 L 75,225 L 50,220 L 30,205 L 25,185 L 45,175 L 70,170 L 95,155 L 105,135 L 125,120 L 130,95 L 140,75 L 150,55 Z" 
+                    d="M 170,30 C 160,15 180,5 200,5 C 220,5 240,15 235,35 C 230,50 210,60 215,75 C 220,90 240,85 245,105 C 255,115 270,110 285,120 C 300,130 320,135 335,135 C 350,135 365,130 380,120 C 390,110 410,115 420,130 C 435,145 440,165 425,180 C 410,195 420,215 405,230 C 390,245 380,225 370,205 C 360,190 350,185 340,195 C 335,215 345,235 330,255 C 315,275 300,295 280,325 C 260,355 240,395 220,445 C 210,475 205,515 200,530 C 195,530 190,515 185,485 C 175,435 160,385 145,335 C 130,285 125,265 120,245 C 115,235 100,230 90,235 C 70,245 60,230 65,215 C 70,200 95,205 100,190 C 105,175 90,165 85,155 C 80,145 100,135 115,140 C 130,145 140,125 145,105 C 150,85 160,55 170,30 Z" 
                     fill="#2563EB" 
                     stroke="#1D4ED8" 
-                    strokeWidth="1.5"
+                    strokeWidth="2.5"
                     strokeLinejoin="round"
+                    strokeLinecap="round"
                   />
                 </svg>
 
-                {/* Subtile Telemetry Connection Lines */}
+                {/* Subtle Telemetry Connection Lines */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
                   {locationsRoadmap.map((loc, idx) => {
                     if (idx === 0) return null;
