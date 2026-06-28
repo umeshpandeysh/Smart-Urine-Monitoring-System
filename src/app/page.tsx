@@ -37,12 +37,12 @@ export default function HomePage() {
   const [selectedMapNode, setSelectedMapNode] = useState(0);
 
   const locationsRoadmap = [
-    { name: 'New Delhi Node', zone: 'North Grid', x: '45%', y: '25%', density: 'High Density (14 Stations)', status: 'Active' },
-    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '25%', y: '55%', density: 'High Density (22 Stations)', status: 'Active' },
-    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '75%', y: '40%', density: 'Active Integration (8 Stations)', status: 'Active' },
-    { name: 'Chennai Central Node', zone: 'South Grid', x: '50%', y: '75%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
-    { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '45%', y: '52%', density: 'Active Integration (10 Stations)', status: 'Active' },
-    { name: 'Bengaluru Station Node', zone: 'South Grid', x: '35%', y: '68%', density: 'High Density (18 Stations)', status: 'Active' }
+    { name: 'New Delhi Node', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
+    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '30%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' },
+    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '72%', y: '42%', density: 'Active Integration (8 Stations)', status: 'Active' },
+    { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '46%', y: '58%', density: 'Active Integration (10 Stations)', status: 'Active' },
+    { name: 'Bengaluru Station Node', zone: 'South Grid', x: '40%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
+    { name: 'Chennai Central Node', zone: 'South Grid', x: '52%', y: '76%', density: 'Expanding Coverage (12 Stations)', status: 'Active' }
   ];
 
   return (
@@ -281,8 +281,8 @@ export default function HomePage() {
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#0B1B33 1.2px, transparent 1.2px)', backgroundSize: '24px 24px' }} />
                 
                 {/* SVG India Abstract Contour */}
-                <svg viewBox="0 0 200 200" className="w-[85%] h-[85%] opacity-10 absolute pointer-events-none">
-                  <path d="M70,20 L100,5 L115,25 L120,45 L135,55 L160,65 L170,85 L145,100 L155,120 L125,120 L115,145 L105,175 L95,195 L85,170 L80,140 L70,120 L55,115 L40,105 L25,95 L30,75 L45,65 L50,45 Z" fill="#0B1B33" />
+                <svg viewBox="0 0 200 200" className="w-[85%] h-[85%] opacity-15 absolute pointer-events-none">
+                  <path d="M75,15 L95,12 L105,28 L115,40 L130,50 L155,58 L168,78 L150,95 L158,115 L135,122 L118,140 L102,172 L92,192 L82,168 L78,138 L68,118 L52,112 L38,102 L22,92 L28,72 L42,62 L48,42 Z" fill="#0B1B33" stroke="#2563EB" strokeWidth="0.5" />
                 </svg>
 
                 {/* Map Connections */}
@@ -295,7 +295,7 @@ export default function HomePage() {
                         key={idx}
                         x1={prev.x} y1={prev.y}
                         x2={loc.x} y2={loc.y}
-                        stroke="#2563EB" strokeWidth="0.8" strokeDasharray="3 3" className="opacity-45"
+                        stroke="#2563EB" strokeWidth="1" strokeDasharray="4 4" className="opacity-40"
                       />
                     );
                   })}
