@@ -65,25 +65,24 @@ export default function HowItWorksPage() {
         </div>
 
         {/* Visual Steps Stack */}
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-6">
           {steps.map((step, idx) => (
             <div 
               key={idx}
-              className="p-6 md:p-8 rounded-3xl border border-[#E5E7EB] bg-white shadow-sm flex flex-col md:flex-row gap-6 items-start hover:shadow-md transition-shadow duration-300"
+              className="p-6 md:p-7 rounded-3xl border border-gray-100 bg-white shadow-sm flex flex-col md:flex-row gap-6 items-center hover:shadow-md transition-all duration-300 hover:border-gray-200"
             >
               {/* Number and Icon Badge */}
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border ${step.bg}`}>
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border shadow-sm ${step.bg}`}>
                 {step.icon}
               </div>
 
               {/* Content */}
-              <div className="space-y-2 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-[#6B7280] uppercase tracking-wider">{step.step}</span>
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#E5E7EB]" />
-                  <h3 className="font-card text-lg md:text-xl">{step.title}</h3>
+              <div className="space-y-1.5 flex-1 text-left">
+                <div className="flex items-center gap-2.5">
+                  <span className="font-mono text-[11px] font-extrabold text-[#2563EB] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">{step.step}</span>
+                  <h3 className="font-bold text-lg md:text-xl text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>{step.title}</h3>
                 </div>
-                <p className="font-body text-sm text-[#6B7280] font-light leading-relaxed">
+                <p className="text-sm text-gray-500 leading-relaxed pt-0.5">
                   {step.desc}
                 </p>
               </div>

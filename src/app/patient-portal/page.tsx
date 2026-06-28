@@ -253,8 +253,15 @@ export default function PatientPortalPage() {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-gray-500 font-mono">
-              <User className="w-3.5 h-3.5 text-[#2563EB]" /> {profile?.name || 'Aarav Sharma'}
+            <button 
+              disabled 
+              title="Patient onboarding feature coming soon"
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono font-bold bg-gray-100 text-gray-400 border border-gray-200 px-3 py-1.5 rounded-xl cursor-not-allowed opacity-80"
+            >
+              <User className="w-3.5 h-3.5" /> + New Patient <span className="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded ml-1">Coming Soon</span>
+            </button>
+            <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-gray-500 font-mono">
+              <User className="w-3.5 h-3.5 text-[#2563EB]" /> {profile?.first_name ? `${profile.first_name} ${profile.last_name || ''}`.trim() : 'Aarav Sharma'}
             </span>
             <Link href="/" className="text-xs font-mono font-semibold text-gray-500 hover:text-[#0B1B33]">
               Exit Journal

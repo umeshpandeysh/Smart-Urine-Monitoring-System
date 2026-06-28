@@ -180,22 +180,24 @@ export default function TechnologyPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {SENSORS.map((s, idx) => (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: s.bg }}>
-                    <s.icon className="w-6 h-6" style={{ color: s.color }} />
+              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition-shadow h-full space-y-4">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: s.bg }}>
+                      <s.icon className="w-6 h-6" style={{ color: s.color }} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[#0B1B33] text-base" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>{s.name}</h3>
+                      <p className="text-[11px] font-mono text-gray-400">{s.reading}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-[#0B1B33] text-base">{s.name}</h3>
-                    <p className="text-xs font-mono text-gray-400">{s.reading}</p>
+                  <div className="space-y-2">
+                    <p className="text-sm font-bold text-[#0B1B33]">{s.what}</p>
+                    <p className="text-xs text-[#2563EB] font-semibold bg-blue-50/80 border border-blue-100 px-3 py-1 rounded-full w-fit">{s.range}</p>
+                    <p className="text-xs md:text-sm text-[#6B7280] leading-relaxed pt-1">{s.why}</p>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold text-[#0B1B33]">{s.what}</p>
-                  <p className="text-xs text-[#2563EB] font-semibold bg-blue-50 px-3 py-1 rounded-full w-fit">{s.range}</p>
-                  <p className="text-sm text-[#6B7280] leading-relaxed">{s.why}</p>
                 </div>
               </div>
             ))}
