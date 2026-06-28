@@ -235,25 +235,27 @@ export default function HomePage() {
         {/* ══════════════════════════════════════════════════
             WHAT CAN UROSENSE DETECT
         ══════════════════════════════════════════════════ */}
-        <section className="bg-white py-20 md:py-24">
+        <section className="bg-white py-20 md:py-24 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
-            <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-xs font-semibold text-[#0D9488] uppercase tracking-wider">Detection Capabilities</span>
-              <h2 className="font-bold text-[#0B1B33]" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', lineHeight: 1.2, letterSpacing: '-0.025em', fontFamily: 'var(--font-plus-jakarta), var(--font-manrope), sans-serif' }}>
+            <div className="text-center max-w-2xl mx-auto space-y-3">
+              <span className="text-xs font-mono font-bold text-[#0D9488] uppercase tracking-widest bg-teal-50 px-3 py-1 rounded-full border border-teal-100">Detection Capabilities</span>
+              <h2 className="font-extrabold text-[#0B1B33] text-3xl md:text-5xl tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                 What Can UroSense Detect?
               </h2>
-              <p className="text-gray-500 text-sm">
-                Six critical health markers analysed in every scan — each explained in plain language.
+              <p className="text-gray-500 text-base leading-relaxed">
+                Six critical biological health markers analysed in every scan — translated into plain language.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
               {DETECTS.map((d) => (
-                <div key={d.name} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 space-y-3 transition-all duration-300 hover:border-gray-300 cursor-default">
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: d.bg }}>
-                    <d.icon className="w-4.5 h-4.5" style={{ color: d.color }} />
+                <div key={d.name} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4 transition-all duration-300 hover:shadow-md hover:border-blue-200 cursor-default flex flex-col justify-between h-full group">
+                  <div className="space-y-3">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110" style={{ background: d.bg }}>
+                      <d.icon className="w-6 h-6" style={{ color: d.color }} />
+                    </div>
+                    <h3 className="font-bold text-[#0B1B33] text-base" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>{d.name}</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed pt-1">{d.note}</p>
                   </div>
-                  <h3 className="font-bold text-[#0B1B33] text-sm">{d.name}</h3>
-                  <p className="text-gray-500 text-xs leading-relaxed">{d.note}</p>
                 </div>
               ))}
             </div>
@@ -398,17 +400,21 @@ export default function HomePage() {
         {/* ══════════════════════════════════════════════════
             CTA
         ══════════════════════════════════════════════════ */}
-        <section className="bg-[#0B1B33] py-16 md:py-20">
-          <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
-            <h2 className="font-bold text-white leading-tight" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', letterSpacing: '-0.025em', fontFamily: 'var(--font-plus-jakarta), var(--font-manrope), sans-serif' }}>
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#0B1B33] via-[#0F284B] to-[#0B1B33] py-20 md:py-28 text-white border-t border-gray-800">
+          <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#2563EB 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+          <div className="relative max-w-4xl mx-auto px-6 text-center space-y-8 z-10">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 font-mono text-xs font-bold uppercase tracking-wider">
+              Secure Telemetry Access
+            </span>
+            <h2 className="font-extrabold text-white text-3xl md:text-5xl leading-tight tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
               Ready to See Your Health Report?
             </h2>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-md mx-auto">
-              Log in with your phone number to access your complete report history, track trends over time, and understand what your body is telling you.
+            <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-lg mx-auto">
+              Log in with your phone number to access your complete report history, track biological trends over time, and understand what your body is telling you.
             </p>
-            <div className="flex justify-center pt-2">
-              <Link href="/login" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#2563EB] text-white font-semibold text-sm hover:bg-[#1d4ed8] shadow-lg shadow-blue-900/30 transition-all duration-200 hover:-translate-y-0.5">
-                Access Patient Portal <ArrowRight className="w-4 h-4" />
+            <div className="flex justify-center pt-4">
+              <Link href="/login" className="inline-flex items-center gap-3 px-9 py-4 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-extrabold text-base hover:from-[#1D4ED8] hover:to-[#1E40AF] shadow-2xl shadow-blue-500/40 transition-all duration-300 hover:scale-105">
+                Access Patient Portal <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>
