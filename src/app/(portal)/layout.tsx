@@ -13,7 +13,7 @@ export default async function PortalLayout({
   const initials = `${profile?.first_name?.[0] || 'U'}${profile?.last_name?.[0] || 'P'}`.toUpperCase();
   const fullName = profile?.first_name 
     ? `${profile.first_name} ${profile.last_name || ''}` 
-    : 'UroSense Patient';
+    : 'UroSense User';
   const role = profile?.role || 'patient';
 
   return (

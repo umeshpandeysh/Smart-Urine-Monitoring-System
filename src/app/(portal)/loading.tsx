@@ -12,7 +12,7 @@ export default function Loading() {
         <p className="text-xs font-bold text-[#0B1B33] uppercase tracking-wider animate-pulse" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
           Loading Health Data
         </p>
-        <p className="text-[11px] text-gray-400 font-medium">Securing patient connection...</p>
+        <p className="text-[11px] text-gray-400 font-medium">Securing user connection...</p>
       </div>
     </div>
   );

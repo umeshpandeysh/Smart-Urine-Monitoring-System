@@ -255,7 +255,7 @@ export default function HardwareTestPage() {
                       target="_blank"
                       className="text-xs font-semibold underline text-emerald-700 hover:text-emerald-800 flex items-center gap-1 mt-1"
                     >
-                      View Patient Portal Report &rarr;
+                      View User Portal Report &rarr;
                     </Link>
                   </div>
                 )}
