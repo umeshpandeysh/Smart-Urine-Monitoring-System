@@ -2,176 +2,236 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/landing/navbar';
 import Footer from '@/components/landing/footer';
 import {
-  Target, Eye, AlertCircle, Sparkles, TrendingUp,
-  FlaskConical, Compass, ArrowRight, CheckCircle2
+  Target, Eye, Shield, Cpu, Activity, ArrowRight,
+  Database, Globe, HeartPulse, Sparkles
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'About — UroSense Product Story',
-  description: 'The UroSense story: Reimagining preventive healthcare through non-invasive, automated urinalysis kiosks across public infrastructure.',
+  title: 'About UroSense — Preventive Health Technology',
+  description: 'UroSense is a smart urine biomonitoring ecosystem making preventive health screening fast, accessible, and non-invasive through AI-powered public diagnostic stations.',
 };
 
 export default function AboutPage() {
-  const storyBlocks = [
-    {
-      badge: 'THE PROBLEM',
-      title: 'Healthcare Begins Too Late',
-      desc: 'Traditional healthcare models rely on symptomatic detection — individuals visit hospitals only after physical illness manifests. Crucial early indicators of metabolic stress, kidney strain, and dehydration remain undetected for months.',
-      icon: AlertCircle,
-      color: '#EF4444',
-      bg: '#FEF2F2',
-    },
-    {
-      badge: 'THE SOLUTION',
-      title: 'Automated Biomonitoring Kiosks',
-      desc: 'UroSense embeds medical-grade spectrograph sensors directly into everyday transit hubs, corporate campuses, and clinics. Users receive instant, touchless urinalysis trend reports in under 60 seconds.',
-      icon: Sparkles,
-      color: '#2563EB',
-      bg: '#EFF6FF',
-    },
-    {
-      badge: 'THE INNOVATION',
-      title: 'Zero-Touch Micro-Fluidics',
-      desc: 'Combining optical spectrophotometry with solid-state pH and TDS sensors. Self-cleaning pathways reset in under 800 milliseconds, ensuring zero physical contact and absolute session privacy.',
-      icon: FlaskConical,
-      color: '#7C3AED',
-      bg: '#F5F3FF',
-    },
-    {
-      badge: 'THE IMPACT',
-      title: 'Continuous Preventive Baseline',
-      desc: 'Shifting population health from reactive treatment to proactive monitoring. Early biological feedback empowers individuals and healthcare operators to address wellness risks before clinical hospitalization.',
-      icon: TrendingUp,
-      color: '#059669',
-      bg: '#ECFDF5',
-    },
-  ];
-
-  const roadmapPillars = [
-    { phase: 'Phase 1', title: 'Municipal Kiosk Infrastructure', detail: 'Deploying solid-state hardware across 10 major transit hubs and airport terminals.' },
-    { phase: 'Phase 2', title: 'AI Predictive Analysis', detail: 'Cross-referencing multi-month biomarker trends with personalized hydration targets.' },
-    { phase: 'Phase 3', title: 'Unified Digital Health Interoperability', detail: 'Seamless integration with national digital health accounts (ABDM / ABHA ID).' },
-  ];
-
   return (
     <div className="min-h-screen bg-white text-[#0B1B33]" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
       <Navbar />
 
-      <main className="pt-28 pb-24 max-w-6xl mx-auto px-6 md:px-12 space-y-20">
+      <main className="pt-32 pb-28 max-w-6xl mx-auto px-6 md:px-12 space-y-24">
 
-        {/* Hero Intro */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#0B1B33]"
+        {/* SECTION 1: Hero Section */}
+        <div className="max-w-3xl space-y-6">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-[#0B1B33]"
             style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
             About UroSense
           </h1>
-          <p className="text-base text-gray-500 max-w-xl mx-auto leading-relaxed">
-            Transforming everyday biological indicators into actionable health insights before symptoms appear.
+          <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-normal">
+            UroSense is a smart urine biomonitoring ecosystem designed to make preventive health screening fast, accessible, and non-invasive through AI-powered public diagnostic stations.
           </p>
         </div>
 
-        {/* Mission & Vision Twin Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-[#0B1B33] text-white rounded-3xl p-8 md:p-10 space-y-4 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-[#2563EB]/20 rounded-full blur-2xl pointer-events-none" />
-            <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-blue-400">
-              <Target className="w-6 h-6" />
-            </div>
-            <span className="text-xs font-mono text-blue-400 uppercase tracking-widest block">OUR MISSION</span>
-            <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-              Democratize Preventive Biomonitoring
-            </h2>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              To make high-precision physiological monitoring accessible to everyone by integrating non-invasive diagnostic checkpoints into existing daily routines.
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-[#EFF6FF] to-white border border-blue-100 rounded-3xl p-8 md:p-10 space-y-4 shadow-sm relative overflow-hidden">
-            <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center text-[#2563EB]">
-              <Eye className="w-6 h-6" />
-            </div>
-            <span className="text-xs font-mono text-[#2563EB] uppercase tracking-widest block">OUR VISION</span>
-            <h2 className="text-2xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-              A World of Early Health Clarity
-            </h2>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              A future where metabolic risks, kidney strain, and hydration deficiencies are identified weeks before clinical hospitalization becomes necessary.
-            </p>
-          </div>
-        </div>
-
-        {/* Problem → Solution → Innovation → Impact Matrix */}
-        <div className="space-y-8">
-          <div className="text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-              The Four Pillars of UroSense
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {storyBlocks.map((block) => {
-              const Icon = block.icon;
-              return (
-                <div key={block.title} className="bg-white border border-gray-100 rounded-2xl p-7 shadow-sm space-y-4 hover:shadow-md transition-all">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold tracking-wider px-3 py-1 rounded-full" style={{ background: block.bg, color: block.color }}>
-                      {block.badge}
-                    </span>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: block.bg }}>
-                      <Icon className="w-5 h-5" style={{ color: block.color }} />
-                    </div>
-                  </div>
-                  <h3 className="font-bold text-[#0B1B33] text-xl" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                    {block.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {block.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Future Roadmap Section */}
-        <div className="bg-[#F8FAFC] border border-gray-100 rounded-3xl p-8 md:p-12 space-y-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[#2563EB] uppercase tracking-widest mb-1">
-                <Compass className="w-4 h-4" /> Strategic Horizon
+        {/* SECTION 2: Why We Built It */}
+        <div className="space-y-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#0B1B33] tracking-tight"
+            style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+            Why We Built It
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-[#F8FAFC] border border-gray-100 rounded-2xl p-8 space-y-4 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
+                <HeartPulse className="w-5 h-5" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                Technology & Execution Roadmap
-              </h2>
+              <h3 className="font-bold text-[#0B1B33] text-xl" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                The Problem
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Traditional healthcare is reactive and delayed. Critical biological indicators of metabolic stress and hydration deficiencies go unnoticed until physical symptoms manifest.
+              </p>
+            </div>
+
+            <div className="bg-[#F8FAFC] border border-gray-100 rounded-2xl p-8 space-y-4 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-[#0B1B33] text-xl" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                The Solution
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Automated, non-invasive biomonitoring kiosks integrated into public infrastructure. Micro-fluidic sensors deliver accurate biological trend analysis in under 60 seconds.
+              </p>
+            </div>
+
+            <div className="bg-[#F8FAFC] border border-gray-100 rounded-2xl p-8 space-y-4 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <Activity className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-[#0B1B33] text-xl" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                The Impact
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Shifting population wellness from reactive hospital visits to continuous preventive insights. Early detection empowers individuals to take proactive health ownership.
+              </p>
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {roadmapPillars.map((pillar) => (
-              <div key={pillar.phase} className="bg-white border border-gray-200/60 rounded-2xl p-6 space-y-3 shadow-sm">
-                <span className="text-xs font-mono font-bold text-[#2563EB] bg-blue-50 px-2.5 py-1 rounded-md inline-block">
-                  {pillar.phase}
+        {/* SECTION 3: How UroSense Works (Horizontal Timeline) */}
+        <div className="space-y-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#0B1B33] tracking-tight"
+            style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+            How UroSense Works
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {[
+              { num: '01', title: 'Collect Sample', desc: 'Touchless optical micro-fluidic isolation' },
+              { num: '02', title: 'Sensor Analysis', desc: 'Simultaneous 5-biomarker spectrograph pass' },
+              { num: '03', title: 'AI Interpretation', desc: 'Clinical baseline evaluation in 3 seconds' },
+              { num: '04', title: 'Health Report', desc: 'Ephemeral QR token encrypted delivery' },
+              { num: '05', title: 'Personal Journal', desc: 'Long-term trend tracking in private profile' },
+            ].map((step, idx) => (
+              <div key={step.num} className="bg-white border border-gray-100 rounded-2xl p-6 space-y-3 shadow-sm hover:border-blue-200 transition-colors">
+                <span className="text-xs font-mono font-bold text-[#2563EB] bg-blue-50 px-2 py-1 rounded-md">
+                  {step.num}
                 </span>
                 <h4 className="font-bold text-[#0B1B33] text-base" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                  {pillar.title}
+                  {step.title}
                 </h4>
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  {pillar.detail}
+                  {step.desc}
                 </p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Inspirational Vision Callout */}
-        <div className="bg-gradient-to-br from-[#F8FAFC] to-[#EFF6FF] border border-blue-100/60 rounded-3xl p-8 sm:p-12 text-center">
-          <blockquote className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0B1B33] max-w-2xl mx-auto leading-snug tracking-tight"
+        {/* SECTION 4: Mission & Vision */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-[#0B1B33] text-white rounded-3xl p-8 md:p-10 space-y-4 shadow-xl flex flex-col justify-between h-full">
+            <div className="space-y-4">
+              <div className="w-10 h-10 rounded-xl bg-white/10 text-blue-400 flex items-center justify-center">
+                <Target className="w-5 h-5" />
+              </div>
+              <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Mission
+              </h3>
+              <p className="text-gray-300 text-base leading-relaxed">
+                To democratize preventive healthcare by deploying accessible, non-invasive biomonitoring checkpoints across daily public infrastructure.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-[#F8FAFC] border border-gray-100 rounded-3xl p-8 md:p-10 space-y-4 shadow-sm flex flex-col justify-between h-full">
+            <div className="space-y-4">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center">
+                <Eye className="w-5 h-5" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Vision
+              </h3>
+              <p className="text-gray-600 text-base leading-relaxed">
+                A future where early biological indicators eliminate preventable metabolic conditions before hospital intervention is needed.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 5: Core Principles */}
+        <div className="space-y-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#0B1B33] tracking-tight"
             style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-            &ldquo;Healthcare shouldn&apos;t begin after symptoms appear. It should begin before they do.&rdquo;
-          </blockquote>
-          <p className="text-xs font-mono text-[#2563EB] font-bold uppercase tracking-widest mt-6">
-            — The UroSense Vision
-          </p>
+            Core Principles
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-3 shadow-sm">
+              <Sparkles className="w-5 h-5 text-[#2563EB]" />
+              <h4 className="font-bold text-[#0B1B33] text-base" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Preventive Healthcare
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Focusing on early biological detection to maintain health before clinical symptoms appear.
+              </p>
+            </div>
+
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-3 shadow-sm">
+              <Shield className="w-5 h-5 text-emerald-600" />
+              <h4 className="font-bold text-[#0B1B33] text-base" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Privacy First
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Zero-persistent hardware storage and AES-256 encrypted session transmission protect your records.
+              </p>
+            </div>
+
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-3 shadow-sm">
+              <Cpu className="w-5 h-5 text-purple-600" />
+              <h4 className="font-bold text-[#0B1B33] text-base" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                AI Clinical Intelligence
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Converting complex multi-sensor spectrograph data into clear, actionable wellness guidance.
+              </p>
+            </div>
+
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-3 shadow-sm">
+              <Globe className="w-5 h-5 text-amber-600" />
+              <h4 className="font-bold text-[#0B1B33] text-base" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Accessible Screening
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Touchless kiosks positioned in transit terminals and hubs for seamless routine health tracking.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 6: Future Vision */}
+        <div className="bg-[#F8FAFC] border border-gray-100 rounded-3xl p-8 md:p-12 space-y-8">
+          <div className="max-w-2xl space-y-3">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B1B33] tracking-tight"
+              style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+              Building India&apos;s Next Preventive Health Network
+            </h2>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Our engineering roadmap expands smart biomonitoring across public transit, corporate centers, and smart city infrastructure.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-2 shadow-sm">
+              <h4 className="font-bold text-[#0B1B33] text-sm" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Nationwide Kiosks
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Deploying solid-state hardware stations across major transit hubs.
+              </p>
+            </div>
+
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-2 shadow-sm">
+              <h4 className="font-bold text-[#0B1B33] text-sm" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Smarter AI Diagnostics
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Refining predictive algorithms with multi-month hydration and metabolic baselines.
+              </p>
+            </div>
+
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-2 shadow-sm">
+              <h4 className="font-bold text-[#0B1B33] text-sm" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Population Health
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Aggregating anonymous municipal trends for public health insights.
+              </p>
+            </div>
+
+            <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-2 shadow-sm">
+              <h4 className="font-bold text-[#0B1B33] text-sm" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Digital Integration
+              </h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Linking seamlessly with national digital health records for unified care.
+              </p>
+            </div>
+          </div>
         </div>
 
       </main>
