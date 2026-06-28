@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { 
   Activity, Calendar, MapPin, FileText, Droplets, Shield, 
-  AlertTriangle, CheckCircle2, Heart, Download, Clock, BookOpen, 
+  AlertTriangle, Heart, Download, Clock, BookOpen, 
   Sparkles, ToggleLeft, ToggleRight, User, TrendingUp, Info
 } from 'lucide-react';
 import Link from 'next/link';
@@ -83,7 +83,7 @@ export default function PatientPortalPage() {
   };
 
   // Safe PDF download handler
-  const handlePdfDownload = (id: string, date: string, location: string) => {
+  const handlePdfDownload = (id: string, _date: string, _location: string) => {
     window.open(`/api/v1/reports/${id}/pdf`, '_blank');
   };
 

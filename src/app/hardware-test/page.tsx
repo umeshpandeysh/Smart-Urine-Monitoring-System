@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  Server, Cpu, Wifi, Database, Play, RefreshCw, CheckCircle2, AlertTriangle, XCircle, Info, Heart
+  Server, Cpu, Wifi, Database, Play, RefreshCw, CheckCircle2, AlertTriangle, XCircle
 } from 'lucide-react';
 import Link from 'next/link';
 

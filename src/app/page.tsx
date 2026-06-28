@@ -6,8 +6,8 @@ import Link from 'next/link';
 import Navbar from '@/components/landing/navbar';
 import Footer from '@/components/landing/footer';
 import {
-  ArrowRight, QrCode, Smartphone, FileText, Activity,
-  Droplets, Shield, MapPin, CheckCircle2,
+  ArrowRight, Activity,
+  Droplets, Shield, CheckCircle2,
   FlaskConical, Heart, Eye, ChevronDown, ChevronUp
 } from 'lucide-react';
 
