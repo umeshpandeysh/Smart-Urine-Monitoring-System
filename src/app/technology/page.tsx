@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/landing/navbar';
 import Footer from '@/components/landing/footer';
-import { Activity, CheckCircle2, FlaskConical, Thermometer, Eye, Droplets, Zap, Shield, Palette } from 'lucide-react';
+import { Activity, CheckCircle2, FlaskConical, Thermometer, Eye, Droplets, Zap, Shield, Palette, Sparkles, FileText, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Technology — UroSense',
@@ -117,24 +117,61 @@ export default function TechnologyPage() {
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
       <Navbar />
-      <main className="pt-24 pb-20 space-y-24">
+      <main className="pt-24 pb-20">
 
         {/* Hero */}
-        <section className="max-w-4xl mx-auto px-6 md:px-12 text-center space-y-6">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] text-sm font-semibold">
-            <Zap className="w-4 h-4" /> How It Works
-          </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#0B1B33] tracking-tight leading-tight">
+        <section className="max-w-4xl mx-auto px-6 md:px-12 text-center space-y-8 mb-14">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-[#0B1B33] tracking-tight leading-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
             Turning Urine into<br />
             <span className="text-[#2563EB]">Health Intelligence</span>
           </h1>
-          <p className="text-[#475569] text-lg max-w-2xl mx-auto leading-relaxed">
-            UroSense uses five embedded medical-grade sensors to analyse your urine at the point of use — no lab, no technician, no waiting. Here is how raw sensor data becomes a meaningful health report.
-          </p>
+
+          {/* Clean Minimal Visual Process Summary */}
+          <div className="pt-2">
+            <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5 p-3.5 sm:p-4 rounded-2xl bg-[#F8FAFC] border border-gray-100 shadow-sm">
+              {/* Step 1: Collect */}
+              <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-white shadow-sm border border-gray-100/80">
+                <div className="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center text-[#0D9488]">
+                  <Droplets className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-semibold text-[#0B1B33]">Collect</span>
+              </div>
+
+              <ArrowRight className="w-4 h-4 text-gray-300 flex-shrink-0" />
+
+              {/* Step 2: Analyze */}
+              <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-white shadow-sm border border-gray-100/80">
+                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#2563EB]">
+                  <Zap className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-semibold text-[#0B1B33]">Analyze</span>
+              </div>
+
+              <ArrowRight className="w-4 h-4 text-gray-300 flex-shrink-0" />
+
+              {/* Step 3: Interpret */}
+              <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-white shadow-sm border border-gray-100/80">
+                <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-[#7C3AED]">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-semibold text-[#0B1B33]">Interpret</span>
+              </div>
+
+              <ArrowRight className="w-4 h-4 text-gray-300 flex-shrink-0" />
+
+              {/* Step 4: Health Report */}
+              <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-white shadow-sm border border-gray-100/80">
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-[#059669]">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-semibold text-[#0B1B33]">Health Report</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Analysis Pipeline */}
-        <section className="bg-[#F8FAFC] py-20">
+        <section className="bg-[#F8FAFC] py-20 mb-24">
           <div className="max-w-5xl mx-auto px-6 md:px-12 space-y-12">
             <div className="text-center space-y-3">
               <span className="text-xs font-mono text-[#2563EB] uppercase tracking-wider">The Process</span>
@@ -169,7 +206,7 @@ export default function TechnologyPage() {
         </section>
 
         {/* Sensors Section */}
-        <section className="max-w-6xl mx-auto px-6 md:px-12 space-y-12">
+        <section className="max-w-6xl mx-auto px-6 md:px-12 space-y-12 mb-24">
           <div className="text-center space-y-3">
             <span className="text-xs font-mono text-[#0D9488] uppercase tracking-wider">The Hardware</span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B1B33] tracking-tight">
@@ -203,7 +240,7 @@ export default function TechnologyPage() {
         </section>
 
         {/* What Can UroSense Detect */}
-        <section className="bg-[#0B1B33] py-20">
+        <section className="bg-[#0B1B33] py-20 mb-24">
           <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-12">
             <div className="text-center space-y-3">
               <span className="text-xs font-mono text-[#0D9488] uppercase tracking-wider">Detection Capabilities</span>
