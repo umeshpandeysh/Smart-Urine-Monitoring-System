@@ -39,6 +39,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/admin/dashboard',
+        destination: '/admin-center',
+        permanent: true,
+      },
+      {
+        source: '/user-portal',
+        destination: '/patient-portal',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
