@@ -13,13 +13,70 @@ import {
 
 /* ─── HOW IT WORKS — Apple-style process visualization data ──────────────── */
 const STEPS = [
-  { step: '01', color: '#2563EB', bg: '#EFF6FF', title: 'Locate Station', desc: 'Find a UroSense-enabled checkpoint at transit terminals, corporate centers, or healthcare facilities.' },
-  { step: '02', color: '#0D9488', bg: '#F0FDFA', title: 'Submit Sample', desc: 'Use the system naturally. Built-in optoelectronic grids isolate and register a micro-volume sample touchlessly.' },
-  { step: '03', color: '#7C3AED', bg: '#F5F3FF', title: 'Sensor Analysis', desc: 'Four solid-state biosensors evaluate pH, ionic density, temperature, and turbidity indexes within 3 seconds.' },
-  { step: '04', color: '#DB2777', bg: '#FDF2F8', title: 'Scan QR Code', desc: 'An ephemeral QR token is generated locally on the station display, ensuring direct and private linkage.' },
-  { step: '05', color: '#D97706', bg: '#FFFBEB', title: 'Secure OTP Verify', desc: 'Confirm biological ownership through encrypted mobile verification codes. No persistent data stays on the device.' },
-  { step: '06', color: '#059669', bg: '#ECFDF5', title: 'Clinical Insights', desc: 'Instantly load your results translated into plain language metrics. Avoid clinical terminology jargon.' },
-  { step: '07', color: '#6366F1', bg: '#EEF2FF', title: 'Track History', desc: 'Store your measurements securely inside your personal biological health journal. Sync to track baseline trends.' },
+  { 
+    step: '01', color: '#2563EB', bg: '#EFF6FF', title: 'Locate Station', desc: 'Find a UroSense-enabled checkpoint at transit terminals, corporate centers, or healthcare facilities.',
+    details: [
+      'Interactive map helps navigate to the nearest active UroSense kiosk',
+      'Real-time status tracking verifies station availability before arrival',
+      'Integrated in high-traffic transit hubs, hospitals, and wellness centers',
+      'Touchless hardware interface operates 24/7 with zero waiting times'
+    ]
+  },
+  { 
+    step: '02', color: '#0D9488', bg: '#F0FDFA', title: 'Submit Sample', desc: 'Use the system naturally. Built-in optoelectronic grids isolate and register a micro-volume sample touchlessly.',
+    details: [
+      'Touchless optical sensor detects sample presence automatically',
+      'Micro-fluidic sampling channel extracts under 1mL for instant analysis',
+      'Self-cleaning fluidic pathway flushes clean between uses',
+      'Zero physical contact required during collection process'
+    ]
+  },
+  { 
+    step: '03', color: '#7C3AED', bg: '#F5F3FF', title: 'Sensor Analysis', desc: 'Four solid-state biosensors evaluate pH, ionic density, temperature, and turbidity indexes within 3 seconds.',
+    details: [
+      'Multi-wavelength optical spectrometry checks turbidity and clarity',
+      'Integrated solid-state electrochemical sensors measure precise pH',
+      'TDS sensor computes ionic concentration for hydration scoring',
+      'Patented biological algorithm evaluates metabolic indicator risk'
+    ]
+  },
+  { 
+    step: '04', color: '#DB2777', bg: '#FDF2F8', title: 'Scan QR Code', desc: 'An ephemeral QR token is generated locally on the station display, ensuring direct and private linkage.',
+    details: [
+      'QR code generated instantly by the kiosk display',
+      'Links the sample to your secure mobile session',
+      'No personal data stored inside the physical QR token',
+      'Valid for a limited time window for maximum privacy',
+      'Enables encrypted report retrieval on your personal phone'
+    ]
+  },
+  { 
+    step: '05', color: '#D97706', bg: '#FFFBEB', title: 'Secure OTP Verify', desc: 'Confirm biological ownership through encrypted mobile verification codes. No persistent data stays on the device.',
+    details: [
+      'One-Time Password sent directly to your registered mobile number',
+      'End-to-end encryption guarantees medical record privacy',
+      'Kiosk wipes local session memory immediately after verification',
+      'Strict HIPAA & DISHA compliant data transfer protocols'
+    ]
+  },
+  { 
+    step: '06', color: '#059669', bg: '#ECFDF5', title: 'Clinical Insights', desc: 'Instantly load your results translated into plain language metrics. Avoid clinical terminology jargon.',
+    details: [
+      'Results rendered in easy-to-understand color-coded indicators',
+      'Highlights risk factors for UTI, dehydration, and glucose spikes',
+      'Actionable dietary and hydration recommendations included',
+      'Option to export formatted PDF for doctor consultations'
+    ]
+  },
+  { 
+    step: '07', color: '#6366F1', bg: '#EEF2FF', title: 'Track History', desc: 'Store your measurements securely inside your personal biological health journal. Sync to track baseline trends.',
+    details: [
+      'Historical trend graphs visualize health metrics over weeks and months',
+      'Automated baseline tracking alerts you to sudden metric deviations',
+      'Secure cloud backup allows seamless cross-device synchronization',
+      'Full data ownership with instant export and deletion controls'
+    ]
+  },
 ];
 
 const DETECTS = [
@@ -38,11 +95,12 @@ export default function HomePage() {
 
   const locationsRoadmap = [
     { name: 'New Delhi Node', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
-    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '72%', y: '42%', density: 'Active Integration (8 Stations)', status: 'Active' },
-    { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '46%', y: '58%', density: 'Active Integration (10 Stations)', status: 'Active' },
-    { name: 'Chennai Central Node', zone: 'South Grid', x: '52%', y: '76%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
-    { name: 'Bengaluru Station Node', zone: 'South Grid', x: '40%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
-    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '30%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' }
+    { name: 'Ahmedabad Node', zone: 'West Grid', x: '26%', y: '46%', density: 'Active Integration (11 Stations)', status: 'Active' },
+    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '30%', y: '58%', density: 'High Density (22 Stations)', status: 'Active' },
+    { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '48%', y: '60%', density: 'Active Integration (10 Stations)', status: 'Active' },
+    { name: 'Bengaluru Station Node', zone: 'South Grid', x: '42%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
+    { name: 'Chennai Central Node', zone: 'South Grid', x: '54%', y: '78%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
+    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '74%', y: '44%', density: 'Active Integration (8 Stations)', status: 'Active' }
   ];
 
   return (
@@ -213,17 +271,35 @@ export default function HomePage() {
               </div>
 
               {/* Right: Apple Style Detailed Canvas */}
-              <div className="lg:col-span-7 bg-white border border-gray-100 rounded-2xl p-6 md:p-8 shadow-sm h-auto flex flex-col">
-                <div className="space-y-4">
+              <div className="lg:col-span-7 bg-white border border-gray-100 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between">
+                <div className="space-y-5">
                   <span className="text-[10px] font-mono text-[#2563EB] uppercase tracking-widest bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100 w-fit block font-bold">STEP {STEPS[activeStep].step} DETAILS</span>
-                  <h3 className="text-2xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                    {STEPS[activeStep].title}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {STEPS[activeStep].desc}
-                  </p>
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                      {STEPS[activeStep].title}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed mt-2">
+                      {STEPS[activeStep].desc}
+                    </p>
+                  </div>
+
+                  {/* Dynamic Educational Bullet Section */}
+                  <div className="pt-3 border-t border-gray-100 space-y-3">
+                    <h4 className="text-xs font-bold text-[#0B1B33] uppercase tracking-wider font-mono">
+                      What happens in this step
+                    </h4>
+                    <ul className="space-y-2">
+                      {STEPS[activeStep].details?.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-xs text-gray-600 font-normal leading-snug">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] flex-shrink-0 mt-1.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
+
+                <div className="mt-8 pt-4 border-t border-gray-100 flex items-center gap-3">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: STEPS[activeStep].color }} />
                   <span className="text-[11px] font-mono text-gray-500 font-medium">Clinical validation pipeline active.</span>
                 </div>
@@ -279,16 +355,22 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Spatial Map Display (7 Columns) */}
-              <div className="lg:col-span-7 h-[420px] relative border border-gray-200/80 rounded-2xl bg-white overflow-hidden shadow-sm flex items-center justify-center">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#0B1B33 1.2px, transparent 1.2px)', backgroundSize: '24px 24px' }} />
+              <div className="lg:col-span-7 h-[440px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-4">
+                <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(#2563EB 1.2px, transparent 1.2px)', backgroundSize: '28px 28px' }} />
                 
-                {/* SVG India Abstract Contour */}
-                <svg viewBox="0 0 200 200" className="w-[85%] h-[85%] opacity-20 absolute pointer-events-none">
-                  <path d="M75,15 L95,12 L105,28 L115,40 L130,50 L155,58 L168,78 L150,95 L158,115 L135,122 L118,140 L102,172 L92,192 L82,168 L78,138 L68,118 L52,112 L38,102 L22,92 L28,72 L42,62 L48,42 Z" fill="#2563EB" stroke="#1D4ED8" strokeWidth="0.8" />
+                {/* SVG India Authentic Monochrome Silhouette */}
+                <svg viewBox="0 0 400 480" className="w-[90%] h-[90%] max-w-[360px] opacity-25 absolute pointer-events-none drop-shadow-md">
+                  <path 
+                    d="M 160,25 C 165,35 175,45 185,55 L 180,75 L 195,85 L 220,80 L 235,95 L 260,95 L 270,105 L 320,115 L 340,130 L 375,130 L 385,145 L 360,155 L 340,150 L 310,165 L 290,160 L 280,180 L 290,200 L 260,210 L 245,235 L 240,265 L 215,310 L 195,360 L 190,420 L 185,445 L 180,445 L 165,395 L 145,355 L 135,320 L 120,295 L 105,260 L 95,235 L 75,225 L 50,220 L 30,205 L 25,185 L 45,175 L 70,170 L 95,155 L 105,135 L 125,120 L 130,95 L 140,75 L 150,55 Z" 
+                    fill="#2563EB" 
+                    stroke="#1D4ED8" 
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                  />
                 </svg>
 
-                {/* Map Connections */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                {/* Subtile Telemetry Connection Lines */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
                   {locationsRoadmap.map((loc, idx) => {
                     if (idx === 0) return null;
                     const prev = locationsRoadmap[idx - 1];
@@ -297,25 +379,25 @@ export default function HomePage() {
                         key={idx}
                         x1={prev.x} y1={prev.y}
                         x2={loc.x} y2={loc.y}
-                        stroke="#2563EB" strokeWidth="1.2" strokeDasharray="4 4" className="opacity-50"
+                        stroke="#2563EB" strokeWidth="1.5" strokeDasharray="4 4" className="opacity-60"
                       />
                     );
                   })}
                 </svg>
 
-                {/* Node Markers */}
+                {/* Telemetry Node Markers */}
                 {locationsRoadmap.map((node, idx) => {
                   const isSelected = selectedMapNode === idx;
                   return (
                     <button
                       key={idx}
                       onClick={() => setSelectedMapNode(idx)}
-                      className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group z-10"
+                      className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group z-20"
                       style={{ top: node.y, left: node.x }}
                     >
-                      <span className={`absolute -inset-2.5 rounded-full ${isSelected ? 'bg-blue-400/40 animate-ping' : 'bg-transparent'}`} />
-                      <span className={`w-4 h-4 rounded-full border-2 border-white shadow-md block transition-transform duration-300 group-hover:scale-125 ${
-                        isSelected ? 'bg-[#2563EB] scale-110' : 'bg-slate-400'
+                      <span className={`absolute -inset-3 rounded-full ${isSelected ? 'bg-blue-500/30 animate-ping' : 'bg-transparent'}`} />
+                      <span className={`w-4 h-4 rounded-full border-2 border-white shadow-lg block transition-transform duration-300 group-hover:scale-125 ${
+                        isSelected ? 'bg-[#2563EB] scale-125 ring-2 ring-blue-300' : 'bg-slate-500'
                       }`} />
                     </button>
                   );
