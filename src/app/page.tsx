@@ -52,43 +52,45 @@ export default function HomePage() {
 
         {/* ══════════════════════════════════════════════════
             HERO
+        {/* ══════════════════════════════════════════════════
+            HERO
         ══════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-white">
-          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#2563EB0a 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
-          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-[#2563EB]/5 blur-3xl pointer-events-none" />
+        <section className="relative overflow-hidden bg-[#071324] text-white py-16 md:py-24 border-b border-blue-900/50 shadow-2xl">
+          <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'radial-gradient(#2563EB 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
+          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
 
-          <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="relative max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
             {/* Left */}
-            <div className="space-y-7">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EFF6FF] border border-blue-100 text-[#2563EB] text-xs font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
-                Smart Urine Health Analysis
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-400/40 text-cyan-300 shadow-lg text-xs font-mono font-bold tracking-widest uppercase">
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+                Next-Gen AI Biomarker Intelligence
               </div>
 
-              <h1 className="font-bold text-[#0B1B33]" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4rem)', lineHeight: 1.1, letterSpacing: '-0.03em', fontFamily: 'var(--font-plus-jakarta), var(--font-manrope), sans-serif' }}>
+              <h1 className="font-extrabold text-white" style={{ fontSize: 'clamp(2.75rem, 6vw, 4.25rem)', lineHeight: 1.08, letterSpacing: '-0.03em', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                 Know Your Health<br />
-                <span className="text-[#2563EB]">Before Symptoms</span><br />
-                Appear
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">Before Symptoms</span><br />
+                Appear.
               </h1>
 
-              <p className="text-gray-500 max-w-md leading-relaxed" style={{ fontSize: '1.0625rem' }}>
-                UroSense is a smart urine analysis platform that helps detect hydration issues, glucose abnormalities, kidney stress indicators, and urinary health risks — within minutes, without a lab.
+              <p className="text-gray-300 max-w-lg leading-relaxed text-base md:text-lg font-normal">
+                UroSense bridges physical point-of-use hardware sensors with automated clinical intelligence — interpreting hydration, glucose, and kidney filtering load in under 60 seconds.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
-                <Link href="/login" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#2563EB] text-white font-semibold text-sm hover:bg-[#1d4ed8] shadow-md shadow-blue-200 transition-all duration-200 hover:-translate-y-0.5">
-                  Access My Health Report <ArrowRight className="w-4 h-4" />
+                <Link href="/login" className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-extrabold text-base hover:from-cyan-400 hover:to-blue-500 shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:scale-105">
+                  Access Health Report <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-5 pt-2">
+              <div className="flex flex-wrap gap-6 pt-4 border-t border-white/10">
                 {[
-                  { icon: CheckCircle2, text: 'Non-invasive & touchless' },
-                  { icon: Shield, text: 'OTP-verified privacy' },
-                  { icon: Heart, text: 'Clinically informed results' },
+                  { icon: CheckCircle2, text: 'Touchless Telemetry' },
+                  { icon: Shield, text: 'AES-256 OTP Privacy' },
+                  { icon: Heart, text: 'Clinical Insights' },
                 ].map(t => (
-                  <div key={t.text} className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                    <t.icon className="w-4 h-4 text-[#0D9488] flex-shrink-0" />{t.text}
+                  <div key={t.text} className="flex items-center gap-2 text-xs text-gray-300 font-bold font-mono">
+                    <t.icon className="w-4.5 h-4.5 text-cyan-400 flex-shrink-0" />{t.text}
                   </div>
                 ))}
               </div>
