@@ -16,65 +16,65 @@ const STEPS = [
   { 
     step: '01', color: '#2563EB', bg: '#EFF6FF', title: 'Locate Station', desc: 'Find a UroSense-enabled checkpoint at transit terminals, corporate centers, or healthcare facilities.',
     details: [
-      'Interactive map helps you navigate to the nearest active UroSense kiosk',
-      'Real-time status tracking verifies station availability before arrival',
-      'Integrated in high-traffic transit hubs, hospitals, and wellness centers',
-      'Touchless hardware interface operates 24/7 with zero waiting times'
+      '📍 Interactive map helps you navigate to the nearest active UroSense kiosk',
+      '🏥 Integrated in high-traffic transit hubs, hospitals, and wellness centers',
+      '⚡ Real-time status tracking verifies station availability before arrival',
+      '🕒 Touchless hardware interface operates 24/7 with zero waiting times'
     ]
   },
   { 
     step: '02', color: '#0D9488', bg: '#F0FDFA', title: 'Submit Sample', desc: 'Use the system naturally. Built-in optoelectronic grids isolate and register a micro-volume sample touchlessly.',
     details: [
-      'Touchless optical sensor detects sample presence automatically',
-      'Micro-fluidic sampling channel extracts under 1mL for instant analysis',
-      'Self-cleaning fluidic pathway flushes clean between uses',
-      'Zero physical contact required during collection process'
+      '💧 Touchless optical sensor detects sample presence automatically',
+      '🧪 Micro-fluidic sampling channel extracts under 1mL for instant analysis',
+      '🧼 Self-cleaning fluidic pathway flushes clean between uses',
+      '⚡ Zero physical contact required during collection process'
     ]
   },
   { 
     step: '03', color: '#7C3AED', bg: '#F5F3FF', title: 'Sensor Analysis', desc: 'Four solid-state biosensors evaluate pH, ionic density, temperature, and turbidity indexes within 3 seconds.',
     details: [
-      'Multi-wavelength optical spectrometry checks turbidity and clarity',
-      'Integrated solid-state electrochemical sensors measure precise pH',
-      'TDS sensor computes ionic concentration for hydration scoring',
-      'Patented biological algorithm evaluates metabolic indicator risk'
+      '🤖 Multi-wavelength optical spectrometry checks turbidity and clarity',
+      '🧪 Integrated solid-state electrochemical sensors measure precise pH',
+      '📊 TDS sensor computes ionic concentration for hydration scoring',
+      '🧬 Patented biological algorithm evaluates metabolic indicator risk'
     ]
   },
   { 
     step: '04', color: '#DB2777', bg: '#FDF2F8', title: 'Scan QR Code', desc: 'An ephemeral QR token is generated locally on the station display, ensuring direct and private linkage.',
     details: [
-      'QR code generated instantly by the kiosk',
-      'Links the sample to your secure session',
-      'No personal data stored inside the QR',
-      'Valid for a limited time only',
-      'Enables encrypted report retrieval'
+      '🔐 QR code generated instantly by the kiosk',
+      '📲 Links the sample to your secure session',
+      '🛡️ No personal data stored inside the QR',
+      '⏳ Valid for a limited time only',
+      '📑 Enables encrypted report retrieval'
     ]
   },
   { 
     step: '05', color: '#D97706', bg: '#FFFBEB', title: 'Secure OTP Verify', desc: 'Confirm biological ownership through encrypted mobile verification codes. No persistent data stays on the device.',
     details: [
-      'One-Time Password sent directly to your registered mobile number',
-      'End-to-end encryption guarantees medical record privacy',
-      'Kiosk wipes local session memory immediately after verification',
-      'Strict HIPAA & DISHA compliant data transfer protocols'
+      '📲 One-Time Password sent directly to your registered mobile number',
+      '🔐 End-to-end encryption guarantees medical record privacy',
+      '🧹 Kiosk wipes local session memory immediately after verification',
+      '🛡️ Strict HIPAA & DISHA compliant data transfer protocols'
     ]
   },
   { 
     step: '06', color: '#059669', bg: '#ECFDF5', title: 'Clinical Insights', desc: 'Instantly load your results translated into plain language metrics. Avoid clinical terminology jargon.',
     details: [
-      'Results rendered in easy-to-understand color-coded indicators',
-      'Highlights risk factors for UTI, dehydration, and glucose spikes',
-      'Actionable dietary and hydration recommendations included',
-      'Option to export formatted PDF for doctor consultations'
+      '📊 Results rendered in easy-to-understand color-coded indicators',
+      '💡 Highlights risk factors for UTI, dehydration, and glucose spikes',
+      '🥗 Actionable dietary and hydration recommendations included',
+      '📑 Option to export formatted PDF for doctor consultations'
     ]
   },
   { 
     step: '07', color: '#6366F1', bg: '#EEF2FF', title: 'Track History', desc: 'Store your measurements securely inside your personal biological health journal. Sync to track baseline trends.',
     details: [
-      'Historical trend graphs visualize health metrics over weeks and months',
-      'Automated baseline tracking alerts you to sudden metric deviations',
-      'Secure cloud backup allows seamless cross-device synchronization',
-      'Full data ownership with instant export and deletion controls'
+      '📈 Historical trend graphs visualize health metrics over weeks and months',
+      '📊 Automated baseline tracking alerts you to sudden metric deviations',
+      '☁️ Secure cloud backup allows seamless cross-device synchronization',
+      '🔐 Full data ownership with instant export and deletion controls'
     ]
   },
 ];
@@ -94,13 +94,13 @@ export default function HomePage() {
   const [selectedMapNode, setSelectedMapNode] = useState(0);
 
   const locationsRoadmap = [
-    { name: 'New Delhi', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
-    { name: 'Ahmedabad', zone: 'West Grid', x: '24%', y: '44%', density: 'Active Integration (11 Stations)', status: 'Active' },
-    { name: 'Mumbai', zone: 'West Grid', x: '28%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' },
-    { name: 'Hyderabad', zone: 'Central Grid', x: '48%', y: '60%', density: 'Active Integration (10 Stations)', status: 'Active' },
-    { name: 'Bengaluru', zone: 'South Grid', x: '42%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
-    { name: 'Chennai', zone: 'South Grid', x: '54%', y: '76%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
-    { name: 'Kolkata', zone: 'East Grid', x: '74%', y: '42%', density: 'Active Integration (8 Stations)', status: 'Active' }
+    { name: 'New Delhi', zone: 'North Grid', x: '41%', y: '27%', density: 'High Density (14 Stations)', status: 'Active' },
+    { name: 'Ahmedabad', zone: 'West Grid', x: '24%', y: '45%', density: 'Active Integration (11 Stations)', status: 'Active' },
+    { name: 'Mumbai', zone: 'West Grid', x: '27%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' },
+    { name: 'Hyderabad', zone: 'Central Grid', x: '47%', y: '61%', density: 'Active Integration (10 Stations)', status: 'Active' },
+    { name: 'Bengaluru', zone: 'South Grid', x: '41%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
+    { name: 'Chennai', zone: 'South Grid', x: '52%', y: '77%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
+    { name: 'Kolkata', zone: 'East Grid', x: '73%', y: '43%', density: 'Active Integration (8 Stations)', status: 'Active' }
   ];
 
   return (
@@ -278,7 +278,7 @@ export default function HomePage() {
                     <h3 className="text-2xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                       {STEPS[activeStep].title}
                     </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed mt-2">
+                    <p className="text-lg md:text-xl text-gray-600 leading-[1.65] font-normal mt-2">
                       {STEPS[activeStep].desc}
                     </p>
                   </div>
@@ -288,10 +288,9 @@ export default function HomePage() {
                     <h4 className="text-xs font-bold text-[#0B1B33] tracking-wider uppercase font-mono">
                       What happens in this step
                     </h4>
-                    <ul className="space-y-2">
+                    <ul className="space-y-3 list-none p-0 m-0">
                       {STEPS[activeStep].details?.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2.5 text-xs text-gray-600 font-medium leading-relaxed">
-                          <span className="text-[#2563EB] font-bold select-none">•</span>
+                        <li key={i} className="text-base md:text-lg text-gray-700 font-medium leading-[1.65] flex items-start gap-3">
                           <span>{item}</span>
                         </li>
                       ))}
@@ -358,17 +357,17 @@ export default function HomePage() {
               <div className="lg:col-span-7 h-[460px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-4">
                 <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(#2563EB 1.2px, transparent 1.2px)', backgroundSize: '28px 28px' }} />
                 
-                {/* SVG India Continuous Contour Silhouette Matching Reference Image */}
-                <svg viewBox="0 0 500 580" className="w-[92%] h-[92%] max-w-[420px] opacity-25 absolute pointer-events-none drop-shadow-md">
-                  <path 
-                    d="M 170,30 C 160,15 180,5 200,5 C 220,5 240,15 235,35 C 230,50 210,60 215,75 C 220,90 240,85 245,105 C 255,115 270,110 285,120 C 300,130 320,135 335,135 C 350,135 365,130 380,120 C 390,110 410,115 420,130 C 435,145 440,165 425,180 C 410,195 420,215 405,230 C 390,245 380,225 370,205 C 360,190 350,185 340,195 C 335,215 345,235 330,255 C 315,275 300,295 280,325 C 260,355 240,395 220,445 C 210,475 205,515 200,530 C 195,530 190,515 185,485 C 175,435 160,385 145,335 C 130,285 125,265 120,245 C 115,235 100,230 90,235 C 70,245 60,230 65,215 C 70,200 95,205 100,190 C 105,175 90,165 85,155 C 80,145 100,135 115,140 C 130,145 140,125 145,105 C 150,85 160,55 170,30 Z" 
-                    fill="#2563EB" 
-                    stroke="#1D4ED8" 
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
+                {/* Approved Production India Map PNG Asset */}
+                <div className="absolute inset-4 flex items-center justify-center pointer-events-none p-2">
+                  <Image 
+                    src="/india-map.png" 
+                    alt="Approved India Telemetry Map" 
+                    width={480} 
+                    height={540} 
+                    className="w-full h-full object-contain pointer-events-none" 
+                    priority 
                   />
-                </svg>
+                </div>
 
                 {/* Subtle Telemetry Connection Lines */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
