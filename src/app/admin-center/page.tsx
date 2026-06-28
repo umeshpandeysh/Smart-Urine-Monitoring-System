@@ -573,12 +573,12 @@ export default function AdminCenterPage() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-mono text-gray-400 uppercase block">FORMAT</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {['CSV', 'JSON'].map((fmt) => (
+                <div className="grid grid-cols-3 gap-2">
+                  {['CSV', 'JSON', 'FHIR / HL7'].map((fmt) => (
                     <button 
                       key={fmt} 
                       onClick={() => setExportFormat(fmt)}
-                      className={`text-xs font-bold font-mono py-2 rounded-xl border transition-all ${
+                      className={`text-[11px] font-bold font-mono py-2 rounded-xl border transition-all ${
                         exportFormat === fmt 
                           ? 'border-[#2563EB] bg-blue-50 text-[#2563EB]' 
                           : 'border-gray-200 bg-[#FAFAF9] text-gray-500 hover:bg-gray-50'

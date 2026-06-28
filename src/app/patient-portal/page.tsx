@@ -717,6 +717,10 @@ export default function PatientPortalPage() {
                 <span className="font-mono text-gray-700">{profile?.phone || '+91 Verified'}</span>
               </div>
               <div className="p-3 bg-gray-50 rounded-xl flex justify-between">
+                <span className="text-gray-500">ABHA Health ID (ABDM)</span>
+                <span className="font-mono font-bold text-teal-700">91-8402-9842-1048 🇮🇳</span>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-xl flex justify-between">
                 <span className="text-gray-500">Data Security</span>
                 <span className="font-bold text-emerald-600">AES-256 Encrypted</span>
               </div>
