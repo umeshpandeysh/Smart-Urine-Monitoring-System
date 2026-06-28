@@ -52,43 +52,48 @@ export default function HomePage() {
 
         {/* ══════════════════════════════════════════════════
             HERO
+        {/* ══════════════════════════════════════════════════
+            HERO
         ══════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-white">
-          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#2563EB0a 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
-          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-[#2563EB]/5 blur-3xl pointer-events-none" />
+        <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/40 via-white to-white py-12">
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#2563EB12 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
 
-          <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left */}
-            <div className="space-y-7">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EFF6FF] border border-blue-100 text-[#2563EB] text-xs font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
-                Smart Urine Health Analysis
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-600 text-white shadow-md shadow-blue-500/20 text-xs font-bold tracking-wide uppercase">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                Next-Gen Smart Urine Diagnostics
               </div>
 
-              <h1 className="font-bold text-[#0B1B33]" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4rem)', lineHeight: 1.1, letterSpacing: '-0.03em', fontFamily: 'var(--font-plus-jakarta), var(--font-manrope), sans-serif' }}>
+              <h1 className="font-extrabold text-[#0B1B33]" style={{ fontSize: 'clamp(2.75rem, 6vw, 4.25rem)', lineHeight: 1.08, letterSpacing: '-0.03em', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                 Know Your Health<br />
-                <span className="text-[#2563EB]">Before Symptoms</span><br />
-                Appear
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2563EB] to-[#7C3AED]">Before Symptoms</span><br />
+                Appear.
               </h1>
 
-              <p className="text-gray-500 max-w-md leading-relaxed" style={{ fontSize: '1.0625rem' }}>
-                UroSense is a smart urine analysis platform that helps detect hydration issues, glucose abnormalities, kidney stress indicators, and urinary health risks — within minutes, without a lab.
+              <p className="text-gray-600 max-w-lg leading-relaxed text-base md:text-lg">
+                UroSense is an automated point-of-use diagnostic platform. Embedded medical sensors analyze hydration, metabolic markers, and renal load — delivering encrypted clinical insights in 60 seconds.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
-                <Link href="/login" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#2563EB] text-white font-semibold text-sm hover:bg-[#1d4ed8] shadow-md shadow-blue-200 transition-all duration-200 hover:-translate-y-0.5">
-                  Access My Health Report <ArrowRight className="w-4 h-4" />
+                <Link href="/login" className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-bold text-base hover:from-[#1D4ED8] hover:to-[#1E40AF] shadow-xl shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02]">
+                  Access Health Journal <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link href="/technology" className="inline-flex items-center gap-2 px-6 py-4 rounded-2xl border-2 border-gray-200 bg-white text-[#0B1B33] font-bold text-base hover:bg-gray-50 transition-all duration-200">
+                  Explore Hardware
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-5 pt-2">
+              <div className="flex flex-wrap gap-6 pt-3 border-t border-gray-100">
                 {[
-                  { icon: CheckCircle2, text: 'Non-invasive & touchless' },
-                  { icon: Shield, text: 'OTP-verified privacy' },
-                  { icon: Heart, text: 'Clinically informed results' },
+                  { icon: CheckCircle2, text: 'Touchless Telemetry' },
+                  { icon: Shield, text: 'AES-256 OTP Privacy' },
+                  { icon: Heart, text: 'Clinical Bio-Markers' },
                 ].map(t => (
-                  <div key={t.text} className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                    <t.icon className="w-4 h-4 text-[#0D9488] flex-shrink-0" />{t.text}
+                  <div key={t.text} className="flex items-center gap-2 text-xs text-gray-700 font-bold">
+                    <t.icon className="w-4.5 h-4.5 text-[#0D9488] flex-shrink-0" />{t.text}
                   </div>
                 ))}
               </div>
@@ -262,27 +267,42 @@ export default function HomePage() {
 
         {/* ══════════════════════════════════════════════════
             WHERE UROSENSE IS AVAILABLE — REAL INDIA MAP
+        {/* ══════════════════════════════════════════════════
+            WHERE UROSENSE IS AVAILABLE — REAL INDIA MAP
         ══════════════════════════════════════════════════ */}
-        <section className="bg-[#F8FAFC] py-24 border-t border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
-            <div className="max-w-2xl space-y-2">
-              <span className="text-xs font-semibold text-[#7C3AED] uppercase tracking-wider">Deployments</span>
-              <h2 className="font-bold text-[#0B1B33] text-3xl md:text-4xl" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                National Diagnostic Network
-              </h2>
-              <p className="text-gray-500 text-sm">
-                Interactive map of active UroSense telemetry cells across public transit points and medical nodes.
-              </p>
+        <section className="bg-[#0B1B33] py-24 border-t border-b border-gray-800 text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#2563EB 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }} />
+          
+          <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 relative z-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="max-w-2xl space-y-2">
+                <span className="text-xs font-mono font-bold text-[#0D9488] uppercase tracking-widest bg-[#0D9488]/10 px-3 py-1 rounded-full border border-[#0D9488]/30">
+                  Live Telemetry Grid
+                </span>
+                <h2 className="font-extrabold text-white text-3xl md:text-5xl tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                  National Diagnostic Network
+                </h2>
+                <p className="text-gray-400 text-base">
+                  Real-time telemetry sync across active UroSense terminals in India&apos;s major transport &amp; medical corridors.
+                </p>
+              </div>
+              <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur-md">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-mono text-xs text-emerald-400 font-bold uppercase tracking-wider">NETWORK STATUS: ONLINE (100%)</span>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Spatial Map Display (7 Columns) */}
-              <div className="lg:col-span-7 h-[420px] relative border border-gray-200/80 rounded-2xl bg-white overflow-hidden shadow-sm flex items-center justify-center">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#0B1B33 1.2px, transparent 1.2px)', backgroundSize: '24px 24px' }} />
-                
+              <div className="lg:col-span-7 h-[440px] relative border border-blue-500/30 rounded-3xl bg-[#071324] overflow-hidden shadow-2xl flex items-center justify-center">
+                {/* Tactical Radar Concentric Circles */}
+                <div className="absolute w-[360px] h-[360px] rounded-full border border-blue-500/10 pointer-events-none" />
+                <div className="absolute w-[240px] h-[240px] rounded-full border border-blue-500/15 pointer-events-none" />
+                <div className="absolute w-[120px] h-[120px] rounded-full border border-blue-500/20 pointer-events-none" />
+
                 {/* SVG India Abstract Contour */}
-                <svg viewBox="0 0 200 200" className="w-[85%] h-[85%] opacity-15 absolute pointer-events-none">
-                  <path d="M75,15 L95,12 L105,28 L115,40 L130,50 L155,58 L168,78 L150,95 L158,115 L135,122 L118,140 L102,172 L92,192 L82,168 L78,138 L68,118 L52,112 L38,102 L22,92 L28,72 L42,62 L48,42 Z" fill="#0B1B33" stroke="#2563EB" strokeWidth="0.5" />
+                <svg viewBox="0 0 200 200" className="w-[85%] h-[85%] opacity-30 absolute pointer-events-none">
+                  <path d="M75,15 L95,12 L105,28 L115,40 L130,50 L155,58 L168,78 L150,95 L158,115 L135,122 L118,140 L102,172 L92,192 L82,168 L78,138 L68,118 L52,112 L38,102 L22,92 L28,72 L42,62 L48,42 Z" fill="#2563EB" stroke="#60A5FA" strokeWidth="1" />
                 </svg>
 
                 {/* Map Connections */}
@@ -295,7 +315,7 @@ export default function HomePage() {
                         key={idx}
                         x1={prev.x} y1={prev.y}
                         x2={loc.x} y2={loc.y}
-                        stroke="#2563EB" strokeWidth="1" strokeDasharray="4 4" className="opacity-40"
+                        stroke="#60A5FA" strokeWidth="1.5" strokeDasharray="5 5" className="opacity-60 animate-pulse"
                       />
                     );
                   })}
@@ -308,13 +328,16 @@ export default function HomePage() {
                     <button
                       key={idx}
                       onClick={() => setSelectedMapNode(idx)}
-                      className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group"
+                      className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group z-20"
                       style={{ top: node.y, left: node.x }}
                     >
-                      <span className={`absolute -inset-2.5 rounded-full ${isSelected ? 'bg-blue-400/35 animate-ping' : 'bg-transparent'}`} />
-                      <span className={`w-3.5 h-3.5 rounded-full border border-white shadow-md block transition-transform duration-300 group-hover:scale-125 ${
-                        isSelected ? 'bg-[#2563EB] scale-110' : 'bg-gray-400'
+                      <span className={`absolute -inset-3 rounded-full ${isSelected ? 'bg-cyan-400/50 animate-ping' : 'bg-blue-500/20'}`} />
+                      <span className={`w-4 h-4 rounded-full border-2 border-white shadow-lg block transition-transform duration-300 group-hover:scale-150 ${
+                        isSelected ? 'bg-cyan-400 scale-125 shadow-cyan-400/50' : 'bg-blue-600'
                       }`} />
+                      <span className="absolute left-1/2 -translate-x-1/2 top-5 px-2 py-0.5 rounded bg-black/80 text-[9px] font-mono text-cyan-300 font-bold whitespace-nowrap border border-cyan-500/30 opacity-90 group-hover:opacity-100 transition-opacity">
+                        {node.name.split(' ')[0]}
+                      </span>
                     </button>
                   );
                 })}
