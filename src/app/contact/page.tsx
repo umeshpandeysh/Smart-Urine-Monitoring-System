@@ -30,13 +30,13 @@ export default function ContactPage() {
 
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] text-sm font-semibold">
+            <span className="font-mono text-xs font-semibold tracking-wider text-[#2563EB] border border-blue-100 bg-blue-50/50 px-3.5 py-1 rounded-full uppercase inline-flex items-center gap-2">
               <MessageSquare className="w-4 h-4" /> Contact Us
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[#0B1B33] tracking-tight">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-[#0B1B33] tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
               Get in Touch
             </h1>
-            <p className="text-[#6B7280] text-lg leading-relaxed">
+            <p className="text-[#6B7280] text-base md:text-lg leading-relaxed">
               Have a question about UroSense, your health report, or our services? We&apos;re here to help.
             </p>
           </div>

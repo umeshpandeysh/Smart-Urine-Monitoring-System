@@ -36,14 +36,14 @@ export default function AboutPage() {
       <main className="pt-32 pb-24 max-w-4xl mx-auto px-6 space-y-16">
         
         {/* Simple Page Intro */}
-        <div className="space-y-4 text-center">
-          <span className="text-xs font-mono text-[#2563EB] uppercase tracking-wider font-semibold">
+        <div className="space-y-4 text-center max-w-2xl mx-auto">
+          <span className="font-mono text-xs font-semibold tracking-wider text-[#2563EB] border border-blue-100 bg-blue-50/50 px-3.5 py-1 rounded-full uppercase">
             Product &amp; Clinical Information
           </span>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
             About UroSense
           </h1>
-          <p className="text-base text-gray-500 max-w-xl mx-auto leading-relaxed">
+          <p className="text-base text-gray-500 leading-relaxed">
             Understanding automated urinalysis baseline monitoring, patient diagnostic loops, and biometric privacy protocols.
           </p>
         </div>

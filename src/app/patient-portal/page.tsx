@@ -130,7 +130,7 @@ export default function PatientPortalPage() {
             </div>
             <div className="flex items-center gap-4">
               <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-gray-500 font-mono">
-                <User className="w-3.5 h-3.5 text-[#2563EB]" /> {profile?.name || 'New Patient'}
+                <User className="w-3.5 h-3.5 text-[#2563EB]" /> {profile?.first_name ? `${profile.first_name} ${profile.last_name || ''}`.trim() : 'Patient'}
               </span>
               <Link href="/" className="text-xs font-mono font-semibold text-gray-500 hover:text-[#0B1B33]">
                 Exit Journal
@@ -139,24 +139,24 @@ export default function PatientPortalPage() {
           </div>
         </header>
 
-        <main className="max-w-4xl mx-auto px-6 mt-10 space-y-10">
+        <main className="max-w-4xl mx-auto px-6 mt-8 space-y-8">
           
           {/* Welcome / Onboarding Card */}
-          <div className="bg-white border border-gray-100 rounded-3xl p-8 space-y-6 shadow-sm text-center max-w-2xl mx-auto">
-            <div className="w-16 h-16 rounded-full bg-[#2563EB]/10 flex items-center justify-center text-[#2563EB] mx-auto animate-pulse">
-              <Sparkles className="w-8 h-8" />
+          <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 space-y-5 shadow-sm text-center max-w-2xl mx-auto">
+            <div className="w-14 h-14 rounded-full bg-[#2563EB]/10 flex items-center justify-center text-[#2563EB] mx-auto animate-pulse">
+              <Sparkles className="w-7 h-7" />
             </div>
-            <div className="space-y-2">
-              <h1 className="text-3xl font-extrabold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                Welcome to UroSense!
+            <div className="space-y-1.5">
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Welcome to UroSense
               </h1>
-              <p className="text-sm text-gray-500">
-                Hi {profile?.name || 'New Patient'}, your biological wellness journal is active. Get started by syncing your first smart urine analysis.
+              <p className="text-xs md:text-sm text-gray-500">
+                Hi <span className="font-semibold text-[#0B1B33]">{profile?.first_name || 'Patient'}</span>, your biological wellness journal is active. Get started by syncing your first smart urine analysis.
               </p>
             </div>
 
-            <div className="p-4 bg-blue-50/50 border border-blue-100/50 rounded-2xl text-xs text-[#2563EB] font-medium leading-relaxed max-w-md mx-auto">
-              No report synchronized yet. Visit a nearest kiosk to run your first touchless diagnostic.
+            <div className="p-3.5 bg-blue-50/50 border border-blue-100/50 rounded-2xl text-xs text-[#2563EB] font-medium leading-relaxed max-w-md mx-auto">
+              No report synchronized yet. Visit any nearest kiosk to run your first touchless diagnostic.
             </div>
           </div>
 

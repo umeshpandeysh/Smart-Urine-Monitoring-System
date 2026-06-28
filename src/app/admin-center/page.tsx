@@ -325,7 +325,10 @@ export default function AdminCenterPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-center py-6 text-xs text-gray-400">No logs match your search.</p>
+                <div className="text-center py-10 px-4 border border-dashed border-gray-200 rounded-2xl bg-[#FAFAF9] space-y-1">
+                  <p className="text-xs font-bold text-[#0B1B33]">No reports matched your query</p>
+                  <p className="text-[10px] text-gray-400 font-mono">Try searching with a different Report ID or location keyword</p>
+                </div>
               )}
             </div>
           </div>

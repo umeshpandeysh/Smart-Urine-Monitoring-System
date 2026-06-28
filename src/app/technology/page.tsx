@@ -147,20 +147,20 @@ export default function TechnologyPage() {
             </div>
 
             <div className="relative space-y-4">
-              <div className="hidden md:block absolute left-[2.75rem] top-8 bottom-8 w-0.5 bg-gradient-to-b from-[#2563EB] to-[#DB2777]" />
+              <div className="hidden md:block absolute left-[2.25rem] top-6 bottom-6 w-0.5 bg-gradient-to-b from-[#2563EB] to-[#DB2777]" />
               {PIPELINE.map((step, idx) => (
-                <div key={idx} className="relative flex gap-6 md:gap-10 items-start">
+                <div key={idx} className="relative flex gap-5 md:gap-8 items-center">
                   <div
-                    className="relative z-10 flex-shrink-0 w-20 h-20 rounded-2xl flex flex-col items-center justify-center border-2 border-white shadow-md"
+                    className="relative z-10 flex-shrink-0 w-16 h-16 rounded-2xl flex flex-col items-center justify-center border-2 border-white shadow-sm"
                     style={{ background: step.bg, borderColor: step.color + '30' }}
                   >
-                    <step.icon className="w-6 h-6" style={{ color: step.color }} />
-                    <span className="text-[10px] font-bold mt-0.5" style={{ color: step.color }}>{step.step}</span>
+                    <step.icon className="w-5 h-5" style={{ color: step.color }} />
+                    <span className="text-[9px] font-bold mt-0.5" style={{ color: step.color }}>{step.step}</span>
                   </div>
-                  <div className="flex-1 bg-white rounded-2xl p-5 border border-gray-100 shadow-sm"
-                    style={{ borderLeft: `3px solid ${step.color}` }}>
-                    <h3 className="font-bold text-[#0B1B33] text-base mb-1">{step.title}</h3>
-                    <p className="text-[#6B7280] text-sm leading-relaxed">{step.desc}</p>
+                  <div className="flex-1 bg-white rounded-2xl p-4 md:p-5 border border-gray-100 shadow-sm transition-all hover:border-gray-200"
+                    style={{ borderLeft: `4px solid ${step.color}` }}>
+                    <h3 className="font-bold text-[#0B1B33] text-base mb-1" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>{step.title}</h3>
+                    <p className="text-[#6B7280] text-xs md:text-sm leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               ))}

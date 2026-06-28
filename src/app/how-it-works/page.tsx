@@ -53,11 +53,13 @@ export default function HowItWorksPage() {
         
         {/* Header Block */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="font-mono text-xs font-semibold tracking-wider text-[#0A2540] border border-[#E5E7EB] bg-white px-3 py-1 rounded-full uppercase">
+          <span className="font-mono text-xs font-semibold tracking-wider text-[#2563EB] border border-blue-100 bg-blue-50/50 px-3.5 py-1 rounded-full uppercase">
             Platform Workflow
           </span>
-          <h1 className="font-section">The 5-Step Diagnostic Journey</h1>
-          <p className="font-body text-[#6B7280] font-light">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-[#0B1B33] tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+            The 5-Step Diagnostic Journey
+          </h1>
+          <p className="text-gray-500 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
             UroSense bridges physical telemetry sensors with cloud-based diagnostic report delivery. See how a sample is scanned, secured, and analyzed in seconds.
           </p>
         </div>
