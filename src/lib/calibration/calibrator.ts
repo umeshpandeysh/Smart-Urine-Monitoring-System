@@ -32,7 +32,7 @@ export async function calibrateSensorValue(
 
     const calibrated = (rawValue - offset) * coefficient;
     return parseFloat(calibrated.toFixed(4));
-  } catch (_err) {
+  } catch {
     // Fallback if record not found
     return rawValue;
   }
