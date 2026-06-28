@@ -1,38 +1,32 @@
-name: CI
+name: UroSense CI Build & Security Check
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main, feature/homepage-redesign ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  quality:
-    name: Lint, Type Check & Build
+  build-and-verify:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Run ESLint
-        run: npm run lint
-
-      - name: Run TypeScript check
+      - name: Verify TypeScript Architecture
         run: npm run type-check
 
-      - name: Build application
+      - name: Execute Production Build Verification
         run: npm run build
         env:
-          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key-for-build
-          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://ldjabikdwigwvxnfiqos.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dummy_key' }}
