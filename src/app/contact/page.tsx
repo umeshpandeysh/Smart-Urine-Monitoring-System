@@ -30,9 +30,6 @@ export default function ContactPage() {
 
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] text-sm font-semibold">
-              <MessageSquare className="w-4 h-4" /> Contact Us
-            </span>
             <h1 className="text-4xl md:text-5xl font-extrabold text-[#0B1B33] tracking-tight">
               Get in Touch
             </h1>
