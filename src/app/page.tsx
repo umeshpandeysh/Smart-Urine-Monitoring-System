@@ -415,6 +415,28 @@ export default function HomePage() {
                   style={{ width: '260px', height: '292px' }}
                   aria-label="India telemetry network map"
                 >
+                  {/* Custom Telemetry Pulse Keyframe Animation */}
+                  <style>{`
+                    @keyframes telemetryPulse {
+                      0% {
+                        transform: scale(1);
+                        opacity: 0.55;
+                      }
+                      70% {
+                        transform: scale(2.6);
+                        opacity: 0;
+                      }
+                      100% {
+                        transform: scale(2.6);
+                        opacity: 0;
+                      }
+                    }
+                    .animate-telemetry-pulse {
+                      animation: telemetryPulse 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                      transform-origin: center center;
+                    }
+                  `}</style>
+
                   {/* Approved PNG asset — rendered at 2× for sharpness, displayed at half */}
                   <Image
                     src="/india-map.png"
@@ -437,31 +459,36 @@ export default function HomePage() {
                         onClick={() => setSelectedNode(idx)}
                         title={node.name}
                         aria-label={`Select ${node.name} telemetry node`}
-                        className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] rounded-full group z-10"
-                        style={{ top: node.y, left: node.x }}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] rounded-full flex items-center justify-center group z-10"
+                        style={{
+                          top: node.y,
+                          left: node.x,
+                          width: isHub ? '16px' : isSelected ? '14px' : '12px',
+                          height: isHub ? '16px' : isSelected ? '14px' : '12px',
+                        }}
                       >
-                        {/* Hub pulse ring */}
+                        {/* Hub smooth pulse ring (permanently anchored to Delhi center) */}
                         {isHub && (
-                          <span className="absolute -inset-3 rounded-full bg-[#2563EB]/25 animate-ping" />
+                          <span
+                            className="absolute inset-0 rounded-full bg-[#2563EB] pointer-events-none animate-telemetry-pulse"
+                          />
                         )}
-                        {/* Selection ring */}
+                        {/* Soft ambient glow */}
+                        {(isHub || isSelected) && (
+                          <span
+                            className={`absolute rounded-full pointer-events-none ${
+                              isHub ? '-inset-1.5 bg-[#2563EB]/20 shadow-sm shadow-blue-500/30' : '-inset-1 bg-[#2563EB]/15'
+                            }`}
+                          />
+                        )}
+                        {/* Core Marker Dot */}
                         <span
-                          className={`absolute rounded-full transition-all duration-200 ${
+                          className={`relative z-10 w-full h-full rounded-full border-2 border-white block transition-transform duration-200 group-hover:scale-125 ${
                             isHub
-                              ? '-inset-2.5 bg-[#2563EB]/15'
+                              ? 'bg-[#2563EB] shadow-md shadow-blue-500/40'
                               : isSelected
-                              ? '-inset-2 bg-[#2563EB]/20 animate-pulse'
-                              : '-inset-1.5 bg-transparent'
-                          }`}
-                        />
-                        {/* Dot */}
-                        <span
-                          className={`rounded-full border-2 border-white shadow-lg block transition-transform duration-200 group-hover:scale-150 ${
-                            isHub
-                              ? 'w-4 h-4 bg-[#2563EB] shadow-blue-400/50 shadow-md'
-                              : isSelected
-                              ? 'w-3 h-3 bg-[#2563EB]'
-                              : 'w-2.5 h-2.5 bg-[#3B82F6]'
+                              ? 'bg-[#2563EB] shadow-sm'
+                              : 'bg-[#3B82F6]'
                           }`}
                         />
                       </button>
