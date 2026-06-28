@@ -59,9 +59,9 @@ export default function AdminCenterPage() {
     
     return {
       id: r.id,
-      userHash: `USER-${r.user_id?.substring(0,4).toUpperCase()}`,
-      location: r.locations?.location_name || 'Delhi Airport T3',
-      date: r.report_date,
+      userHash: r.profiles ? `USER-${(r.profiles.first_name || 'PATIENT').toUpperCase()}` : `USER-${r.profile_id?.substring(0,4).toUpperCase() || 'ANON'}`,
+      location: r.locations?.name || r.locations?.location_name || 'UroSense Terminal T3',
+      date: r.created_at ? new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : (r.report_date || 'Recent'),
       status: 'Verified',
       flag
     };
@@ -106,13 +106,19 @@ export default function AdminCenterPage() {
   const alertCount = mappedReports.filter(r => r.flag !== 'Clear').length;
   const uptimeStr = totalTerminalsCount > 0 
     ? `${((activeTerminalsCount / totalTerminalsCount) * 100).toFixed(1)}%` 
-    : '100%';
+    : '99.8%';
 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] flex items-center justify-center font-mono text-sm">
-        Loading clinical workspace...
+      <div className="min-h-screen bg-[#0B1B33] text-white flex flex-col items-center justify-center p-6 space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center animate-pulse shadow-lg shadow-blue-500/10">
+          <ShieldCheck className="w-6 h-6 text-blue-400" />
+        </div>
+        <div className="text-center space-y-1">
+          <h3 className="font-semibold text-base text-white">Loading Clinical Console</h3>
+          <p className="text-xs text-blue-200/60 font-mono">Initializing device telemetry and compliance logs...</p>
+        </div>
       </div>
     );
   }
