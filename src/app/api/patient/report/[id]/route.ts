@@ -15,25 +15,41 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+
+    if (!profile) {
+      return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
+    }
+
     const { data: report, error: reportError } = await supabase
       .from('reports')
       .select('*')
       .eq('id', id)
-      .eq('user_id', user.id)
+      .eq('profile_id', (profile as any).id)
       .single();
 
     if (reportError || !report) {
       return NextResponse.json({ error: 'Report not found' }, { status: 404 });
     }
 
-    const { data: readings, error: readingsError } = await supabase
-      .from('sensor_readings')
-      .select('*')
-      .eq('report_id', id);
+    let reading = null;
+    const repAny = report as any;
+    if (repAny.sensor_reading_id) {
+      const { data: r } = await supabase
+        .from('sensor_readings')
+        .select('*')
+        .eq('id', repAny.sensor_reading_id)
+        .single();
+      reading = r;
+    }
 
     return NextResponse.json({
       ...(report as any),
-      readings: readings || []
+      readings: reading ? [reading] : []
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

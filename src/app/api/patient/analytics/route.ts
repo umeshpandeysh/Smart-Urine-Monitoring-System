@@ -11,12 +11,22 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+
+    if (!profile) {
+      return NextResponse.json(calculateTrends([]));
+    }
+
     // Fetch all reports for the user
     const { data: reports, error: dbError } = await supabase
       .from('reports')
       .select('*')
-      .eq('user_id', user.id)
-      .order('report_date', { ascending: true });
+      .eq('profile_id', (profile as any).id)
+      .order('created_at', { ascending: true });
 
     if (dbError) {
       return NextResponse.json({ error: dbError.message }, { status: 500 });

@@ -10,19 +10,26 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+
+    if (!profile) {
+      return NextResponse.json([]);
+    }
+
     const { data: reports, error: dbError } = await supabase
       .from('reports')
       .select(`
         *,
-        locations (
-          location_name
-        ),
         sensor_readings (
           *
         )
       `)
-      .eq('user_id', user.id)
-      .order('report_date', { ascending: false });
+      .eq('profile_id', (profile as any).id)
+      .order('created_at', { ascending: false });
 
     if (dbError) {
       return NextResponse.json({ error: dbError.message }, { status: 500 });

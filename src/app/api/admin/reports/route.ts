@@ -14,7 +14,7 @@ export async function GET() {
     const { data: profileData } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .single();
 
     const profile = profileData as any;
@@ -27,12 +27,13 @@ export async function GET() {
       .from('reports')
       .select(`
         *,
-        profiles:user_id (
-          name,
-          phone
+        profiles:profile_id (
+          first_name,
+          last_name,
+          role
         )
       `)
-      .order('report_date', { ascending: false });
+      .order('created_at', { ascending: false });
 
     if (dbError) {
       return NextResponse.json({ error: dbError.message }, { status: 500 });

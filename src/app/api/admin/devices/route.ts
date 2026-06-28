@@ -14,7 +14,7 @@ export async function GET() {
     const { data: profileData } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .single();
 
     const profile = profileData as any;
@@ -28,10 +28,10 @@ export async function GET() {
       .select(`
         *,
         locations:location_id (
-          location_name
+          name
         )
       `)
-      .order('device_code', { ascending: true });
+      .order('serial_number', { ascending: true });
 
     if (dbError) {
       return NextResponse.json({ error: dbError.message }, { status: 500 });
