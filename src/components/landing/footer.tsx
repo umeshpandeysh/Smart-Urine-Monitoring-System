@@ -77,9 +77,15 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Clinical Disclaimer */}
+        <div className="mt-10 pt-6 border-t border-white/5 text-[11px] text-[#475569] leading-relaxed">
+          <p className="font-semibold text-slate-400 mb-1">Clinical Disclaimer</p>
+          <p>UroSense provides non-invasive preventive wellness indicators and physiological trend tracking. Urinalysis metrics delivered via public checkpoints do not constitute formal medical diagnosis or laboratory consultation. Always consult a certified healthcare professional regarding physical symptoms.</p>
+        </div>
+
         {/* Bottom bar */}
-        <div className="border-t border-white/5 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#475569]">
-          <p className="font-mono">© {new Date().getFullYear()} UroSense. All rights reserved.</p>
+        <div className="mt-6 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#475569]">
+          <p className="font-mono">© {new Date().getFullYear()} UroSense Platform. All rights reserved.</p>
           <a
             href="https://github.com/umeshpandeysh"
             target="_blank"

@@ -104,7 +104,8 @@ export default function Navbar() {
         {/* Mobile Menu Toggle */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className={`lg:hidden focus:outline-none p-1 rounded-full ${
+          aria-label="Toggle navigation menu"
+          className={`lg:hidden focus:outline-none p-1.5 rounded-xl transition-colors ${
             scrolled ? 'text-white hover:bg-white/10' : 'text-[#0B1B33] hover:bg-gray-100'
           }`}
         >
