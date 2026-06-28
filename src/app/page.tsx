@@ -409,7 +409,7 @@ export default function HomePage() {
                   style={{ backgroundImage: 'radial-gradient(#2563EB 1px, transparent 1px)', backgroundSize: '24px 24px' }}
                 />
 
-                {/* Map image + nodes — contained inside a proportional box */}
+                {/* Map image — clean presentation without markers */}
                 <div
                   className="relative"
                   style={{ width: '260px', height: '292px' }}
@@ -426,41 +426,6 @@ export default function HomePage() {
                     priority
                     quality={100}
                   />
-
-                  {/* City telemetry nodes */}
-                  {MAP_NODES.map((node, idx) => {
-                    const isSelected = selectedNode === idx;
-                    return (
-                      <button
-                        key={idx}
-                        onClick={() => setSelectedNode(idx)}
-                        title={node.name}
-                        aria-label={`Select ${node.name} telemetry node`}
-                        className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] rounded-full flex items-center justify-center group z-10"
-                        style={{
-                          top: node.y,
-                          left: node.x,
-                          width: isSelected ? '14px' : '12px',
-                          height: isSelected ? '14px' : '12px',
-                        }}
-                      >
-                        {/* Static selection indicator when clicked */}
-                        {isSelected && (
-                          <span
-                            className="absolute -inset-1 rounded-full bg-[#2563EB]/20 pointer-events-none"
-                          />
-                        )}
-                        {/* Core Marker Dot */}
-                        <span
-                          className={`relative z-10 w-full h-full rounded-full border-2 border-white block transition-transform duration-200 group-hover:scale-125 ${
-                            isSelected
-                              ? 'bg-[#2563EB] shadow-sm'
-                              : 'bg-[#3B82F6]'
-                          }`}
-                        />
-                      </button>
-                    );
-                  })}
                 </div>
               </div>
 
