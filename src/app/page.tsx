@@ -16,57 +16,65 @@ const STEPS = [
   { 
     step: '01', color: '#2563EB', bg: '#EFF6FF', title: 'Locate Station', desc: 'Find a UroSense-enabled checkpoint at transit terminals, corporate centers, or healthcare facilities.',
     details: [
-      '📍 Find your nearest smart station at malls, transit hubs, or offices!',
-      '⚡ Real-time status lets you check if a booth is free before walking over.',
-      '🚶 No appointments needed — just walk up whenever suits you!'
+      'Interactive map helps you navigate to the nearest active UroSense kiosk',
+      'Real-time status tracking verifies station availability before arrival',
+      'Integrated in high-traffic transit hubs, hospitals, and wellness centers',
+      'Touchless hardware interface operates 24/7 with zero waiting times'
     ]
   },
   { 
     step: '02', color: '#0D9488', bg: '#F0FDFA', title: 'Submit Sample', desc: 'Use the system naturally. Built-in optoelectronic grids isolate and register a micro-volume sample touchlessly.',
     details: [
-      '💧 Zero physical contact required — magic optical sensors handle detection!',
-      '🧼 Self-cleaning pathways keep everything squeaky clean between uses.',
-      '⏱️ Quick micro-sample collection done in a split second.'
+      'Touchless optical sensor detects sample presence automatically',
+      'Micro-fluidic sampling channel extracts under 1mL for instant analysis',
+      'Self-cleaning fluidic pathway flushes clean between uses',
+      'Zero physical contact required during collection process'
     ]
   },
   { 
     step: '03', color: '#7C3AED', bg: '#F5F3FF', title: 'Sensor Analysis', desc: 'Four solid-state biosensors evaluate pH, ionic density, temperature, and turbidity indexes within 3 seconds.',
     details: [
-      '🤖 Biosensors jump into action analyzing vital health indicators!',
-      '🧪 Checking hydration, glucose, and kidney efficiency in under 3 seconds.',
-      '🧠 Smart AI algorithms crunch the chemistry without needing a lab tech.'
+      'Multi-wavelength optical spectrometry checks turbidity and clarity',
+      'Integrated solid-state electrochemical sensors measure precise pH',
+      'TDS sensor computes ionic concentration for hydration scoring',
+      'Patented biological algorithm evaluates metabolic indicator risk'
     ]
   },
   { 
     step: '04', color: '#DB2777', bg: '#FDF2F8', title: 'Scan QR Code', desc: 'An ephemeral QR token is generated locally on the station display, ensuring direct and private linkage.',
     details: [
-      '🔒 Your QR works like a temporary digital key generated just for you.',
-      '📱 Scan with your phone camera to pair your confidential session.',
-      '👻 No personal data stored inside the QR code — super private!'
+      'QR code generated instantly by the kiosk',
+      'Links the sample to your secure session',
+      'No personal data stored inside the QR',
+      'Valid for a limited time only',
+      'Enables encrypted report retrieval'
     ]
   },
   { 
     step: '05', color: '#D97706', bg: '#FFFBEB', title: 'Secure OTP Verify', desc: 'Confirm biological ownership through encrypted mobile verification codes. No persistent data stays on the device.',
     details: [
-      '📲 Instant OTP sent to your phone to confirm it is really you!',
-      '🛡️ Military-grade encryption keeps your health info strictly confidential.',
-      '🧹 Kiosk memory wipes your session data right after verification!'
+      'One-Time Password sent directly to your registered mobile number',
+      'End-to-end encryption guarantees medical record privacy',
+      'Kiosk wipes local session memory immediately after verification',
+      'Strict HIPAA & DISHA compliant data transfer protocols'
     ]
   },
   { 
     step: '06', color: '#059669', bg: '#ECFDF5', title: 'Clinical Insights', desc: 'Instantly load your results translated into plain language metrics. Avoid clinical terminology jargon.',
     details: [
-      '🎉 Voila! Results translated into plain English — no jargon needed!',
-      '💡 Friendly color-coded badges highlight your hydration and energy trends.',
-      '🥗 Quick lifestyle and hydration tips customized just for your body.'
+      'Results rendered in easy-to-understand color-coded indicators',
+      'Highlights risk factors for UTI, dehydration, and glucose spikes',
+      'Actionable dietary and hydration recommendations included',
+      'Option to export formatted PDF for doctor consultations'
     ]
   },
   { 
     step: '07', color: '#6366F1', bg: '#EEF2FF', title: 'Track History', desc: 'Store your measurements securely inside your personal biological health journal. Sync to track baseline trends.',
     details: [
-      '📈 Watch your health trends evolve like a personal health score!',
-      '☁️ Encrypted sync keeps your journal safe across all your devices.',
-      '📥 Export a neat summary anytime to show your personal doctor!'
+      'Historical trend graphs visualize health metrics over weeks and months',
+      'Automated baseline tracking alerts you to sudden metric deviations',
+      'Secure cloud backup allows seamless cross-device synchronization',
+      'Full data ownership with instant export and deletion controls'
     ]
   },
 ];
@@ -86,13 +94,13 @@ export default function HomePage() {
   const [selectedMapNode, setSelectedMapNode] = useState(0);
 
   const locationsRoadmap = [
-    { name: 'Delhi Node', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
-    { name: 'Ahmedabad Node', zone: 'West Grid', x: '24%', y: '44%', density: 'Active Integration (11 Stations)', status: 'Active' },
-    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '28%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' },
-    { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '48%', y: '60%', density: 'Active Integration (10 Stations)', status: 'Active' },
-    { name: 'Bengaluru Station Node', zone: 'South Grid', x: '42%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
-    { name: 'Chennai Central Node', zone: 'South Grid', x: '54%', y: '76%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
-    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '74%', y: '42%', density: 'Active Integration (8 Stations)', status: 'Active' }
+    { name: 'New Delhi', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
+    { name: 'Ahmedabad', zone: 'West Grid', x: '24%', y: '44%', density: 'Active Integration (11 Stations)', status: 'Active' },
+    { name: 'Mumbai', zone: 'West Grid', x: '28%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' },
+    { name: 'Hyderabad', zone: 'Central Grid', x: '48%', y: '60%', density: 'Active Integration (10 Stations)', status: 'Active' },
+    { name: 'Bengaluru', zone: 'South Grid', x: '42%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
+    { name: 'Chennai', zone: 'South Grid', x: '54%', y: '76%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
+    { name: 'Kolkata', zone: 'East Grid', x: '74%', y: '42%', density: 'Active Integration (8 Stations)', status: 'Active' }
   ];
 
   return (
@@ -276,14 +284,14 @@ export default function HomePage() {
                   </div>
 
                   {/* Dynamic Educational Bullet Section */}
-                  <div className="pt-3 border-t border-gray-100 space-y-3">
-                    <h4 className="text-xs font-bold text-[#0B1B33] uppercase tracking-wider font-mono">
+                  <div className="pt-4 border-t border-gray-100 space-y-3">
+                    <h4 className="text-xs font-bold text-[#0B1B33] tracking-wider uppercase font-mono">
                       What happens in this step
                     </h4>
                     <ul className="space-y-2">
                       {STEPS[activeStep].details?.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2.5 text-xs text-gray-600 font-normal leading-snug">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] flex-shrink-0 mt-1.5" />
+                        <li key={i} className="flex items-start gap-2.5 text-xs text-gray-600 font-medium leading-relaxed">
+                          <span className="text-[#2563EB] font-bold select-none">•</span>
                           <span>{item}</span>
                         </li>
                       ))}
