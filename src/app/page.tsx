@@ -37,12 +37,12 @@ export default function HomePage() {
   const [selectedMapNode, setSelectedMapNode] = useState(0);
 
   const locationsRoadmap = [
-    { name: 'New Delhi Node', zone: 'North Grid', x: '45%', y: '25%', density: 'High Density (14 Stations)', status: 'Active' },
-    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '25%', y: '55%', density: 'High Density (22 Stations)', status: 'Active' },
-    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '75%', y: '40%', density: 'Active Integration (8 Stations)', status: 'Active' },
-    { name: 'Chennai Central Node', zone: 'South Grid', x: '50%', y: '75%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
-    { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '45%', y: '52%', density: 'Active Integration (10 Stations)', status: 'Active' },
-    { name: 'Bengaluru Station Node', zone: 'South Grid', x: '35%', y: '68%', density: 'High Density (18 Stations)', status: 'Active' }
+    { name: 'New Delhi Node', zone: 'North Grid', x: '42%', y: '28%', density: 'High Density (14 Stations)', status: 'Active' },
+    { name: 'Kolkata Hub Node', zone: 'East Grid', x: '72%', y: '42%', density: 'Active Integration (8 Stations)', status: 'Active' },
+    { name: 'Hyderabad Tech Corridor', zone: 'Central Grid', x: '46%', y: '58%', density: 'Active Integration (10 Stations)', status: 'Active' },
+    { name: 'Chennai Central Node', zone: 'South Grid', x: '52%', y: '76%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
+    { name: 'Bengaluru Station Node', zone: 'South Grid', x: '40%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
+    { name: 'Mumbai Terminal Node', zone: 'West Grid', x: '30%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' }
   ];
 
   return (
@@ -213,19 +213,19 @@ export default function HomePage() {
               </div>
 
               {/* Right: Apple Style Detailed Canvas */}
-              <div className="lg:col-span-7 bg-white border border-gray-100 rounded-2xl p-8 flex flex-col justify-between shadow-sm min-h-[300px]">
+              <div className="lg:col-span-7 bg-white border border-gray-100 rounded-2xl p-6 md:p-8 shadow-sm h-auto flex flex-col">
                 <div className="space-y-4">
-                  <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">STEP {STEPS[activeStep].step} DETAILS</span>
+                  <span className="text-[10px] font-mono text-[#2563EB] uppercase tracking-widest bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100 w-fit block font-bold">STEP {STEPS[activeStep].step} DETAILS</span>
                   <h3 className="text-2xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                     {STEPS[activeStep].title}
                   </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed">
                     {STEPS[activeStep].desc}
                   </p>
                 </div>
-                <div className="mt-8 pt-4 border-t border-gray-100 flex items-center gap-3">
+                <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: STEPS[activeStep].color }} />
-                  <span className="text-[11px] font-mono text-gray-400">Clinical validation pipeline active.</span>
+                  <span className="text-[11px] font-mono text-gray-500 font-medium">Clinical validation pipeline active.</span>
                 </div>
               </div>
             </div>
@@ -283,8 +283,8 @@ export default function HomePage() {
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#0B1B33 1.2px, transparent 1.2px)', backgroundSize: '24px 24px' }} />
                 
                 {/* SVG India Abstract Contour */}
-                <svg viewBox="0 0 200 200" className="w-[85%] h-[85%] opacity-10 absolute pointer-events-none">
-                  <path d="M70,20 L100,5 L115,25 L120,45 L135,55 L160,65 L170,85 L145,100 L155,120 L125,120 L115,145 L105,175 L95,195 L85,170 L80,140 L70,120 L55,115 L40,105 L25,95 L30,75 L45,65 L50,45 Z" fill="#0B1B33" />
+                <svg viewBox="0 0 200 200" className="w-[85%] h-[85%] opacity-20 absolute pointer-events-none">
+                  <path d="M75,15 L95,12 L105,28 L115,40 L130,50 L155,58 L168,78 L150,95 L158,115 L135,122 L118,140 L102,172 L92,192 L82,168 L78,138 L68,118 L52,112 L38,102 L22,92 L28,72 L42,62 L48,42 Z" fill="#2563EB" stroke="#1D4ED8" strokeWidth="0.8" />
                 </svg>
 
                 {/* Map Connections */}
@@ -297,7 +297,7 @@ export default function HomePage() {
                         key={idx}
                         x1={prev.x} y1={prev.y}
                         x2={loc.x} y2={loc.y}
-                        stroke="#2563EB" strokeWidth="0.8" strokeDasharray="3 3" className="opacity-45"
+                        stroke="#2563EB" strokeWidth="1.2" strokeDasharray="4 4" className="opacity-50"
                       />
                     );
                   })}
@@ -310,12 +310,12 @@ export default function HomePage() {
                     <button
                       key={idx}
                       onClick={() => setSelectedMapNode(idx)}
-                      className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group"
+                      className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group z-10"
                       style={{ top: node.y, left: node.x }}
                     >
-                      <span className={`absolute -inset-2.5 rounded-full ${isSelected ? 'bg-blue-400/35 animate-ping' : 'bg-transparent'}`} />
-                      <span className={`w-3.5 h-3.5 rounded-full border border-white shadow-md block transition-transform duration-300 group-hover:scale-125 ${
-                        isSelected ? 'bg-[#2563EB] scale-110' : 'bg-gray-400'
+                      <span className={`absolute -inset-2.5 rounded-full ${isSelected ? 'bg-blue-400/40 animate-ping' : 'bg-transparent'}`} />
+                      <span className={`w-4 h-4 rounded-full border-2 border-white shadow-md block transition-transform duration-300 group-hover:scale-125 ${
+                        isSelected ? 'bg-[#2563EB] scale-110' : 'bg-slate-400'
                       }`} />
                     </button>
                   );
