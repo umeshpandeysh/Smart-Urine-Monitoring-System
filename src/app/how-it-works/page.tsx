@@ -62,24 +62,36 @@ export default function HowItWorksPage() {
     <div className="min-h-screen bg-[#F8FAFC] text-[#0B1B33]" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
       <Navbar />
 
-      <main className="pt-28 pb-24 max-w-5xl mx-auto px-6 md:px-12 space-y-16">
+      <main className="pt-28 pb-24 max-w-5xl mx-auto px-6 md:px-12">
 
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-4">
-          <span className="inline-block text-xs font-mono font-semibold tracking-widest text-[#2563EB] bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full uppercase">
-            Platform Workflow
-          </span>
+        {/* Hero */}
+        <div className="text-center max-w-4xl mx-auto space-y-6 mb-10 md:mb-11">
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#0B1B33] tracking-tight"
             style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
             The 5-Step Diagnostic Journey
           </h1>
-          <p className="text-[#475569] text-base leading-relaxed">
-            UroSense bridges physical sensor telemetry with cloud-based diagnostic report delivery — sample captured, secured, and analysed in under 60 seconds.
-          </p>
+
+          {/* Compact Visual Process Summary */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto pt-2">
+            {[
+              { icon: '⚡', label: '60 Seconds' },
+              { icon: '🔬', label: '5 Embedded Sensors' },
+              { icon: '🤖', label: 'AI Clinical Analysis' },
+              { icon: '📊', label: 'Digital Health Report' },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="bg-white border border-gray-100/80 rounded-xl p-3.5 text-center shadow-sm flex items-center justify-center gap-2.5"
+              >
+                <span className="text-base flex-shrink-0" role="img" aria-hidden="true">{item.icon}</span>
+                <span className="text-xs sm:text-sm font-bold text-[#0B1B33] tracking-tight">{item.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Steps Stack */}
-        <div className="space-y-5">
+        <div className="space-y-5 mb-16">
           {STEPS.map((step, idx) => {
             const Icon = step.icon;
             return (
