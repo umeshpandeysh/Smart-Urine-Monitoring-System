@@ -16,65 +16,57 @@ const STEPS = [
   { 
     step: '01', color: '#2563EB', bg: '#EFF6FF', title: 'Locate Station', desc: 'Find a UroSense-enabled checkpoint at transit terminals, corporate centers, or healthcare facilities.',
     details: [
-      '📍 Interactive map helps you navigate to the nearest active UroSense kiosk',
-      '🏥 Integrated in high-traffic transit hubs, hospitals, and wellness centers',
-      '⚡ Real-time status tracking verifies station availability before arrival',
-      '🕒 Touchless hardware interface operates 24/7 with zero waiting times'
+      '📍 Find any UroSense-enabled kiosk at transit hubs, offices, or clinics near you.',
+      '💡 Did you know? Over 70% of early health indicators can be tracked through daily hydration signals!',
+      '🚀 Enjoy 24/7 instant touchless access with zero queuing or waiting times.'
     ]
   },
   { 
     step: '02', color: '#0D9488', bg: '#F0FDFA', title: 'Submit Sample', desc: 'Use the system naturally. Built-in optoelectronic grids isolate and register a micro-volume sample touchlessly.',
     details: [
-      '💧 Touchless optical sensor detects sample presence automatically',
-      '🧪 Micro-fluidic sampling channel extracts under 1mL for instant analysis',
-      '🧼 Self-cleaning fluidic pathway flushes clean between uses',
-      '⚡ Zero physical contact required during collection process'
+      '💧 Integrated optoelectronic sensors isolate micro-samples completely touchlessly.',
+      '🧪 Fun Fact: Our self-cleaning fluidic pathways flush clean in under 800 milliseconds!',
+      '🔒 Complete biological privacy with zero physical contact required.'
     ]
   },
   { 
     step: '03', color: '#7C3AED', bg: '#F5F3FF', title: 'Sensor Analysis', desc: 'Four solid-state biosensors evaluate pH, ionic density, temperature, and turbidity indexes within 3 seconds.',
     details: [
-      '🤖 Multi-wavelength optical spectrometry checks turbidity and clarity',
-      '🧪 Integrated solid-state electrochemical sensors measure precise pH',
-      '📊 TDS sensor computes ionic concentration for hydration scoring',
-      '🧬 Patented biological algorithm evaluates metabolic indicator risk'
+      '🔬 Solid-state biosensors evaluate pH, ionic density, and key biomarkers in 3 seconds.',
+      '💡 Did you know? Optical spectrometry checks cellular turbidity faster than a heartbeat!',
+      '⚡ Receive lab-grade biomarker analysis with instant metabolic scoring.'
     ]
   },
   { 
     step: '04', color: '#DB2777', bg: '#FDF2F8', title: 'Scan QR Code', desc: 'An ephemeral QR token is generated locally on the station display, ensuring direct and private linkage.',
     details: [
-      '🔐 QR code generated instantly by the kiosk',
-      '📲 Links the sample to your secure session',
-      '🛡️ No personal data stored inside the QR',
-      '⏳ Valid for a limited time only',
-      '📑 Enables encrypted report retrieval'
+      '🔐 Ephemeral QR tokens link your test session directly to your smartphone.',
+      '🛡️ Fun Fact: No personal medical data is ever stored on kiosk hardware!',
+      '📲 Instant private retrieval without filling out tedious paperwork.'
     ]
   },
   { 
     step: '05', color: '#D97706', bg: '#FFFBEB', title: 'Secure OTP Verify', desc: 'Confirm biological ownership through encrypted mobile verification codes. No persistent data stays on the device.',
     details: [
-      '📲 One-Time Password sent directly to your registered mobile number',
-      '🔐 End-to-end encryption guarantees medical record privacy',
-      '🧹 Kiosk wipes local session memory immediately after verification',
-      '🛡️ Strict HIPAA & DISHA compliant data transfer protocols'
+      '📱 Confirm ownership with encrypted biological one-time verification codes.',
+      '🔐 Did you know? Our zero-trust protocol wipes local memory instantly after verification!',
+      '🛡️ Full HIPAA & DISHA compliant data security for complete peace of mind.'
     ]
   },
   { 
     step: '06', color: '#059669', bg: '#ECFDF5', title: 'Clinical Insights', desc: 'Instantly load your results translated into plain language metrics. Avoid clinical terminology jargon.',
     details: [
-      '📊 Results rendered in easy-to-understand color-coded indicators',
-      '💡 Highlights risk factors for UTI, dehydration, and glucose spikes',
-      '🥗 Actionable dietary and hydration recommendations included',
-      '📑 Option to export formatted PDF for doctor consultations'
+      '📊 Results are translated into clear, jargon-free health indicators.',
+      '💡 Fun Fact: Color-coded baseline tracking makes understanding hydration effortless!',
+      '📄 Export actionable PDF health summaries directly for doctor consultations.'
     ]
   },
   { 
     step: '07', color: '#6366F1', bg: '#EEF2FF', title: 'Track History', desc: 'Store your measurements securely inside your personal biological health journal. Sync to track baseline trends.',
     details: [
-      '📈 Historical trend graphs visualize health metrics over weeks and months',
-      '📊 Automated baseline tracking alerts you to sudden metric deviations',
-      '☁️ Secure cloud backup allows seamless cross-device synchronization',
-      '🔐 Full data ownership with instant export and deletion controls'
+      '📈 Sync test results seamlessly into your private biological health journal.',
+      '🧠 Did you know? Tracking metric trends over time helps catch wellness changes early!',
+      '☁️ Full data ownership with instant cross-device backup and export controls.'
     ]
   },
 ];
@@ -242,7 +234,7 @@ export default function HomePage() {
           <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-12">
             <div className="max-w-xl space-y-2">
               <span className="text-xs font-semibold text-[#2563EB] uppercase tracking-wider">The Process</span>
-              <h2 className="font-bold text-[#0B1B33] text-3xl md:text-4xl" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+              <h2 className="font-extrabold text-[#0B1B33] text-[28px] sm:text-[34px] md:text-[48px] leading-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                 How UroSense Works
               </h2>
               <p className="text-gray-500 text-sm leading-relaxed">
@@ -312,7 +304,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
             <div className="text-center max-w-2xl mx-auto space-y-3">
               <span className="text-xs font-mono font-bold text-[#0D9488] uppercase tracking-widest bg-teal-50 px-3 py-1 rounded-full border border-teal-100">Detection Capabilities</span>
-              <h2 className="font-extrabold text-[#0B1B33] text-3xl md:text-5xl tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+              <h2 className="font-extrabold text-[#0B1B33] text-[28px] sm:text-[34px] md:text-[48px] leading-tight tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                 What Can UroSense Detect?
               </h2>
               <p className="text-gray-500 text-base leading-relaxed">
@@ -342,7 +334,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
             <div className="max-w-2xl space-y-2">
               <span className="text-xs font-semibold text-[#7C3AED] uppercase tracking-wider">Deployments</span>
-              <h2 className="font-bold text-[#0B1B33] text-3xl md:text-4xl" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+              <h2 className="font-extrabold text-[#0B1B33] text-[28px] sm:text-[34px] md:text-[48px] leading-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                 National Diagnostic Network
               </h2>
               <p className="text-gray-500 text-sm">
@@ -352,12 +344,12 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Spatial Map Display (7 Columns) */}
-              <div className="lg:col-span-7 h-[460px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-6">
+              <div className="lg:col-span-7 h-[460px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-8">
                 <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(#2563EB 1.2px, transparent 1.2px)', backgroundSize: '28px 28px' }} />
                 
-                {/* Clean Aspect-Ratio Container for 1:1 Image and Node Synchronization */}
-                <div className="w-full max-w-[320px] h-[360px] relative flex items-center justify-center">
-                  {/* Approved Production India Map PNG Asset (Enhanced & Cropped) */}
+                {/* 55-60% Width Centered Container with Generous Whitespace */}
+                <div className="w-full max-w-[220px] sm:max-w-[240px] h-[260px] sm:h-[280px] relative flex items-center justify-center">
+                  {/* Approved Production India Map PNG Asset (Enhanced & High-DPI) */}
                   <Image 
                     src="/india-map.png" 
                     alt="Approved India Telemetry Map" 
@@ -366,27 +358,7 @@ export default function HomePage() {
                     priority 
                   />
 
-                  {/* Subtle Telemetry Connection Lines between Logical Regional Nodes */}
-                  <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-                    {[
-                      [0, 1], [0, 2], [0, 9], // Delhi to Jaipur, Lucknow, Guwahati
-                      [1, 3], // Jaipur to Ahmedabad
-                      [3, 4], // Ahmedabad to Mumbai
-                      [4, 5], [4, 6], // Mumbai to Hyderabad, Bengaluru
-                      [6, 7], // Bengaluru to Chennai
-                      [5, 8], // Hyderabad to Kolkata
-                      [2, 8]  // Lucknow to Kolkata
-                    ].map(([fromIdx, toIdx], i) => (
-                      <line 
-                        key={i}
-                        x1={locationsRoadmap[fromIdx].x} y1={locationsRoadmap[fromIdx].y}
-                        x2={locationsRoadmap[toIdx].x} y2={locationsRoadmap[toIdx].y}
-                        stroke="#2563EB" strokeWidth="1.5" strokeDasharray="4 4" className="opacity-70"
-                      />
-                    ))}
-                  </svg>
-
-                  {/* Telemetry Node Markers (Delhi Highlighted as Primary Hub) */}
+                  {/* Telemetry Circular Node Markers (Only City Markers, No Lines) */}
                   {locationsRoadmap.map((node, idx) => {
                     const isSelected = selectedMapNode === idx;
                     const isHub = node.isHub;
