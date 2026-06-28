@@ -29,10 +29,6 @@ export default function ContactPage() {
 
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold">
-              <Clock className="w-3.5 h-3.5 text-[#2563EB]" />
-              Rapid Response Support
-            </div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-[#0B1B33] tracking-tight"
               style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
               Get in Touch with UroSense

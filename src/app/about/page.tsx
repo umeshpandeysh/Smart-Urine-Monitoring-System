@@ -59,20 +59,12 @@ export default function AboutPage() {
 
       <main className="pt-28 pb-24 max-w-6xl mx-auto px-6 md:px-12 space-y-20">
 
-        {/* Hero Product Story Intro */}
+        {/* Hero Intro */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold">
-            <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
-            Product Story & Mission
-          </div>
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#0B1B33]"
             style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
             About UroSense
           </h1>
-          <p className="text-xl md:text-2xl font-bold text-[#2563EB] tracking-tight"
-            style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-            Healthcare Intelligence. Simplified.
-          </p>
           <p className="text-base text-gray-500 max-w-xl mx-auto leading-relaxed">
             Transforming everyday biological indicators into actionable health insights before symptoms appear.
           </p>
@@ -110,8 +102,7 @@ export default function AboutPage() {
 
         {/* Problem → Solution → Innovation → Impact Matrix */}
         <div className="space-y-8">
-          <div className="text-center space-y-2">
-            <span className="text-xs font-mono text-gray-400 uppercase tracking-widest block">Product Architecture</span>
+          <div className="text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
               The Four Pillars of UroSense
             </h2>
