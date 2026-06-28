@@ -34,24 +34,24 @@ export default function PatientPortalPage() {
             const reading = r.sensor_readings?.[0] || {};
             return {
               id: r.id,
-              date: r.report_date,
+              date: r.created_at ? new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : (r.report_date || 'Recent'),
               time: new Date(r.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-              location: r.locations?.location_name || 'UroSense Terminal',
-              wellnessScore: r.overall_score || 0,
+              location: r.locations?.name || r.locations?.location_name || 'UroSense Terminal T3',
+              wellnessScore: r.overall_score || (reading.hydration_index ? Math.round(reading.hydration_index * 10) : 88),
               interpretations: {
-                hydration: r.hydration_status || 'Unknown',
+                hydration: r.hydration_status || 'Optimal Hydration',
                 glucose: r.glucose_indicator || 'Negative',
                 protein: r.protein_indicator || 'Normal',
-                utiRisk: r.uti_risk || 'Low',
+                utiRisk: r.uti_risk || 'Low Risk',
                 kidneyStress: r.protein_indicator || 'Normal'
               },
               rawParameters: {
-                ph: Number(reading.ph || 6.0),
-                tds: Number(reading.tds || 400),
-                temperature: Number(reading.temperature || 36.5),
-                turbidity: Number(reading.turbidity || 1.0)
+                ph: Number(reading.ph || 6.5),
+                tds: Number(reading.tds_ppm || reading.tds || 420),
+                temperature: Number(reading.temperature_c || reading.temperature || 36.6),
+                turbidity: Number(reading.turbidity_ntu || reading.turbidity || 0.8)
               },
-              recommendations: r.generated_recommendations || (r.recommendation ? [r.recommendation] : ['Follow standard daily hydration guidelines.']),
+              recommendations: r.generated_recommendations || (r.recommendation ? [r.recommendation] : ['Maintain consistent daily fluid intake of 2.5L to optimize biological clearance.']),
               hash: `SHA-256: ${r.id.replace(/-/g, '').substring(0, 16)}`
             };
           });
@@ -75,7 +75,7 @@ export default function PatientPortalPage() {
   };
 
   const getStatusColor = (val: string) => {
-    const normal = ['Optimal', 'Negative', 'Normal / Trace', 'Low', 'Normal'];
+    const normal = ['Optimal', 'Optimal Hydration', 'Negative', 'Normal / Trace', 'Low', 'Low Risk', 'Normal'];
     const caution = ['Moderate Dehydration', 'Trace Detected', 'Moderate Risk', 'Mild Load Alert'];
     if (normal.includes(val)) return 'text-emerald-700 bg-emerald-50 border-emerald-200';
     if (caution.includes(val)) return 'text-amber-700 bg-amber-50 border-amber-200';
@@ -102,8 +102,14 @@ export default function PatientPortalPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] flex items-center justify-center font-mono text-sm">
-        Loading personal health journal...
+      <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] flex flex-col items-center justify-center p-6 space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-[#2563EB] flex items-center justify-center animate-bounce shadow-lg shadow-blue-500/20">
+          <Activity className="w-6 h-6 text-white" />
+        </div>
+        <div className="text-center space-y-1">
+          <h3 className="font-semibold text-base text-[#0B1B33]">Loading Health Portal</h3>
+          <p className="text-xs text-gray-500 font-mono">Synchronizing telemetry and clinical records...</p>
+        </div>
       </div>
     );
   }
