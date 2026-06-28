@@ -94,13 +94,16 @@ export default function HomePage() {
   const [selectedMapNode, setSelectedMapNode] = useState(0);
 
   const locationsRoadmap = [
-    { name: 'New Delhi', zone: 'North Grid', x: '41%', y: '27%', density: 'High Density (14 Stations)', status: 'Active' },
-    { name: 'Ahmedabad', zone: 'West Grid', x: '24%', y: '45%', density: 'Active Integration (11 Stations)', status: 'Active' },
-    { name: 'Mumbai', zone: 'West Grid', x: '27%', y: '56%', density: 'High Density (22 Stations)', status: 'Active' },
-    { name: 'Hyderabad', zone: 'Central Grid', x: '47%', y: '61%', density: 'Active Integration (10 Stations)', status: 'Active' },
-    { name: 'Bengaluru', zone: 'South Grid', x: '41%', y: '74%', density: 'High Density (18 Stations)', status: 'Active' },
-    { name: 'Chennai', zone: 'South Grid', x: '52%', y: '77%', density: 'Expanding Coverage (12 Stations)', status: 'Active' },
-    { name: 'Kolkata', zone: 'East Grid', x: '73%', y: '43%', density: 'Active Integration (8 Stations)', status: 'Active' }
+    { name: 'Delhi (Primary Hub)', zone: 'North Central Hub', x: '38%', y: '29%', density: 'National Core (32 Stations)', status: 'Active Hub', isHub: true },
+    { name: 'Jaipur', zone: 'North West Grid', x: '32%', y: '33%', density: 'Active Cell (12 Stations)', status: 'Active' },
+    { name: 'Lucknow', zone: 'North East Grid', x: '46%', y: '34%', density: 'Active Cell (14 Stations)', status: 'Active' },
+    { name: 'Ahmedabad', zone: 'West Grid', x: '26%', y: '46%', density: 'Active Integration (16 Stations)', status: 'Active' },
+    { name: 'Mumbai', zone: 'West Grid', x: '29%', y: '58%', density: 'High Density (24 Stations)', status: 'Active' },
+    { name: 'Hyderabad', zone: 'Central Grid', x: '45%', y: '61%', density: 'Active Integration (18 Stations)', status: 'Active' },
+    { name: 'Bengaluru', zone: 'South Grid', x: '40%', y: '74%', density: 'High Density (22 Stations)', status: 'Active' },
+    { name: 'Chennai', zone: 'South Grid', x: '50%', y: '76%', density: 'Expanding Coverage (15 Stations)', status: 'Active' },
+    { name: 'Kolkata', zone: 'East Grid', x: '66%', y: '45%', density: 'Active Integration (14 Stations)', status: 'Active' },
+    { name: 'Guwahati', zone: 'North East Hub', x: '78%', y: '36%', density: 'Regional Corridor (8 Stations)', status: 'Active' }
   ];
 
   return (
@@ -273,24 +276,24 @@ export default function HomePage() {
               {/* Right: Apple Style Detailed Canvas */}
               <div className="lg:col-span-7 bg-white border border-gray-100 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col justify-between">
                 <div className="space-y-5">
-                  <span className="text-[10px] font-mono text-[#2563EB] uppercase tracking-widest bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100 w-fit block font-bold">STEP {STEPS[activeStep].step} DETAILS</span>
+                  <span className="text-[0.85rem] font-mono text-[#2563EB] uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100 w-fit block font-bold">STEP {STEPS[activeStep].step} DETAILS</span>
                   <div>
-                    <h3 className="text-2xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                    <h3 className="text-3xl md:text-[2.35rem] font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                       {STEPS[activeStep].title}
                     </h3>
-                    <p className="text-lg md:text-xl text-gray-600 leading-[1.65] font-normal mt-2">
+                    <p className="text-base md:text-[1.05rem] text-gray-600 leading-[1.7] font-normal mt-2.5">
                       {STEPS[activeStep].desc}
                     </p>
                   </div>
 
                   {/* Dynamic Educational Bullet Section */}
                   <div className="pt-4 border-t border-gray-100 space-y-3">
-                    <h4 className="text-xs font-bold text-[#0B1B33] tracking-wider uppercase font-mono">
+                    <h4 className="text-[0.85rem] font-bold text-[#0B1B33] tracking-wider uppercase font-mono">
                       What happens in this step
                     </h4>
-                    <ul className="space-y-3 list-none p-0 m-0">
+                    <ul className="space-y-2.5 list-none p-0 m-0">
                       {STEPS[activeStep].details?.map((item, i) => (
-                        <li key={i} className="text-base md:text-lg text-gray-700 font-medium leading-[1.65] flex items-start gap-3">
+                        <li key={i} className="text-[0.98rem] md:text-[1rem] text-gray-700 font-normal leading-[1.7] flex items-start gap-3">
                           <span>{item}</span>
                         </li>
                       ))}
@@ -369,25 +372,30 @@ export default function HomePage() {
                   />
                 </div>
 
-                {/* Subtle Telemetry Connection Lines */}
+                {/* Subtle Telemetry Connection Lines between Logical Regional Nodes */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-                  {locationsRoadmap.map((loc, idx) => {
-                    if (idx === 0) return null;
-                    const prev = locationsRoadmap[idx - 1];
-                    return (
-                      <line 
-                        key={idx}
-                        x1={prev.x} y1={prev.y}
-                        x2={loc.x} y2={loc.y}
-                        stroke="#2563EB" strokeWidth="1.5" strokeDasharray="4 4" className="opacity-60"
-                      />
-                    );
-                  })}
+                  {[
+                    [0, 1], [0, 2], [0, 9], // Delhi to Jaipur, Lucknow, Guwahati
+                    [1, 3], // Jaipur to Ahmedabad
+                    [3, 4], // Ahmedabad to Mumbai
+                    [4, 5], [4, 6], // Mumbai to Hyderabad, Bengaluru
+                    [6, 7], // Bengaluru to Chennai
+                    [5, 8], // Hyderabad to Kolkata
+                    [2, 8]  // Lucknow to Kolkata
+                  ].map(([fromIdx, toIdx], i) => (
+                    <line 
+                      key={i}
+                      x1={locationsRoadmap[fromIdx].x} y1={locationsRoadmap[fromIdx].y}
+                      x2={locationsRoadmap[toIdx].x} y2={locationsRoadmap[toIdx].y}
+                      stroke="#2563EB" strokeWidth="1.5" strokeDasharray="4 4" className="opacity-65"
+                    />
+                  ))}
                 </svg>
 
-                {/* Telemetry Node Markers */}
+                {/* Telemetry Node Markers (Delhi Highlighted as Primary Hub) */}
                 {locationsRoadmap.map((node, idx) => {
                   const isSelected = selectedMapNode === idx;
+                  const isHub = node.isHub;
                   return (
                     <button
                       key={idx}
@@ -395,9 +403,14 @@ export default function HomePage() {
                       className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group z-20"
                       style={{ top: node.y, left: node.x }}
                     >
-                      <span className={`absolute -inset-3 rounded-full ${isSelected ? 'bg-blue-500/30 animate-ping' : 'bg-transparent'}`} />
-                      <span className={`w-4 h-4 rounded-full border-2 border-white shadow-lg block transition-transform duration-300 group-hover:scale-125 ${
-                        isSelected ? 'bg-[#2563EB] scale-125 ring-2 ring-blue-300' : 'bg-slate-500'
+                      {isHub && <span className="absolute -inset-4 rounded-full bg-blue-600/30 animate-ping" />}
+                      <span className={`absolute ${isHub ? '-inset-3.5' : '-inset-2.5'} rounded-full ${isSelected ? 'bg-blue-600/40 animate-pulse' : isHub ? 'bg-blue-500/20' : 'bg-transparent'}`} />
+                      <span className={`rounded-full border-2 border-white shadow-xl block transition-transform duration-300 group-hover:scale-125 ${
+                        isHub 
+                          ? 'w-5 h-5 bg-[#2563EB] ring-4 ring-blue-400/50 scale-110 z-30' 
+                          : isSelected 
+                            ? 'w-4 h-4 bg-[#2563EB] scale-125 ring-2 ring-blue-300' 
+                            : 'w-3.5 h-3.5 bg-blue-700'
                       }`} />
                     </button>
                   );
