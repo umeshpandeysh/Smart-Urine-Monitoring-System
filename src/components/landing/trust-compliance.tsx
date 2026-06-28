@@ -26,7 +26,7 @@ export default function TrustCompliance() {
                 <ShieldCheck className="w-5 h-5 text-[#0F7AF3] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-semibold text-[#111827]">HIPAA Compliant Vaults</h4>
-                  <p className="text-xs text-[#6B7280] font-light mt-1">End-to-end data encryption protects patient biological telemetry at rest and in transit.</p>
+                  <p className="text-xs text-[#6B7280] font-light mt-1">End-to-end data encryption protects user biological telemetry at rest and in transit.</p>
                 </div>
               </div>
               <div className="flex gap-3">

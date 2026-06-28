@@ -30,7 +30,7 @@ export default function TermsPage() {
           {[
             {
               title: 'Acceptance of Terms',
-              body: 'By accessing or using UroSense services — including kiosk terminals, the Patient Portal, or any associated applications — you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.',
+              body: 'By accessing or using UroSense services — including kiosk terminals, the User Portal, or any associated applications — you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.',
             },
             {
               title: 'Intended Use',
@@ -50,7 +50,7 @@ export default function TermsPage() {
             },
             {
               title: 'Changes to Terms',
-              body: 'We reserve the right to update these terms at any time. Continued use of UroSense services after changes constitutes acceptance of the revised terms. We will notify users of material changes via the Patient Portal.',
+              body: 'We reserve the right to update these terms at any time. Continued use of UroSense services after changes constitutes acceptance of the revised terms. We will notify users of material changes via the User Portal.',
             },
             {
               title: 'Contact',

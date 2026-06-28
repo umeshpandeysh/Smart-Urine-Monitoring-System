@@ -27,7 +27,7 @@ export default async function AdminUsersPage() {
           User Directory Operations
         </h1>
         <p className="text-xs text-[#6B7280] font-light">
-          Manage enrolled patient, operator, and administrator credentials.
+          Manage enrolled user, operator, and administrator credentials.
         </p>
       </div>
 

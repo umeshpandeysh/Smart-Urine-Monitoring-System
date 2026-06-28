@@ -139,7 +139,7 @@ export default function HowItWorksPage() {
               href="/login"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#2563EB] text-white font-semibold text-sm hover:bg-[#1D4ED8] shadow-md shadow-blue-500/15 transition-all duration-200 hover:-translate-y-0.5"
             >
-              Access Patient Portal <ArrowRight className="w-4 h-4" />
+              Access User Portal <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/technology"

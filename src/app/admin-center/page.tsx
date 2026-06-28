@@ -76,11 +76,11 @@ export default function AdminCenterPage() {
 
   // Clinical reports queue mock/backend data
   const reportsList = reports.length > 0 ? reports : [
-    { id: 'US-REP-9482', patientHash: 'PAT-9482 (Umesh P.)', time: '14 mins ago', risk: 'High Risk', flag: 'Protein Leakage (+2), Mild TDS Load', status: 'Pending Review', reviewer: 'Dr. Sarah Jenkins' },
-    { id: 'US-REP-9481', patientHash: 'PAT-8921 (Aarav S.)', time: '28 mins ago', risk: 'Moderate Risk', flag: 'Mild Dehydration Index', status: 'Verified', reviewer: 'Dr. Rajesh Kumar' },
-    { id: 'US-REP-9480', patientHash: 'PAT-7412 (Priya N.)', time: '42 mins ago', risk: 'Normal', flag: 'Clear Baseline Equilibrium', status: 'Verified', reviewer: 'Auto-Verified' },
-    { id: 'US-REP-9479', patientHash: 'PAT-6309 (Vikram R.)', time: '1 hour ago', risk: 'High Risk', flag: 'Glucose Spillover Detected', status: 'Escalated', reviewer: 'Dr. Sarah Jenkins' },
-    { id: 'US-REP-9478', patientHash: 'PAT-5110 (Ananya M.)', time: '1.5 hours ago', risk: 'Normal', flag: 'Optimal Hydration & pH', status: 'Verified', reviewer: 'Auto-Verified' },
+    { id: 'US-REP-9482', userHash: 'USR-9482 (Umesh P.)', time: '14 mins ago', risk: 'High Risk', flag: 'Protein Leakage (+2), Mild TDS Load', status: 'Pending Review', reviewer: 'Dr. Sarah Jenkins' },
+    { id: 'US-REP-9481', userHash: 'USR-8921 (Aarav S.)', time: '28 mins ago', risk: 'Moderate Risk', flag: 'Mild Dehydration Index', status: 'Verified', reviewer: 'Dr. Rajesh Kumar' },
+    { id: 'US-REP-9480', userHash: 'USR-7412 (Priya N.)', time: '42 mins ago', risk: 'Normal', flag: 'Clear Baseline Equilibrium', status: 'Verified', reviewer: 'Auto-Verified' },
+    { id: 'US-REP-9479', userHash: 'USR-6309 (Vikram R.)', time: '1 hour ago', risk: 'High Risk', flag: 'Glucose Spillover Detected', status: 'Escalated', reviewer: 'Dr. Sarah Jenkins' },
+    { id: 'US-REP-9478', userHash: 'USR-5110 (Ananya M.)', time: '1.5 hours ago', risk: 'Normal', flag: 'Optimal Hydration & pH', status: 'Verified', reviewer: 'Auto-Verified' },
   ];
 
   // Filtered devices
@@ -246,7 +246,7 @@ export default function AdminCenterPage() {
           {[
             { label: 'Active Devices', val: '24 / 26', change: '+4.2% fleet', trend: 'up', icon: Cpu, color: '#2563EB', bg: '#EFF6FF' },
             { label: 'Active Locations', val: '10 Cities', change: 'National Grid', trend: 'neutral', icon: MapPin, color: '#0D9488', bg: '#F0FDFA' },
-            { label: 'Patients Screened Today', val: '1,482', change: '+12.4% daily', trend: 'up', icon: Users, color: '#059669', bg: '#ECFDF5' },
+            { label: 'Users Screened Today', val: '1,482', change: '+12.4% daily', trend: 'up', icon: Users, color: '#059669', bg: '#ECFDF5' },
             { label: 'Reports Verified Today', val: '1,482', change: '100% verified', trend: 'up', icon: FileText, color: '#7C3AED', bg: '#F5F3FF' },
             { label: 'Critical Alerts', val: '3 Alerts', change: '-2 from yesterday', trend: 'down', icon: AlertTriangle, color: '#DC2626', bg: '#FEF2F2' },
             { label: 'Weekly Growth', val: '+14.8%', change: 'Throughput rate', trend: 'up', icon: TrendingUp, color: '#2563EB', bg: '#EFF6FF' },
@@ -350,7 +350,7 @@ export default function AdminCenterPage() {
               <div className="space-y-3">
                 {[
                   { priority: 'P1 - High', title: 'Sensor Calibration Required', loc: 'Delhi Airport T3 (US-NOD-1003)', time: '10 mins ago', color: 'bg-rose-50 border-rose-200 text-rose-800', btn: 'Recalibrate' },
-                  { priority: 'P2 - Med', title: 'High Protein Detected', loc: 'Patient US-PAT-9842 (Mumbai Node)', time: '25 mins ago', color: 'bg-amber-50 border-amber-200 text-amber-800', btn: 'Escalate' },
+                  { priority: 'P2 - Med', title: 'High Protein Detected', loc: 'User US-USR-9842 (Mumbai Node)', time: '25 mins ago', color: 'bg-amber-50 border-amber-200 text-amber-800', btn: 'Escalate' },
                   { priority: 'P3 - Low', title: 'Terminal Battery Low (14%)', loc: 'Bengaluru Hub (US-NOD-1005)', time: '1 hour ago', color: 'bg-blue-50 border-blue-200 text-blue-800', btn: 'Ping Tech' },
                 ].map((alertItem, idx) => (
                   <div key={idx} className={`p-3.5 rounded-2xl border ${alertItem.color} space-y-2`}>
@@ -524,7 +524,7 @@ export default function AdminCenterPage() {
                 <h2 className="text-lg font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                   Clinical Report Review Queue
                 </h2>
-                <p className="text-xs text-gray-400">Audit and moderate abnormal patient scans flagged for clinical verification</p>
+                <p className="text-xs text-gray-400">Audit and moderate abnormal user scans flagged for clinical verification</p>
               </div>
               <span className="px-3 py-1 rounded-full bg-blue-50 text-[#2563EB] text-xs font-mono font-bold">5 Pending Audit</span>
             </div>
@@ -535,7 +535,7 @@ export default function AdminCenterPage() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="font-mono font-bold text-xs text-[#0B1B33]">{rep.id}</span>
-                      <span className="text-[10px] font-mono text-gray-400">({rep.patientHash})</span>
+                      <span className="text-[10px] font-mono text-gray-400">({rep.userHash})</span>
                       <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                         rep.risk === 'High Risk' ? 'bg-rose-100 text-rose-800' :
                         rep.risk === 'Moderate Risk' ? 'bg-amber-100 text-amber-800' :
@@ -599,7 +599,7 @@ export default function AdminCenterPage() {
               </button>
 
               <p className="text-[11px] text-gray-400 leading-relaxed font-mono">
-                Cryptographic HIPAA compliance enforced. Patient metadata is anonymized in exported records.
+                Cryptographic HIPAA compliance enforced. User metadata is anonymized in exported records.
               </p>
             </div>
           </div>

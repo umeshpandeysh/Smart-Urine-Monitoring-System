@@ -8,7 +8,7 @@ const LINKS = {
   product: [
     { label: 'How It Works', href: '/how-it-works' },
     { label: 'Technology', href: '/technology' },
-    { label: 'Patient Portal', href: '/patient-portal' },
+    { label: 'User Portal', href: '/patient-portal' },
   ],
   company: [
     { label: 'About', href: '/about' },

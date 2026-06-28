@@ -97,7 +97,7 @@ export default function Navbar() {
             }`}
             style={{ fontFamily: 'var(--font-inter), sans-serif' }}
           >
-            Patient Portal
+            User Portal
           </Link>
         </div>
 
@@ -165,7 +165,7 @@ export default function Navbar() {
                 }`}
                 style={{ fontFamily: 'var(--font-inter), sans-serif' }}
               >
-                Patient Portal
+                User Portal
               </Link>
             </div>
           </motion.div>

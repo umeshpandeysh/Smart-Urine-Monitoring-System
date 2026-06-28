@@ -17,8 +17,8 @@ export default function ComplianceCenter() {
   ];
 
   const consentActivity = [
-    { id: 'CON-902', action: 'HIPAA Disclosure signed', user: 'Patient: Elena Vance', date: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(), state: 'COMPLIANT' },
-    { id: 'CON-905', action: 'Data Authorization extended', user: 'Patient: Marcus Thorne', date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), state: 'COMPLIANT' },
+    { id: 'CON-902', action: 'HIPAA Disclosure signed', user: 'User: Elena Vance', date: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(), state: 'COMPLIANT' },
+    { id: 'CON-905', action: 'Data Authorization extended', user: 'User: Marcus Thorne', date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), state: 'COMPLIANT' },
     { id: 'CON-908', action: 'End-user agreement signed', user: 'Operator: Sarah Connor', date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), state: 'COMPLIANT' },
   ];
 

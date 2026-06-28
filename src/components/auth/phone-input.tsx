@@ -72,7 +72,7 @@ export default function PhoneInput({
 
       <div className="space-y-2">
         <h2 className="font-display font-semibold text-3xl text-[#0A2540] tracking-tight">
-          Patient Portal
+          User Portal
         </h2>
         <p className="text-xs text-[#6B7280] font-light leading-relaxed">
           Sign in or register your account using your mobile number to view and download your health reports.

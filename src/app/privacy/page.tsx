@@ -5,7 +5,7 @@ import { Shield } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — UroSense',
-  description: 'UroSense privacy policy. Learn how we handle your health data, our zero-persistent storage model, and your rights as a patient.',
+  description: 'UroSense privacy policy. Learn how we handle your health data, our zero-persistent storage model, and your rights as a user.',
 };
 
 export default function PrivacyPage() {
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
             },
             {
               title: 'Your Rights',
-              body: 'You may request complete deletion of your health journal at any time through the Patient Portal settings. You may also download a full export of your data as a PDF. We comply with DISHA (Digital Information Security in Healthcare Act) and applicable Indian data privacy regulations.',
+              body: 'You may request complete deletion of your health journal at any time through the User Portal settings. You may also download a full export of your data as a PDF. We comply with DISHA (Digital Information Security in Healthcare Act) and applicable Indian data privacy regulations.',
             },
             {
               title: 'Contact',

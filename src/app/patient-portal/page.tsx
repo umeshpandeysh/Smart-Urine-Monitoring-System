@@ -197,7 +197,7 @@ export default function PatientPortalPage() {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#2563EB] text-xs font-semibold transition-colors"
             >
               <UserPlus className="w-3.5 h-3.5" />
-              <span>New Patient Registration</span>
+              <span>New User Registration</span>
             </button>
 
             <div className="h-4 w-px bg-gray-200 hidden sm:block" />
@@ -311,7 +311,7 @@ export default function PatientPortalPage() {
                       className="text-xs font-mono font-semibold text-[#2563EB] hover:underline flex items-center gap-1"
                     >
                       {showTechnical ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
-                      <span>{showTechnical ? "Patient View" : "Technical View"}</span>
+                      <span>{showTechnical ? "User View" : "Technical View"}</span>
                     </button>
                   </div>
                 </div>
@@ -497,7 +497,7 @@ export default function PatientPortalPage() {
                 >
                   <div className="flex items-center gap-2.5">
                     <PlusCircle className="w-4 h-4 text-gray-500" />
-                    <span>Register New Patient Profile</span>
+                    <span>Register New User Profile</span>
                   </div>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </button>
@@ -508,7 +508,7 @@ export default function PatientPortalPage() {
                 >
                   <div className="flex items-center gap-2.5">
                     <User className="w-4 h-4 text-gray-500" />
-                    <span>Update Patient Profile</span>
+                    <span>Update User Profile</span>
                   </div>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </button>
@@ -518,7 +518,7 @@ export default function PatientPortalPage() {
             {/* PROFILE SUMMARY CARD */}
             <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-mono text-gray-400 uppercase tracking-widest">Patient Profile</h3>
+                <h3 className="text-xs font-mono text-gray-400 uppercase tracking-widest">User Profile</h3>
                 <button onClick={() => setShowProfileModal(true)} className="text-[11px] text-[#2563EB] font-semibold hover:underline">Edit</button>
               </div>
 
@@ -528,7 +528,7 @@ export default function PatientPortalPage() {
                 </div>
                 <div>
                   <p className="font-bold text-sm text-[#0B1B33]">{activePatientName}</p>
-                  <p className="text-[10px] font-mono text-gray-400">ID: US-PAT-84920</p>
+                  <p className="text-[10px] font-mono text-gray-400">ID: US-USR-84920</p>
                 </div>
               </div>
 
@@ -599,7 +599,7 @@ export default function PatientPortalPage() {
                 <UserPlus className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                New Patient Registration
+                New User Registration
               </h3>
               <p className="text-xs text-gray-500">Register a new profile or family member to link future UroSense scans.</p>
             </div>
@@ -607,7 +607,7 @@ export default function PatientPortalPage() {
             {registerSuccess ? (
               <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center space-y-3">
                 <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto animate-bounce" />
-                <p className="font-bold text-emerald-900 text-sm">Patient Registered Successfully!</p>
+                <p className="font-bold text-emerald-900 text-sm">User Registered Successfully!</p>
                 <p className="text-xs text-emerald-700">Updating active journal session...</p>
               </div>
             ) : (
@@ -698,19 +698,19 @@ export default function PatientPortalPage() {
 
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                Patient Profile Details
+                User Profile Details
               </h3>
               <p className="text-xs text-gray-500">Personal information associated with your health journal.</p>
             </div>
 
             <div className="space-y-3 text-xs">
               <div className="p-3 bg-gray-50 rounded-xl flex justify-between">
-                <span className="text-gray-500">Patient Name</span>
+                <span className="text-gray-500">User Name</span>
                 <span className="font-bold text-[#0B1B33]">{activePatientName}</span>
               </div>
               <div className="p-3 bg-gray-50 rounded-xl flex justify-between">
-                <span className="text-gray-500">Patient ID</span>
-                <span className="font-mono font-bold text-[#2563EB]">US-PAT-84920</span>
+                <span className="text-gray-500">User ID</span>
+                <span className="font-mono font-bold text-[#2563EB]">US-USR-84920</span>
               </div>
               <div className="p-3 bg-gray-50 rounded-xl flex justify-between">
                 <span className="text-gray-500">Mobile Authentication</span>

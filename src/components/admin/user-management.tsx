@@ -81,7 +81,7 @@ export default function UserManagement({ profiles }: UserManagementProps) {
                   : 'bg-white border-[#E5E7EB] text-[#6B7280] hover:text-[#111827] hover:border-[#9CA3AF]'
               }`}
             >
-              {role}s
+              {role === 'patient' ? 'Users' : `${role}s`}
             </button>
           ))}
         </div>
@@ -116,7 +116,7 @@ export default function UserManagement({ profiles }: UserManagementProps) {
 
                     <div className="space-y-0.5">
                       <h4 className="font-display font-medium text-sm text-[#111827] tracking-tight">
-                        {p.first_name || 'UroSense'} {p.last_name || 'Patient'}
+                        {p.first_name || 'UroSense'} {p.last_name || 'User'}
                       </h4>
                       <p className="text-[10px] text-[#6B7280] font-light">
                         {p.timezone || 'UTC timezone'}

@@ -67,7 +67,7 @@ const STEPS = [
     step: '06', color: '#059669', bg: '#ECFDF5', title: 'Clinical Insights',
     desc: 'Your results appear instantly in plain language — no medical degree required to understand what your body is telling you.',
     details: [
-      '📊 Six health indicators presented in simple, colour-coded, patient-friendly language.',
+      '📊 Six health indicators presented in simple, colour-coded, user-friendly language.',
       '📈 Baseline comparisons show whether each reading has improved, worsened, or held steady.',
       '📄 One-tap PDF export formatted for sharing directly with your physician.',
       '💡 Did you know? UroSense converts complex biomarker data into just three actionable status levels.',
@@ -181,7 +181,7 @@ export default function HomePage() {
               <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-100 bg-slate-50">
                 <Image
                   src="/hero-doctor.png"
-                  alt="UroSense doctor reviewing a patient health report on a tablet"
+                  alt="UroSense doctor reviewing a user health report on a tablet"
                   width={640}
                   height={480}
                   className="w-full h-80 object-cover object-top"
@@ -564,7 +564,7 @@ export default function HomePage() {
                 href="/login"
                 className="inline-flex items-center gap-3 px-9 py-4 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-extrabold text-base hover:from-[#1D4ED8] hover:to-[#1E40AF] shadow-2xl shadow-blue-500/40 transition-all duration-300 hover:scale-105 active:scale-100"
               >
-                Access Patient Portal <ArrowRight className="w-5 h-5" />
+                Access User Portal <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>

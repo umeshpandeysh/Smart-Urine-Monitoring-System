@@ -163,16 +163,16 @@ export default async function ReportDetailPage({ params }: ReportParams) {
         {/* Left — 7 cols */}
         <div className="lg:col-span-7 space-y-6">
 
-          {/* Patient Information */}
+          {/* User Information */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <div className="flex items-center gap-2 mb-4">
               <User className="w-5 h-5 text-[#2563EB]" />
-              <h2 className="text-base font-bold text-[#0B1B33]">Patient Information</h2>
+              <h2 className="text-base font-bold text-[#0B1B33]">User Information</h2>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: 'Patient Name', value: `${profile.first_name || 'Patient'} ${profile.last_name || ''}`.trim() },
-                { label: 'Patient ID', value: profile.id.substring(0, 8).toUpperCase() },
+                { label: 'User Name', value: `${profile.first_name || 'User'} ${profile.last_name || ''}`.trim() },
+                { label: 'User ID', value: profile.id.substring(0, 8).toUpperCase() },
                 { label: 'Report Date', value: dateStr },
                 { label: 'Scan Time', value: timeStr },
               ].map((f) => (

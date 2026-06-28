@@ -100,7 +100,7 @@ export default function AuthBrandPanel() {
           </div>
           <div className="flex items-center gap-2.5 text-xs text-[#4B5563]">
             <Heart className="w-4 h-4 text-[#175E54] shrink-0" />
-            <span className="font-light">Clinical Patient-grade Reporting Guidelines</span>
+            <span className="font-light">Clinical-grade Wellness Reporting Guidelines</span>
           </div>
         </motion.div>
       </div>
