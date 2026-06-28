@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Loader2, RefreshCw, ShieldAlert } from 'lucide-react';
+import { ArrowLeft, Loader2, RefreshCw, ShieldAlert, CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface OtpInputProps {
@@ -38,19 +38,17 @@ export default function OtpInput({
     return () => clearInterval(interval);
   }, [timer]);
 
-  // Sync filled OTP code to parent verify when length is 6
-  useEffect(() => {
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     const code = digits.join('');
-    if (code.length === 6) {
+    if (code.length === 6 && !loading) {
       onVerify(code);
     }
-  }, [digits, onVerify]);
+  };
 
   const handleChange = (index: number, val: string) => {
-    // Only numeric characters allowed
     const numericVal = val.replace(/\D/g, '');
     if (!numericVal) {
-      // Clear value
       const newDigits = [...digits];
       newDigits[index] = '';
       setDigits(newDigits);
@@ -71,17 +69,17 @@ export default function OtpInput({
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace') {
       if (!digits[index] && index > 0) {
-        // Clear previous cell and focus it
         const newDigits = [...digits];
         newDigits[index - 1] = '';
         setDigits(newDigits);
         inputRefs.current[index - 1]?.focus();
       } else {
-        // Clear current cell
         const newDigits = [...digits];
         newDigits[index] = '';
         setDigits(newDigits);
       }
+    } else if (e.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -96,7 +94,6 @@ export default function OtpInput({
     }
     setDigits(newDigits);
 
-    // Focus the last filled cell or the next empty cell
     const focusIdx = Math.min(pasteData.length, 5);
     inputRefs.current[focusIdx]?.focus();
   };
@@ -110,11 +107,13 @@ export default function OtpInput({
       setDigits(Array(6).fill(''));
       inputRefs.current[0]?.focus();
     } catch {
-      // Errors handled by parent component state
+      // Errors handled by parent state
     } finally {
       setResending(false);
     }
   };
+
+  const isCodeComplete = digits.join('').length === 6;
 
   return (
     <div className="space-y-6">
@@ -140,7 +139,7 @@ export default function OtpInput({
       </div>
 
       {/* OTP Grid Form */}
-      <div className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         
         <div className="flex gap-2.5 sm:gap-3 justify-between">
           {digits.map((digit, i) => (
@@ -155,7 +154,7 @@ export default function OtpInput({
               onChange={(e) => handleChange(i, e.target.value)}
               onKeyDown={(e) => handleKeyDown(i, e)}
               onPaste={i === 0 ? handlePaste : undefined}
-              className="w-12 h-14 md:w-14 md:h-16 text-center text-xl font-mono font-semibold rounded-xl bg-white border border-[#E5E7EB] text-[#0A2540] focus:outline-none focus:ring-1 focus:ring-[#0A2540] focus:border-[#0A2540] transition-all duration-200"
+              className="w-12 h-14 md:w-14 md:h-16 text-center text-xl font-mono font-semibold rounded-xl bg-white border border-[#E5E7EB] text-[#0A2540] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] transition-all duration-200"
               placeholder="-"
             />
           ))}
@@ -172,7 +171,26 @@ export default function OtpInput({
           </div>
         )}
 
-        {/* Resend Action Panel */}
+        {/* Primary Submit Button */}
+        <button
+          type="submit"
+          disabled={!isCodeComplete || loading}
+          className="w-full py-3.5 px-4 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-sm shadow-md shadow-blue-500/15 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Verifying Code...</span>
+            </>
+          ) : (
+            <>
+              <span>Verify OTP</span>
+              <ArrowRight className="w-4 h-4" />
+            </>
+          )}
+        </button>
+
+        {/* Resend & Back Action Panel */}
         <div className="flex items-center justify-between border-t border-[#E5E7EB] pt-5">
           <Link
             href="/login"
@@ -183,6 +201,7 @@ export default function OtpInput({
           </Link>
 
           <button
+            type="button"
             onClick={handleResendClick}
             disabled={timer > 0 || resending}
             className="flex items-center gap-1.5 text-xs font-mono text-[#0A2540] hover:text-[#0A2540]/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -198,7 +217,7 @@ export default function OtpInput({
           </button>
         </div>
 
-      </div>
+      </form>
 
     </div>
   );
