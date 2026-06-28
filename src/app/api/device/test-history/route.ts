@@ -5,14 +5,14 @@ export async function GET() {
   const supabase = createServiceClient();
   try {
     // 1. Fetch latest raw upload payload
-    const { data: rawPayloads, error: rawErr } = await (supabase
+    const { data: rawPayloads } = await (supabase
       .from('raw_sensor_payloads') as any)
       .select('*')
       .order('received_at', { ascending: false })
       .limit(5);
 
     // 2. Fetch latest device upload logs with generated report info
-    const { data: uploadLogs, error: logErr } = await (supabase
+    const { data: uploadLogs } = await (supabase
       .from('device_upload_logs') as any)
       .select(`
         *,
@@ -30,7 +30,7 @@ export async function GET() {
       .limit(5);
 
     // 3. Fetch device health list
-    const { data: health, error: healthErr } = await (supabase
+    const { data: health } = await (supabase
       .from('device_health') as any)
       .select('*')
       .order('last_heartbeat', { ascending: false });
