@@ -49,7 +49,7 @@ function LoginForm() {
       // Auto-advance to OTP verification screen with preserved redirect target
       const verifyUrl = redirectTo ? `/verify?redirect=${encodeURIComponent(redirectTo)}` : '/verify';
       router.push(verifyUrl);
-    } catch (err) {
+    } catch (_err) {
       setError('A network error occurred. Please try again.');
       setLoading(false);
     }

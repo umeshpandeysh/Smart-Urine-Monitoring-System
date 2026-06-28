@@ -23,7 +23,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: 'var(--font-manrope), sans-serif' }}>
+    <div className="min-h-screen bg-white" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
       <Navbar />
       <main className="pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-6 md:px-12">

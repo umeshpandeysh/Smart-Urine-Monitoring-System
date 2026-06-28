@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/landing/navbar';
 import Footer from '@/components/landing/footer';
-import { Activity, ArrowRight, CheckCircle2, FlaskConical, Thermometer, Eye, Droplets, Zap, Shield } from 'lucide-react';
+import { Activity, CheckCircle2, FlaskConical, Thermometer, Eye, Droplets, Zap, Shield, Palette } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Technology — UroSense',
@@ -50,7 +50,7 @@ const SENSORS = [
     reading: 'Infrared thermal detection',
   },
   {
-    icon: Eye,
+    icon: Palette,
     name: 'Colour Sensor',
     color: '#D97706',
     bg: '#FFFBEB',
@@ -110,12 +110,12 @@ const DETECTABLE = [
   { name: 'Urea', icon: FlaskConical, color: '#7C3AED', bg: '#F5F3FF', note: 'Tracks kidney filtering efficiency and protein metabolism' },
   { name: 'Kidney Stress', icon: Activity, color: '#DB2777', bg: '#FDF2F8', note: 'Detected via combined TDS and turbidity markers' },
   { name: 'Hydration Level', icon: Droplets, color: '#D97706', bg: '#FFFBEB', note: 'Derived from urine concentration and colour indicators' },
-  { name: 'UTI Indicators', icon: Eye, color: '#6B7280', bg: '#F8FAFC', note: 'Turbidity and pH patterns flag possible infection risk' },
+  { name: 'UTI Indicators', icon: Eye, color: '#475569', bg: '#F8FAFC', note: 'Turbidity and pH patterns flag possible infection risk' },
 ];
 
 export default function TechnologyPage() {
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: 'var(--font-manrope), sans-serif' }}>
+    <div className="min-h-screen bg-white" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
       <Navbar />
       <main className="pt-24 pb-20 space-y-24">
 
@@ -128,7 +128,7 @@ export default function TechnologyPage() {
             Turning Urine into<br />
             <span className="text-[#2563EB]">Health Intelligence</span>
           </h1>
-          <p className="text-[#6B7280] text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#475569] text-lg max-w-2xl mx-auto leading-relaxed">
             UroSense uses five embedded medical-grade sensors to analyse your urine at the point of use — no lab, no technician, no waiting. Here is how raw sensor data becomes a meaningful health report.
           </p>
         </section>
@@ -141,7 +141,7 @@ export default function TechnologyPage() {
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B1B33] tracking-tight">
                 Sensor → Analysis → Health Report
               </h2>
-              <p className="text-[#6B7280] text-base max-w-xl mx-auto">
+              <p className="text-[#475569] text-base max-w-xl mx-auto">
                 Every UroSense analysis follows a precise five-step process from sample capture to report delivery.
               </p>
             </div>
@@ -160,7 +160,7 @@ export default function TechnologyPage() {
                   <div className="flex-1 bg-white rounded-2xl p-5 border border-gray-100 shadow-sm"
                     style={{ borderLeft: `3px solid ${step.color}` }}>
                     <h3 className="font-bold text-[#0B1B33] text-base mb-1">{step.title}</h3>
-                    <p className="text-[#6B7280] text-sm leading-relaxed">{step.desc}</p>
+                    <p className="text-[#475569] text-sm leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               ))}
@@ -175,7 +175,7 @@ export default function TechnologyPage() {
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B1B33] tracking-tight">
               Five Sensors, One Complete Picture
             </h2>
-            <p className="text-[#6B7280] max-w-2xl mx-auto text-base leading-relaxed">
+            <p className="text-[#475569] max-w-2xl mx-auto text-base leading-relaxed">
               Each UroSense terminal contains five embedded sensors that work simultaneously to capture a comprehensive urinalysis in under 3 seconds.
             </p>
           </div>
@@ -195,7 +195,7 @@ export default function TechnologyPage() {
                 <div className="space-y-2">
                   <p className="text-sm font-semibold text-[#0B1B33]">{s.what}</p>
                   <p className="text-xs text-[#2563EB] font-semibold bg-blue-50 px-3 py-1 rounded-full w-fit">{s.range}</p>
-                  <p className="text-sm text-[#6B7280] leading-relaxed">{s.why}</p>
+                  <p className="text-sm text-[#475569] leading-relaxed">{s.why}</p>
                 </div>
               </div>
             ))}

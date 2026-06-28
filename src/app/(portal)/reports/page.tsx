@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { requireAuth, getCurrentProfile } from '@/lib/auth/guards';
 import { getReports } from '@/lib/supabase/queries';
-import { FileText, Calendar, MapPin, Eye, Download, TrendingUp, ArrowRight, Activity } from 'lucide-react';
+import { Eye, Download, TrendingUp, ArrowRight, Activity } from 'lucide-react';
 
 export const metadata: Metadata = { title: 'My Health Reports — UroSense' };
 

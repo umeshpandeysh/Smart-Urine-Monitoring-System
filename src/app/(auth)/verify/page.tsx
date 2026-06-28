@@ -60,7 +60,7 @@ function VerifyForm() {
         sessionStorage.removeItem('urosense_redirect');
         window.location.replace(dest);
       }, 2000);
-    } catch (err) {
+    } catch (_err) {
       setError('A network error occurred. Please try again.');
       setLoading(false);
     }
@@ -84,8 +84,9 @@ function VerifyForm() {
         setError(data.error || 'Failed to resend verification code.');
         throw new Error(data.error);
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to resend code.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to resend code.';
+      setError(msg);
       throw err;
     }
   };

@@ -1,110 +1,137 @@
-'use client';
-
-import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/landing/navbar';
 import Footer from '@/components/landing/footer';
 import { ArrowRight, QrCode, ClipboardList, Thermometer, UserCheck, Smartphone } from 'lucide-react';
 
-export default function HowItWorksPage() {
-  const steps = [
-    {
-      step: 'Step 1',
-      title: 'Use UroSense-Enabled Urinal',
-      desc: 'Use the urinal naturally. The hardware is designed for zero-contact, touchless operations inside active public facilities or hospital clinics.',
-      icon: <UserCheck className="w-6 h-6 text-[#175E54]" />,
-      bg: 'bg-teal-50 border-teal-200/50'
-    },
-    {
-      step: 'Step 2',
-      title: 'Telemetry Sensors Analyze Sample',
-      desc: 'Physical sensors (including pH, color metric, and solute density optical modules) immediately analyze key chemical biomarkers as the sample flows through the collector.',
-      icon: <Thermometer className="w-6 h-6 text-[#0A2540]" />,
-      bg: 'bg-blue-50 border-blue-200/50'
-    },
-    {
-      step: 'Step 3',
-      title: 'Secure Session QR Code Generated',
-      desc: 'The urinal screen instantly generates a localized cryptographic QR code containing your secure sample session ID.',
-      icon: <QrCode className="w-6 h-6 text-amber-600" />,
-      bg: 'bg-amber-50 border-amber-200/50'
-    },
-    {
-      step: 'Step 4',
-      title: 'Scan QR and Verify Phone OTP',
-      desc: 'Scan the QR code with your mobile camera. It will direct you to a secure login page where you enter your phone number and verify via instant SMS OTP.',
-      icon: <Smartphone className="w-6 h-6 text-indigo-600" />,
-      bg: 'bg-indigo-50 border-indigo-200/50'
-    },
-    {
-      step: 'Step 5',
-      title: 'Review Urinalysis Health Report',
-      desc: 'View your detailed biomarker diagnostic sheet. Understand your hydration state, kidney load, metabolic metrics, and follow personalized clinical guidelines.',
-      icon: <ClipboardList className="w-6 h-6 text-[#167041]" />,
-      bg: 'bg-emerald-50 border-emerald-200/50'
-    }
-  ];
+export const metadata: Metadata = {
+  title: 'How It Works — UroSense',
+  description: 'Learn the 5-step process behind UroSense: from touchless sample capture to instant health report delivery on your phone.',
+};
 
+const STEPS = [
+  {
+    step: 'Step 01',
+    title: 'Use a UroSense-Enabled Terminal',
+    desc: 'Use the urinal naturally. Hardware is designed for zero-contact, touchless operation at transit hubs, corporate parks, or healthcare facilities.',
+    icon: UserCheck,
+    color: '#0D9488',
+    bg: '#F0FDFA',
+    border: 'border-teal-200/60',
+  },
+  {
+    step: 'Step 02',
+    title: 'Sensors Capture Raw Biomarker Data',
+    desc: 'Five solid-state sensors — pH, TDS, turbidity, temperature, and colour — simultaneously analyse key chemical biomarkers within 3 seconds.',
+    icon: Thermometer,
+    color: '#2563EB',
+    bg: '#EFF6FF',
+    border: 'border-blue-200/60',
+  },
+  {
+    step: 'Step 03',
+    title: 'Ephemeral QR Session Token Generated',
+    desc: 'The terminal screen generates a cryptographic QR token containing your session ID. No personal data is stored on the kiosk hardware.',
+    icon: QrCode,
+    color: '#D97706',
+    bg: '#FFFBEB',
+    border: 'border-amber-200/60',
+  },
+  {
+    step: 'Step 04',
+    title: 'Scan QR & Verify Mobile OTP',
+    desc: 'Scan the QR with your mobile camera. Enter your phone number, verify instantly via SMS OTP, and link the report to your private health journal.',
+    icon: Smartphone,
+    color: '#7C3AED',
+    bg: '#F5F3FF',
+    border: 'border-violet-200/60',
+  },
+  {
+    step: 'Step 05',
+    title: 'Review Your Health Report',
+    desc: 'Instantly access a plain-language biomarker diagnostic report. Track hydration, kidney load, metabolic metrics, and follow personalised health guidance.',
+    icon: ClipboardList,
+    color: '#059669',
+    bg: '#ECFDF5',
+    border: 'border-emerald-200/60',
+  },
+];
+
+export default function HowItWorksPage() {
   return (
-    <div className="relative min-h-screen bg-[#FAFAF8] text-[#1B1F26] overflow-x-hidden font-sans select-none">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0B1B33]" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
       <Navbar />
 
-      <main className="relative z-10 pt-20 max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 space-y-16">
-        
-        {/* Header Block */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="font-mono text-xs font-semibold tracking-wider text-[#0A2540] border border-[#E5E7EB] bg-white px-3 py-1 rounded-full uppercase">
+      <main className="pt-28 pb-24 max-w-5xl mx-auto px-6 md:px-12 space-y-16">
+
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-4">
+          <span className="inline-block text-xs font-mono font-semibold tracking-widest text-[#2563EB] bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full uppercase">
             Platform Workflow
           </span>
-          <h1 className="font-section">The 5-Step Diagnostic Journey</h1>
-          <p className="font-body text-[#6B7280] font-light">
-            UroSense bridges physical telemetry sensors with cloud-based diagnostic report delivery. See how a sample is scanned, secured, and analyzed in seconds.
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#0B1B33] tracking-tight"
+            style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+            The 5-Step Diagnostic Journey
+          </h1>
+          <p className="text-[#475569] text-base leading-relaxed">
+            UroSense bridges physical sensor telemetry with cloud-based diagnostic report delivery — sample captured, secured, and analysed in under 60 seconds.
           </p>
         </div>
 
-        {/* Visual Steps Stack */}
-        <div className="max-w-4xl mx-auto space-y-8">
-          {steps.map((step, idx) => (
-            <div 
-              key={idx}
-              className="p-6 md:p-8 rounded-3xl border border-[#E5E7EB] bg-white shadow-sm flex flex-col md:flex-row gap-6 items-start hover:shadow-md transition-shadow duration-300"
-            >
-              {/* Number and Icon Badge */}
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border ${step.bg}`}>
-                {step.icon}
-              </div>
-
-              {/* Content */}
-              <div className="space-y-2 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-[#6B7280] uppercase tracking-wider">{step.step}</span>
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#E5E7EB]" />
-                  <h3 className="font-card text-lg md:text-xl">{step.title}</h3>
+        {/* Steps Stack */}
+        <div className="space-y-5">
+          {STEPS.map((step, idx) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={idx}
+                className={`p-6 md:p-8 rounded-2xl border bg-white shadow-sm flex flex-col md:flex-row gap-6 items-start hover:shadow-md transition-shadow duration-300 ${step.border}`}
+              >
+                {/* Icon Badge */}
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border-2 border-white shadow-sm"
+                  style={{ background: step.bg }}
+                >
+                  <Icon className="w-6 h-6" style={{ color: step.color }} />
                 </div>
-                <p className="font-body text-sm text-[#6B7280] font-light leading-relaxed">
-                  {step.desc}
-                </p>
+
+                {/* Content */}
+                <div className="flex-1 space-y-1.5">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-widest"
+                      style={{ color: step.color }}>
+                      {step.step}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-gray-200" />
+                    <h2 className="font-bold text-[#0B1B33] text-base md:text-lg"
+                      style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                      {step.title}
+                    </h2>
+                  </div>
+                  <p className="text-[#475569] text-sm leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center pt-8 max-w-xl mx-auto space-y-6">
-          <p className="font-body text-sm text-[#6B7280] font-light">
-            Ready to access your reports or configure a new device? Link your session or navigate directly to the dashboard.
+        {/* CTA */}
+        <div className="text-center space-y-5 pt-4">
+          <p className="text-[#475569] text-sm">
+            Ready to see your health data? Log in or learn more about the sensor technology.
           </p>
-          <div className="flex justify-center gap-4">
-            <Link 
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
               href="/login"
-              className="px-6 py-3 rounded-full bg-[#0A2540] text-white text-sm font-semibold hover:bg-[#0A2540]/90 shadow-sm transition-all duration-200 flex items-center gap-2 group"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#2563EB] text-white font-semibold text-sm hover:bg-[#1D4ED8] shadow-md shadow-blue-500/15 transition-all duration-200 hover:-translate-y-0.5"
             >
-              <span>Access Patient Portal</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              Access Patient Portal <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link 
+            <Link
               href="/technology"
-              className="px-6 py-3 rounded-full border border-[#E5E7EB] bg-white text-[#0A2540] text-sm font-semibold hover:bg-[#FAFAF8] transition-all duration-200"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-gray-200 bg-white text-[#0B1B33] font-semibold text-sm hover:bg-gray-50 transition-all duration-200"
             >
               Technical Specifications
             </Link>

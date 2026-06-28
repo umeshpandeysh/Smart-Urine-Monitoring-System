@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { 
-  ShieldCheck, ArrowLeft, Users, Database, MapPin, Radio, 
-  Search, Download, Calendar, BarChart3, Settings, AlertCircle, RefreshCw
+  ShieldCheck, ArrowLeft, Database, MapPin, 
+  Search, Download, AlertCircle, RefreshCw
 } from 'lucide-react';
 import Link from 'next/link';
 

@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import {
-  ArrowLeft, Calendar, MapPin, FileText, Download,
-  Droplets, Shield, Activity, FlaskConical, Thermometer, Eye,
+  ArrowLeft, Calendar, FileText, Download,
+  Droplets, Shield, Activity, FlaskConical, Eye,
   CheckCircle2, AlertTriangle, User, Clock, Hash,
 } from 'lucide-react';
 import { requireAuth, getCurrentProfile } from '@/lib/auth/guards';

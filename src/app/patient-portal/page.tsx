@@ -271,11 +271,11 @@ export default function PatientPortalPage() {
           {/* Patient Welcoming & Overall Wellness */}
           <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                HERE IS PATIENT PORTAL
+              <h1 className="text-2xl font-extrabold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Welcome back, {profile?.name || 'Aarav Sharma'}
               </h1>
               <p className="text-sm text-gray-500 mt-1">
-                Your personal health journal. Tracking molecular bio-indicators for preventive wellness.
+                Your personal UroSense health journal — tracking bio-indicators for preventive wellness.
               </p>
             </div>
 

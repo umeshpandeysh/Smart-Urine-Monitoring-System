@@ -270,10 +270,10 @@ export default function HomePage() {
                 <div className="space-y-5">
                   <span className="text-[0.85rem] font-mono text-[#2563EB] uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100 w-fit block font-bold">STEP {STEPS[activeStep].step} DETAILS</span>
                   <div>
-                    <h3 className="text-3xl md:text-[2.5rem] font-bold text-[#0B1B33] leading-[1.15]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                    <h3 className="text-2xl font-bold text-[#0B1B33] leading-[1.2]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                       {STEPS[activeStep].title}
                     </h3>
-                    <p className="text-base md:text-[1.05rem] text-gray-600 leading-[1.7] font-normal mt-2.5">
+                    <p className="text-base text-gray-600 leading-[1.7] font-normal mt-2.5">
                       {STEPS[activeStep].desc}
                     </p>
                   </div>
