@@ -99,16 +99,16 @@ const DETECTS = [
  *  The image has ~15% whitespace padding on each side.                        *
  * ─────────────────────────────────────────────────────────────────────────── */
 const MAP_NODES = [
-  { name: 'Delhi (Primary Hub)', zone: 'North Central Hub',   x: '47%', y: '22%', density: 'National Core (32 stations)', isHub: true  },
-  { name: 'Jaipur',              zone: 'North-West Grid',     x: '33%', y: '30%', density: 'Active Cell (12 stations)',    isHub: false },
-  { name: 'Lucknow',             zone: 'North-East Grid',     x: '58%', y: '28%', density: 'Active Cell (14 stations)',    isHub: false },
-  { name: 'Ahmedabad',           zone: 'West Grid',           x: '24%', y: '42%', density: 'Active Integration (16 stations)', isHub: false },
-  { name: 'Mumbai',              zone: 'West Coast Hub',      x: '22%', y: '58%', density: 'High Density (24 stations)',   isHub: false },
-  { name: 'Hyderabad',           zone: 'Deccan Grid',         x: '48%', y: '63%', density: 'Active Integration (18 stations)', isHub: false },
-  { name: 'Bengaluru',           zone: 'South Grid',          x: '40%', y: '76%', density: 'High Density (22 stations)',   isHub: false },
-  { name: 'Chennai',             zone: 'South-East Grid',     x: '56%', y: '80%', density: 'Expanding (15 stations)',      isHub: false },
-  { name: 'Kolkata',             zone: 'East Grid',           x: '74%', y: '42%', density: 'Active Integration (14 stations)', isHub: false },
-  { name: 'Guwahati',            zone: 'North-East Corridor', x: '80%', y: '26%', density: 'Regional Corridor (8 stations)', isHub: false },
+  { name: 'Delhi (Primary Hub)', zone: 'North Central Hub',   x: '47%', y: '22%', density: 'National Core (32 stations)' },
+  { name: 'Jaipur',              zone: 'North-West Grid',     x: '33%', y: '30%', density: 'Active Cell (12 stations)'    },
+  { name: 'Lucknow',             zone: 'North-East Grid',     x: '58%', y: '28%', density: 'Active Cell (14 stations)'    },
+  { name: 'Ahmedabad',           zone: 'West Grid',           x: '24%', y: '42%', density: 'Active Integration (16 stations)' },
+  { name: 'Mumbai',              zone: 'West Coast Hub',      x: '22%', y: '58%', density: 'High Density (24 stations)'   },
+  { name: 'Hyderabad',           zone: 'Deccan Grid',         x: '48%', y: '63%', density: 'Active Integration (18 stations)' },
+  { name: 'Bengaluru',           zone: 'South Grid',          x: '40%', y: '76%', density: 'High Density (22 stations)'   },
+  { name: 'Chennai',             zone: 'South-East Grid',     x: '56%', y: '80%', density: 'Expanding (15 stations)'      },
+  { name: 'Kolkata',             zone: 'East Grid',           x: '74%', y: '42%', density: 'Active Integration (14 stations)' },
+  { name: 'Guwahati',            zone: 'North-East Corridor', x: '80%', y: '26%', density: 'Regional Corridor (8 stations)' },
 ];
 
 export default function HomePage() {
@@ -430,7 +430,6 @@ export default function HomePage() {
                   {/* City telemetry nodes */}
                   {MAP_NODES.map((node, idx) => {
                     const isSelected = selectedNode === idx;
-                    const isHub      = node.isHub;
                     return (
                       <button
                         key={idx}
@@ -441,24 +440,20 @@ export default function HomePage() {
                         style={{
                           top: node.y,
                           left: node.x,
-                          width: isHub ? '16px' : isSelected ? '14px' : '12px',
-                          height: isHub ? '16px' : isSelected ? '14px' : '12px',
+                          width: isSelected ? '14px' : '12px',
+                          height: isSelected ? '14px' : '12px',
                         }}
                       >
-                        {/* Static soft outer glow for Delhi or selected node */}
-                        {(isHub || isSelected) && (
+                        {/* Static selection indicator when clicked */}
+                        {isSelected && (
                           <span
-                            className={`absolute rounded-full pointer-events-none ${
-                              isHub ? '-inset-1 bg-[#2563EB]/25 ring-4 ring-[#2563EB]/20 shadow-md shadow-blue-500/30' : '-inset-0.5 bg-[#2563EB]/15'
-                            }`}
+                            className="absolute -inset-1 rounded-full bg-[#2563EB]/20 pointer-events-none"
                           />
                         )}
                         {/* Core Marker Dot */}
                         <span
                           className={`relative z-10 w-full h-full rounded-full border-2 border-white block transition-transform duration-200 group-hover:scale-125 ${
-                            isHub
-                              ? 'bg-[#2563EB] shadow-md shadow-blue-500/40'
-                              : isSelected
+                            isSelected
                               ? 'bg-[#2563EB] shadow-sm'
                               : 'bg-[#3B82F6]'
                           }`}
