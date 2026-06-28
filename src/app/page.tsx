@@ -94,16 +94,16 @@ export default function HomePage() {
   const [selectedMapNode, setSelectedMapNode] = useState(0);
 
   const locationsRoadmap = [
-    { name: 'Delhi (Primary Hub)', zone: 'North Central Hub', x: '38%', y: '29%', density: 'National Core (32 Stations)', status: 'Active Hub', isHub: true },
-    { name: 'Jaipur', zone: 'North West Grid', x: '32%', y: '33%', density: 'Active Cell (12 Stations)', status: 'Active' },
-    { name: 'Lucknow', zone: 'North East Grid', x: '46%', y: '34%', density: 'Active Cell (14 Stations)', status: 'Active' },
-    { name: 'Ahmedabad', zone: 'West Grid', x: '26%', y: '46%', density: 'Active Integration (16 Stations)', status: 'Active' },
-    { name: 'Mumbai', zone: 'West Grid', x: '29%', y: '58%', density: 'High Density (24 Stations)', status: 'Active' },
-    { name: 'Hyderabad', zone: 'Central Grid', x: '45%', y: '61%', density: 'Active Integration (18 Stations)', status: 'Active' },
-    { name: 'Bengaluru', zone: 'South Grid', x: '40%', y: '74%', density: 'High Density (22 Stations)', status: 'Active' },
-    { name: 'Chennai', zone: 'South Grid', x: '50%', y: '76%', density: 'Expanding Coverage (15 Stations)', status: 'Active' },
-    { name: 'Kolkata', zone: 'East Grid', x: '66%', y: '45%', density: 'Active Integration (14 Stations)', status: 'Active' },
-    { name: 'Guwahati', zone: 'North East Hub', x: '78%', y: '36%', density: 'Regional Corridor (8 Stations)', status: 'Active' }
+    { name: 'Delhi (Primary Hub)', zone: 'North Central Hub', x: '38%', y: '28%', density: 'National Core (32 Stations)', status: 'Active Hub', isHub: true },
+    { name: 'Jaipur', zone: 'North West Grid', x: '25%', y: '35%', density: 'Active Cell (12 Stations)', status: 'Active' },
+    { name: 'Lucknow', zone: 'North East Grid', x: '53%', y: '36%', density: 'Active Cell (14 Stations)', status: 'Active' },
+    { name: 'Ahmedabad', zone: 'West Grid', x: '15%', y: '50%', density: 'Active Integration (16 Stations)', status: 'Active' },
+    { name: 'Mumbai', zone: 'West Grid', x: '20%', y: '64%', density: 'High Density (24 Stations)', status: 'Active' },
+    { name: 'Hyderabad', zone: 'Central Grid', x: '50%', y: '67%', density: 'Active Integration (18 Stations)', status: 'Active' },
+    { name: 'Bengaluru', zone: 'South Grid', x: '40%', y: '84%', density: 'High Density (22 Stations)', status: 'Active' },
+    { name: 'Chennai', zone: 'South Grid', x: '60%', y: '87%', density: 'Expanding Coverage (15 Stations)', status: 'Active' },
+    { name: 'Kolkata', zone: 'East Grid', x: '88%', y: '50%', density: 'Active Integration (14 Stations)', status: 'Active' },
+    { name: 'Guwahati', zone: 'North East Hub', x: '93%', y: '34%', density: 'Regional Corridor (8 Stations)', status: 'Active' }
   ];
 
   return (
@@ -278,7 +278,7 @@ export default function HomePage() {
                 <div className="space-y-5">
                   <span className="text-[0.85rem] font-mono text-[#2563EB] uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100 w-fit block font-bold">STEP {STEPS[activeStep].step} DETAILS</span>
                   <div>
-                    <h3 className="text-3xl md:text-[2.35rem] font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                    <h3 className="text-3xl md:text-[2.5rem] font-bold text-[#0B1B33] leading-[1.15]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                       {STEPS[activeStep].title}
                     </h3>
                     <p className="text-base md:text-[1.05rem] text-gray-600 leading-[1.7] font-normal mt-2.5">
@@ -299,11 +299,6 @@ export default function HomePage() {
                       ))}
                     </ul>
                   </div>
-                </div>
-
-                <div className="mt-8 pt-4 border-t border-gray-100 flex items-center gap-3">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: STEPS[activeStep].color }} />
-                  <span className="text-[11px] font-mono text-gray-500 font-medium">Clinical validation pipeline active.</span>
                 </div>
               </div>
             </div>
@@ -357,64 +352,64 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Spatial Map Display (7 Columns) */}
-              <div className="lg:col-span-7 h-[460px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-4">
+              <div className="lg:col-span-7 h-[460px] relative border border-gray-200/80 rounded-2xl bg-[#F8FAFC] overflow-hidden shadow-sm flex items-center justify-center p-6">
                 <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(#2563EB 1.2px, transparent 1.2px)', backgroundSize: '28px 28px' }} />
                 
-                {/* Approved Production India Map PNG Asset */}
-                <div className="absolute inset-4 flex items-center justify-center pointer-events-none p-2">
+                {/* Clean Aspect-Ratio Container for 1:1 Image and Node Synchronization */}
+                <div className="w-full max-w-[320px] h-[360px] relative flex items-center justify-center">
+                  {/* Approved Production India Map PNG Asset (Enhanced & Cropped) */}
                   <Image 
                     src="/india-map.png" 
                     alt="Approved India Telemetry Map" 
-                    width={480} 
-                    height={540} 
-                    className="w-full h-full object-contain pointer-events-none" 
+                    fill
+                    className="object-contain pointer-events-none drop-shadow-md" 
                     priority 
                   />
+
+                  {/* Subtle Telemetry Connection Lines between Logical Regional Nodes */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
+                    {[
+                      [0, 1], [0, 2], [0, 9], // Delhi to Jaipur, Lucknow, Guwahati
+                      [1, 3], // Jaipur to Ahmedabad
+                      [3, 4], // Ahmedabad to Mumbai
+                      [4, 5], [4, 6], // Mumbai to Hyderabad, Bengaluru
+                      [6, 7], // Bengaluru to Chennai
+                      [5, 8], // Hyderabad to Kolkata
+                      [2, 8]  // Lucknow to Kolkata
+                    ].map(([fromIdx, toIdx], i) => (
+                      <line 
+                        key={i}
+                        x1={locationsRoadmap[fromIdx].x} y1={locationsRoadmap[fromIdx].y}
+                        x2={locationsRoadmap[toIdx].x} y2={locationsRoadmap[toIdx].y}
+                        stroke="#2563EB" strokeWidth="1.5" strokeDasharray="4 4" className="opacity-70"
+                      />
+                    ))}
+                  </svg>
+
+                  {/* Telemetry Node Markers (Delhi Highlighted as Primary Hub) */}
+                  {locationsRoadmap.map((node, idx) => {
+                    const isSelected = selectedMapNode === idx;
+                    const isHub = node.isHub;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedMapNode(idx)}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group z-20"
+                        style={{ top: node.y, left: node.x }}
+                      >
+                        {isHub && <span className="absolute -inset-4 rounded-full bg-blue-600/30 animate-ping" />}
+                        <span className={`absolute ${isHub ? '-inset-3.5' : '-inset-2.5'} rounded-full ${isSelected ? 'bg-blue-600/40 animate-pulse' : isHub ? 'bg-blue-500/20' : 'bg-transparent'}`} />
+                        <span className={`rounded-full border-2 border-white shadow-xl block transition-transform duration-300 group-hover:scale-125 ${
+                          isHub 
+                            ? 'w-5 h-5 bg-[#2563EB] ring-4 ring-blue-400/50 scale-110 z-30' 
+                            : isSelected 
+                              ? 'w-4 h-4 bg-[#2563EB] scale-125 ring-2 ring-blue-300' 
+                              : 'w-3.5 h-3.5 bg-blue-700'
+                        }`} />
+                      </button>
+                    );
+                  })}
                 </div>
-
-                {/* Subtle Telemetry Connection Lines between Logical Regional Nodes */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-                  {[
-                    [0, 1], [0, 2], [0, 9], // Delhi to Jaipur, Lucknow, Guwahati
-                    [1, 3], // Jaipur to Ahmedabad
-                    [3, 4], // Ahmedabad to Mumbai
-                    [4, 5], [4, 6], // Mumbai to Hyderabad, Bengaluru
-                    [6, 7], // Bengaluru to Chennai
-                    [5, 8], // Hyderabad to Kolkata
-                    [2, 8]  // Lucknow to Kolkata
-                  ].map(([fromIdx, toIdx], i) => (
-                    <line 
-                      key={i}
-                      x1={locationsRoadmap[fromIdx].x} y1={locationsRoadmap[fromIdx].y}
-                      x2={locationsRoadmap[toIdx].x} y2={locationsRoadmap[toIdx].y}
-                      stroke="#2563EB" strokeWidth="1.5" strokeDasharray="4 4" className="opacity-65"
-                    />
-                  ))}
-                </svg>
-
-                {/* Telemetry Node Markers (Delhi Highlighted as Primary Hub) */}
-                {locationsRoadmap.map((node, idx) => {
-                  const isSelected = selectedMapNode === idx;
-                  const isHub = node.isHub;
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedMapNode(idx)}
-                      className="absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none group z-20"
-                      style={{ top: node.y, left: node.x }}
-                    >
-                      {isHub && <span className="absolute -inset-4 rounded-full bg-blue-600/30 animate-ping" />}
-                      <span className={`absolute ${isHub ? '-inset-3.5' : '-inset-2.5'} rounded-full ${isSelected ? 'bg-blue-600/40 animate-pulse' : isHub ? 'bg-blue-500/20' : 'bg-transparent'}`} />
-                      <span className={`rounded-full border-2 border-white shadow-xl block transition-transform duration-300 group-hover:scale-125 ${
-                        isHub 
-                          ? 'w-5 h-5 bg-[#2563EB] ring-4 ring-blue-400/50 scale-110 z-30' 
-                          : isSelected 
-                            ? 'w-4 h-4 bg-[#2563EB] scale-125 ring-2 ring-blue-300' 
-                            : 'w-3.5 h-3.5 bg-blue-700'
-                      }`} />
-                    </button>
-                  );
-                })}
               </div>
 
               {/* Node Specifications Summary Panel (5 Columns) */}
