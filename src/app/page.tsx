@@ -415,28 +415,6 @@ export default function HomePage() {
                   style={{ width: '260px', height: '292px' }}
                   aria-label="India telemetry network map"
                 >
-                  {/* Custom Telemetry Pulse Keyframe Animation */}
-                  <style>{`
-                    @keyframes telemetryPulse {
-                      0% {
-                        transform: scale(1);
-                        opacity: 0.55;
-                      }
-                      70% {
-                        transform: scale(2.6);
-                        opacity: 0;
-                      }
-                      100% {
-                        transform: scale(2.6);
-                        opacity: 0;
-                      }
-                    }
-                    .animate-telemetry-pulse {
-                      animation: telemetryPulse 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-                      transform-origin: center center;
-                    }
-                  `}</style>
-
                   {/* Approved PNG asset — rendered at 2× for sharpness, displayed at half */}
                   <Image
                     src="/india-map.png"
@@ -467,17 +445,11 @@ export default function HomePage() {
                           height: isHub ? '16px' : isSelected ? '14px' : '12px',
                         }}
                       >
-                        {/* Hub smooth pulse ring (permanently anchored to Delhi center) */}
-                        {isHub && (
-                          <span
-                            className="absolute inset-0 rounded-full bg-[#2563EB] pointer-events-none animate-telemetry-pulse"
-                          />
-                        )}
-                        {/* Soft ambient glow */}
+                        {/* Static soft outer glow for Delhi or selected node */}
                         {(isHub || isSelected) && (
                           <span
                             className={`absolute rounded-full pointer-events-none ${
-                              isHub ? '-inset-1.5 bg-[#2563EB]/20 shadow-sm shadow-blue-500/30' : '-inset-1 bg-[#2563EB]/15'
+                              isHub ? '-inset-1 bg-[#2563EB]/25 ring-4 ring-[#2563EB]/20 shadow-md shadow-blue-500/30' : '-inset-0.5 bg-[#2563EB]/15'
                             }`}
                           />
                         )}
