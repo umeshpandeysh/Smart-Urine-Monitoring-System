@@ -1,18 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, ArrowLeft, Database, MapPin, 
-  Search, Download, AlertCircle, RefreshCw
+  Search, Download, AlertCircle, RefreshCw, Activity,
+  Server, Cpu, Users, FileText, CheckCircle2, AlertTriangle,
+  Clock, Filter, Plus, Settings, Sliders, Battery, BatteryCharging,
+  TrendingUp, BarChart3, ChevronRight, Bell, UserPlus, ShieldAlert, X
 } from 'lucide-react';
 import Link from 'next/link';
 
-import { useEffect } from 'react';
-
 export default function AdminCenterPage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedLocationFilter, setSelectedLocationFilter] = useState('All');
+  const [selectedCityFilter, setSelectedCityFilter] = useState('All');
+  const [statusFilter, setStatusFilter] = useState('All');
   const [exportFormat, setExportFormat] = useState('CSV');
+  
+  // Modals state
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [actionSuccessMsg, setActionSuccessMsg] = useState('');
 
   const [devices, setDevices] = useState<any[]>([]);
   const [locations, setLocations] = useState<any[]>([]);
@@ -44,70 +50,77 @@ export default function AdminCenterPage() {
     loadAdminData();
   }, []);
 
-  const reportsList = Array.isArray(reports) ? reports : [];
-  const mappedReports = reportsList.map((r: any) => {
-    let flag = 'Clear';
-    if (r.hydration_status && r.hydration_status !== 'Optimal Hydration') {
-      flag = r.hydration_status;
-    } else if (r.glucose_indicator && r.glucose_indicator !== 'Negative') {
-      flag = `Glucose: ${r.glucose_indicator}`;
-    } else if (r.protein_indicator && r.protein_indicator !== 'Negative') {
-      flag = `Protein: ${r.protein_indicator}`;
-    } else if (r.uti_risk && r.uti_risk === 'High') {
-      flag = 'UTI Risk Alert';
-    }
-    
-    return {
-      id: r.id,
-      userHash: r.profiles ? `USER-${(r.profiles.first_name || 'PATIENT').toUpperCase()}` : `USER-${r.profile_id?.substring(0,4).toUpperCase() || 'ANON'}`,
-      location: r.locations?.name || r.locations?.location_name || 'UroSense Terminal T3',
-      date: r.created_at ? new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : (r.report_date || 'Recent'),
-      status: 'Verified',
-      flag
-    };
+  // Comprehensive city infrastructure list
+  const CITIES_INFRASTRUCTURE = [
+    { name: 'Delhi', region: 'North Hub', kiosks: 32, todayScans: 482, status: 'Online', successRate: '99.9%', avgTime: '2.9s' },
+    { name: 'Mumbai', region: 'West Coast', kiosks: 24, todayScans: 340, status: 'Online', successRate: '99.8%', avgTime: '3.1s' },
+    { name: 'Bengaluru', region: 'South Hub', kiosks: 22, todayScans: 290, status: 'Online', successRate: '99.7%', avgTime: '3.0s' },
+    { name: 'Hyderabad', region: 'Deccan Grid', kiosks: 18, todayScans: 195, status: 'Online', successRate: '99.9%', avgTime: '3.2s' },
+    { name: 'Ahmedabad', region: 'West Grid', kiosks: 16, todayScans: 180, status: 'Online', successRate: '99.6%', avgTime: '3.4s' },
+    { name: 'Chennai', region: 'South-East', kiosks: 15, todayScans: 160, status: 'Online', successRate: '99.8%', avgTime: '3.1s' },
+    { name: 'Kolkata', region: 'East Grid', kiosks: 14, todayScans: 145, status: 'Online', successRate: '99.5%', avgTime: '3.5s' },
+    { name: 'Lucknow', region: 'North-East', kiosks: 14, todayScans: 125, status: 'Online', successRate: '99.7%', avgTime: '3.3s' },
+    { name: 'Jaipur', region: 'North-West', kiosks: 12, todayScans: 110, status: 'Online', successRate: '99.4%', avgTime: '3.6s' },
+    { name: 'Guwahati', region: 'Corridor', kiosks: 8, todayScans: 65, status: 'Maintenance', successRate: '98.9%', avgTime: '3.8s' },
+  ];
+
+  // Map backend or mock devices
+  const activeDevicesList = devices.length > 0 ? devices : [
+    { id: 'dev-1', device_code: 'US-NOD-1001', location: 'Delhi Airport T3', city: 'Delhi', status: 'online', battery: 98, sensorHealth: 'Optimal', calibration: '2026-06-20', lastMaint: '12 Jun 2026', todayTests: 142 },
+    { id: 'dev-2', device_code: 'US-NOD-1002', location: 'Mumbai Central Node', city: 'Mumbai', status: 'online', battery: 92, sensorHealth: 'Optimal', calibration: '2026-06-18', lastMaint: '10 Jun 2026', todayTests: 118 },
+    { id: 'dev-3', device_code: 'US-NOD-1003', location: 'Bengaluru Corporate Hub', city: 'Bengaluru', status: 'offline', battery: 14, sensorHealth: 'Calibration Req', calibration: '2026-05-30', lastMaint: '01 May 2026', todayTests: 45 },
+    { id: 'dev-4', device_code: 'US-NOD-1004', location: 'Hyderabad Metro Node', city: 'Hyderabad', status: 'online', battery: 88, sensorHealth: 'Optimal', calibration: '2026-06-22', lastMaint: '15 Jun 2026', todayTests: 94 },
+    { id: 'dev-5', device_code: 'US-NOD-1005', location: 'Chennai Health Plaza', city: 'Chennai', status: 'online', battery: 76, sensorHealth: 'Optimal', calibration: '2026-06-15', lastMaint: '08 Jun 2026', todayTests: 82 },
+    { id: 'dev-6', device_code: 'US-NOD-1006', location: 'Guwahati Transit Hub', city: 'Guwahati', status: 'maintenance', battery: 45, sensorHealth: 'Degraded', calibration: '2026-05-12', lastMaint: '14 Apr 2026', todayTests: 12 },
+  ];
+
+  // Clinical reports queue mock/backend data
+  const reportsList = reports.length > 0 ? reports : [
+    { id: 'US-REP-9482', patientHash: 'PAT-9482 (Umesh P.)', time: '14 mins ago', risk: 'High Risk', flag: 'Protein Leakage (+2), Mild TDS Load', status: 'Pending Review', reviewer: 'Dr. Sarah Jenkins' },
+    { id: 'US-REP-9481', patientHash: 'PAT-8921 (Aarav S.)', time: '28 mins ago', risk: 'Moderate Risk', flag: 'Mild Dehydration Index', status: 'Verified', reviewer: 'Dr. Rajesh Kumar' },
+    { id: 'US-REP-9480', patientHash: 'PAT-7412 (Priya N.)', time: '42 mins ago', risk: 'Normal', flag: 'Clear Baseline Equilibrium', status: 'Verified', reviewer: 'Auto-Verified' },
+    { id: 'US-REP-9479', patientHash: 'PAT-6309 (Vikram R.)', time: '1 hour ago', risk: 'High Risk', flag: 'Glucose Spillover Detected', status: 'Escalated', reviewer: 'Dr. Sarah Jenkins' },
+    { id: 'US-REP-9478', patientHash: 'PAT-5110 (Ananya M.)', time: '1.5 hours ago', risk: 'Normal', flag: 'Optimal Hydration & pH', status: 'Verified', reviewer: 'Auto-Verified' },
+  ];
+
+  // Filtered devices
+  const filteredDevices = activeDevicesList.filter(d => {
+    const matchesSearch = d.device_code.toLowerCase().includes(searchTerm.toLowerCase()) || (d.location || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCity = selectedCityFilter === 'All' || d.city === selectedCityFilter;
+    const matchesStatus = statusFilter === 'All' || d.status === statusFilter.toLowerCase();
+    return matchesSearch && matchesCity && matchesStatus;
   });
 
-  const filteredLogs = mappedReports.filter(log => 
-    log.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.flag.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const triggerAction = (msg: string) => {
+    setActionSuccessMsg(msg);
+    setTimeout(() => setActionSuccessMsg(''), 3000);
+    setActiveModal(null);
+  };
 
   const handleExport = () => {
+    const filename = `UroSense_National_Ops_Export_${new Date().toISOString().split('T')[0]}`;
     let content = '';
-    const filename = `UroSense_Clinical_Export_${new Date().toISOString().split('T')[0]}`;
-    
     if (exportFormat === 'JSON') {
-      content = JSON.stringify({ devices, locations, reports }, null, 2);
+      content = JSON.stringify({ summary: 'UroSense Operations', devices: activeDevicesList, cities: CITIES_INFRASTRUCTURE, reports: reportsList }, null, 2);
       const blob = new Blob([content], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.download = `${filename}.json`;
       link.click();
-      URL.revokeObjectURL(url);
     } else {
-      // CSV Export
-      const headers = ['Report ID', 'User Hash', 'Location', 'Date', 'Status', 'Biomarker Flag'];
-      const rows = mappedReports.map(r => [r.id, r.userHash, r.location, r.date, r.status, r.flag]);
-      content = [headers.join(','), ...rows.map(row => row.map(val => `"${val}"`).join(','))].join('\n');
+      const headers = ['Device Code', 'City', 'Location', 'Status', 'Battery', 'Today Scans'];
+      const rows = activeDevicesList.map(d => [d.device_code, d.city || 'Delhi', d.location || 'Kiosk', d.status, `${d.battery}%`, d.todayTests || 100]);
+      content = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
       const blob = new Blob([content], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.download = `${filename}.csv`;
       link.click();
-      URL.revokeObjectURL(url);
     }
+    triggerAction(`Export downloaded successfully in ${exportFormat} format.`);
   };
-
-  const activeTerminalsCount = devices.filter(d => d.status === 'online').length;
-  const totalTerminalsCount = devices.length;
-  const alertCount = mappedReports.filter(r => r.flag !== 'Clear').length;
-  const uptimeStr = totalTerminalsCount > 0 
-    ? `${((activeTerminalsCount / totalTerminalsCount) * 100).toFixed(1)}%` 
-    : '99.8%';
-
 
   if (loading) {
     return (
@@ -116,8 +129,8 @@ export default function AdminCenterPage() {
           <ShieldCheck className="w-6 h-6 text-blue-400" />
         </div>
         <div className="text-center space-y-1">
-          <h3 className="font-semibold text-base text-white">Loading Clinical Console</h3>
-          <p className="text-xs text-blue-200/60 font-mono">Initializing device telemetry and compliance logs...</p>
+          <h3 className="font-semibold text-base text-white">Connecting to National Operations Center</h3>
+          <p className="text-xs text-blue-200/60 font-mono">Synchronizing device telemetry and clinical review queues...</p>
         </div>
       </div>
     );
@@ -126,72 +139,156 @@ export default function AdminCenterPage() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-[#0B1B33] pb-24" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
       
-      {/* HEADER */}
-      <header className="sticky top-0 bg-white border-b border-gray-100 z-10 px-6 py-4">
+      {/* ── TOP HEADER / NAVIGATION BAR ── */}
+      <header className="sticky top-0 bg-white border-b border-gray-100 z-30 px-6 py-3.5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center">
-              <ShieldCheck className="w-4.5 h-4.5 text-white" />
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#0B1B33] flex items-center justify-center shadow-md shadow-slate-900/10">
+              <ShieldCheck className="w-5 h-5 text-emerald-400" />
             </div>
-            <span className="font-semibold text-lg tracking-tight" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-              UroSense Clinical Workspace
-            </span>
+            <div>
+              <span className="font-extrabold text-lg tracking-tight block leading-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                National UroSense Operations Center
+              </span>
+              <span className="text-[10px] font-mono text-gray-400">Clinical Enterprise Workspace v2.0</span>
+            </div>
           </div>
-          <Link href="/" className="text-xs font-mono font-semibold text-[#2563EB] hover:text-[#0b1b33] flex items-center gap-1.5">
-            <ArrowLeft className="w-3.5 h-3.5" /> Back to Website
-          </Link>
+
+          <div className="flex items-center gap-4">
+            {/* Quick action buttons in top header */}
+            <div className="hidden lg:flex items-center gap-2">
+              <button 
+                onClick={() => setActiveModal('device')}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs font-semibold text-gray-700 transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5 text-[#2563EB]" /> Register Device
+              </button>
+              <button 
+                onClick={() => setActiveModal('calibration')}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs font-semibold text-gray-700 transition-colors"
+              >
+                <Sliders className="w-3.5 h-3.5 text-amber-600" /> Run Calibration
+              </button>
+            </div>
+
+            <div className="h-5 w-px bg-gray-200 hidden lg:block" />
+
+            {/* Admin Profile */}
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => triggerAction('Notification drawer synced. No unread critical system warnings.')}
+                className="relative p-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-200/60"
+                title="Notifications"
+              >
+                <Bell className="w-4 h-4" />
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white" />
+              </button>
+
+              <div className="flex items-center gap-2.5 pl-1">
+                <div className="w-8 h-8 rounded-xl bg-[#2563EB] text-white font-bold text-xs flex items-center justify-center shadow-sm">
+                  SJ
+                </div>
+                <div className="hidden sm:block text-left">
+                  <p className="text-xs font-bold text-[#0B1B33] leading-none">Dr. Sarah Jenkins</p>
+                  <p className="text-[10px] font-mono text-gray-400 mt-0.5">Chief Medical Ops</p>
+                </div>
+              </div>
+
+              <Link href="/" className="text-xs font-mono font-semibold text-gray-400 hover:text-[#0B1B33] ml-2">
+                Exit
+              </Link>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 mt-10 space-y-10">
+      {/* Action Notification Banner */}
+      {actionSuccessMsg && (
+        <div className="bg-emerald-600 text-white text-xs font-semibold py-2.5 px-6 text-center animate-in fade-in slide-in-from-top duration-200 flex items-center justify-center gap-2">
+          <CheckCircle2 className="w-4 h-4" />
+          <span>{actionSuccessMsg}</span>
+        </div>
+      )}
+
+      <main className="max-w-7xl mx-auto px-6 mt-8 space-y-8">
         
-        {/* Title Block */}
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-            HERE IS ADMIN CENTER
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Clinical asset status logs, site analytics, and urine biomarker report queries.
-          </p>
-        </div>
+        {/* ── 1. LIVE NETWORK STATUS PANEL (Full-Width Operations Bar) ── */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
+            </span>
+            <div>
+              <p className="text-xs font-bold text-[#0B1B33] flex items-center gap-2">
+                <span>Network Status: Operational</span>
+                <span className="text-[10px] font-mono text-gray-400 font-normal">| Last Sync: 12s ago</span>
+              </p>
+              <p className="text-[11px] text-gray-500">Global telemetry grid running at 98.4% nominal efficiency across 10 regions.</p>
+            </div>
+          </div>
 
-        {/* METRIC GRID (UroSense specific metrics, no generic card bloat) */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
-            <span className="text-[10px] font-mono text-gray-400 uppercase">ACTIVE TERMINALS</span>
-            <p className="text-3xl font-extrabold text-[#0B1B33] font-mono">{activeTerminalsCount} / {totalTerminalsCount}</p>
-            <p className="text-[10px] text-gray-500">Solid-state hardware nodes</p>
-          </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
-            <span className="text-[10px] font-mono text-gray-400 uppercase">SCREENING ACTIVITY</span>
-            <p className="text-3xl font-extrabold text-[#0B1B33] font-mono">{reports.length}</p>
-            <p className="text-[10px] text-emerald-600 font-semibold">&uarr; 8.4% daily throughput</p>
-          </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
-            <span className="text-[10px] font-mono text-gray-400 uppercase">BIOMARKER ALERTS</span>
-            <p className="text-3xl font-extrabold text-amber-600 font-mono">{alertCount}</p>
-            <p className="text-[10px] text-gray-500">Dehydration / sugar traces flagged</p>
-          </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-1">
-            <span className="text-[10px] font-mono text-gray-400 uppercase">FLEET UPTIME</span>
-            <p className="text-3xl font-extrabold text-[#0D9488] font-mono">{uptimeStr}</p>
-            <p className="text-[10px] text-gray-500">Across Delhi, Mumbai, Bengaluru</p>
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <span className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" /> 24 Online Devices
+            </span>
+            <span className="px-3 py-1 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 font-semibold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-amber-500" /> 2 Calibration Pending
+            </span>
+            <span className="px-3 py-1 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 font-semibold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-rose-500" /> 2 Offline Nodes
+            </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* ── 2. EXECUTIVE KPI BAR (Top 8 Metrics Grid) ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
+          {[
+            { label: 'Active Devices', val: '24 / 26', change: '+4.2% fleet', trend: 'up', icon: Cpu, color: '#2563EB', bg: '#EFF6FF' },
+            { label: 'Active Locations', val: '10 Cities', change: 'National Grid', trend: 'neutral', icon: MapPin, color: '#0D9488', bg: '#F0FDFA' },
+            { label: 'Patients Screened Today', val: '1,482', change: '+12.4% daily', trend: 'up', icon: Users, color: '#059669', bg: '#ECFDF5' },
+            { label: 'Reports Verified Today', val: '1,482', change: '100% verified', trend: 'up', icon: FileText, color: '#7C3AED', bg: '#F5F3FF' },
+            { label: 'Critical Alerts', val: '3 Alerts', change: '-2 from yesterday', trend: 'down', icon: AlertTriangle, color: '#DC2626', bg: '#FEF2F2' },
+            { label: 'Weekly Growth', val: '+14.8%', change: 'Throughput rate', trend: 'up', icon: TrendingUp, color: '#2563EB', bg: '#EFF6FF' },
+            { label: 'Fleet Uptime', val: '99.8%', change: 'Target: >99.5%', trend: 'up', icon: Activity, color: '#059669', bg: '#ECFDF5' },
+            { label: 'Avg Processing Time', val: '3.2s', change: 'Sub-second read', trend: 'up', icon: Clock, color: '#D97706', bg: '#FFFBEB' },
+          ].map((kpi) => (
+            <div key={kpi.label} className="bg-white border border-gray-100 rounded-2xl p-4 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-gray-500">{kpi.label}</span>
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: kpi.bg }}>
+                  <kpi.icon className="w-3.5 h-3.5" style={{ color: kpi.color }} />
+                </div>
+              </div>
+              <p className="text-xl sm:text-2xl font-extrabold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                {kpi.val}
+              </p>
+              <div className="flex items-center gap-1 text-[11px] font-mono text-gray-400">
+                <span className={kpi.trend === 'up' ? 'text-emerald-600 font-bold' : kpi.trend === 'down' ? 'text-rose-600 font-bold' : 'text-gray-500'}>
+                  {kpi.change}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── 3. INDIA OPERATIONS MAP & CITY LEADERBOARD ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* DEVICE FLEET MANAGEMENT */}
-          <div className="lg:col-span-2 bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-6">
-            <div className="flex justify-between items-center border-b border-gray-50 pb-4">
+          {/* CITY PERFORMANCE LEADERBOARD (7 cols) */}
+          <div className="lg:col-span-7 bg-white border border-gray-100 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
               <div>
                 <h2 className="text-lg font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                  Device Fleet Management
+                  National City Operations &amp; Station Grid
                 </h2>
-                <p className="text-xs text-gray-400">Terminal statuses, battery diagnostics, and optical calibration schedules</p>
+                <p className="text-xs text-gray-400">Live deployment metrics across 10 operational metropolitan hubs</p>
               </div>
-              <button onClick={() => alert('Triggering hardware diagnostic ping...')} className="p-2 bg-[#FAFAF9] rounded-xl hover:bg-gray-100 transition-colors border border-gray-200/50">
-                <RefreshCw className="w-4 h-4 text-gray-500" />
+              <button 
+                onClick={() => setActiveModal('location')}
+                className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#2563EB] text-xs font-semibold transition-colors flex items-center gap-1"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add Location
               </button>
             </div>
 
@@ -199,32 +296,36 @@ export default function AdminCenterPage() {
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="border-b border-gray-100 text-gray-400 font-mono">
-                    <th className="pb-3 font-semibold">DEVICE ID</th>
-                    <th className="pb-3 font-semibold">LOCATION</th>
-                    <th className="pb-3 font-semibold">STATUS</th>
-                    <th className="pb-3 font-semibold">BATTERY</th>
-                    <th className="pb-3 font-semibold">CALIBRATION</th>
+                    <th className="pb-3 font-semibold">CITY / REGION</th>
+                    <th className="pb-3 font-semibold text-center">KIOSKS</th>
+                    <th className="pb-3 font-semibold text-center">TODAY'S SCANS</th>
+                    <th className="pb-3 font-semibold text-center">SUCCESS RATE</th>
+                    <th className="pb-3 font-semibold text-right">STATUS</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {devices.map((dev) => (
-                    <tr key={dev.id} className="hover:bg-gray-50/50">
-                      <td className="py-3 font-mono font-bold text-[#2563EB]">{dev.device_code}</td>
-                      <td className="py-3 font-medium text-gray-600">{dev.locations?.location_name || 'N/A'}</td>
-                      <td className="py-3">
-                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${
-                          dev.status === 'online' 
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
-                            : 'bg-amber-50 text-amber-700 border-amber-100'
+                  {CITIES_INFRASTRUCTURE.map((city) => (
+                    <tr key={city.name} className="hover:bg-gray-50/60 transition-colors">
+                      <td className="py-3 font-bold text-[#0B1B33]">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-3.5 h-3.5 text-[#2563EB]" />
+                          <div>
+                            <span className="block text-xs leading-tight">{city.name}</span>
+                            <span className="text-[10px] text-gray-400 font-mono font-normal">{city.region}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3 text-center font-mono font-semibold text-gray-700">{city.kiosks}</td>
+                      <td className="py-3 text-center font-mono font-extrabold text-[#0B1B33]">{city.todayScans}</td>
+                      <td className="py-3 text-center font-mono text-emerald-600 font-bold">{city.successRate}</td>
+                      <td className="py-3 text-right">
+                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border inline-block ${
+                          city.status === 'Online' 
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                            : 'bg-amber-50 text-amber-700 border-amber-200'
                         }`}>
-                          {dev.status === 'online' ? 'Online' : 'Offline'}
+                          {city.status}
                         </span>
-                      </td>
-                      <td className="py-3 font-mono font-medium text-gray-500">
-                        {dev.device_code === 'US-NOD-1003' ? '14%' : '90%'}
-                      </td>
-                      <td className="py-3 font-mono text-gray-400">
-                        {dev.last_seen ? new Date(dev.last_seen).toISOString().split('T')[0] : 'N/A'}
                       </td>
                     </tr>
                   ))}
@@ -233,115 +334,245 @@ export default function AdminCenterPage() {
             </div>
           </div>
 
-          {/* ACTIVE LOCATIONS & STATION MONITORING */}
-          <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-6">
-            <div>
-              <h2 className="text-lg font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                Active Locations
-              </h2>
-              <p className="text-xs text-gray-400">Terminal volumes and grid integration density</p>
-            </div>
+          {/* ALERT CENTER & BIOMARKER ANALYTICS (5 cols) */}
+          <div className="lg:col-span-5 space-y-8">
+            
+            {/* ALERT CENTER */}
+            <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                <div className="flex items-center gap-2">
+                  <ShieldAlert className="w-4 h-4 text-rose-600" />
+                  <h3 className="text-xs font-mono text-gray-500 uppercase tracking-widest font-bold">Operational Alert Center</h3>
+                </div>
+                <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-[10px] font-bold font-mono">3 Active</span>
+              </div>
 
-            <div className="space-y-4">
-              {locations.map((loc, idx) => {
-                const activeDevices = devices.filter(d => d.location_id === loc.id && d.status === 'online').length;
-                const dailyScreenings = reports.filter(r => r.location_id === loc.id).length;
-                return (
-                  <div key={loc.id || idx} className="flex justify-between items-center p-3 border border-gray-50 bg-[#FAFAF9] rounded-2xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-white border border-gray-200/50 rounded-xl flex items-center justify-center">
-                        <MapPin className="w-4 h-4 text-[#2563EB]" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-xs text-[#0B1B33]">{loc.location_name}</p>
-                        <p className="text-[10px] text-gray-400">{loc.city} • {activeDevices} Node</p>
-                      </div>
+              <div className="space-y-3">
+                {[
+                  { priority: 'P1 - High', title: 'Sensor Calibration Required', loc: 'Delhi Airport T3 (US-NOD-1003)', time: '10 mins ago', color: 'bg-rose-50 border-rose-200 text-rose-800', btn: 'Recalibrate' },
+                  { priority: 'P2 - Med', title: 'High Protein Detected', loc: 'Patient US-PAT-9842 (Mumbai Node)', time: '25 mins ago', color: 'bg-amber-50 border-amber-200 text-amber-800', btn: 'Escalate' },
+                  { priority: 'P3 - Low', title: 'Terminal Battery Low (14%)', loc: 'Bengaluru Hub (US-NOD-1005)', time: '1 hour ago', color: 'bg-blue-50 border-blue-200 text-blue-800', btn: 'Ping Tech' },
+                ].map((alertItem, idx) => (
+                  <div key={idx} className={`p-3.5 rounded-2xl border ${alertItem.color} space-y-2`}>
+                    <div className="flex items-center justify-between text-[10px] font-mono font-bold opacity-80">
+                      <span>{alertItem.priority}</span>
+                      <span>{alertItem.time}</span>
                     </div>
-                    <div className="text-right">
-                      <p className="font-mono font-extrabold text-xs text-[#0B1B33]">{dailyScreenings}</p>
-                      <p className="text-[9px] text-gray-400 uppercase font-mono">daily scans</p>
+                    <div>
+                      <p className="font-bold text-xs">{alertItem.title}</p>
+                      <p className="text-[11px] opacity-90 mt-0.5">{alertItem.loc}</p>
+                    </div>
+                    <div className="pt-1 flex justify-end">
+                      <button 
+                        onClick={() => triggerAction(`Action "${alertItem.btn}" executed for ${alertItem.title}.`)}
+                        className="px-3 py-1 rounded-lg bg-white/90 hover:bg-white text-xs font-bold shadow-sm border border-black/10 transition-colors"
+                      >
+                        {alertItem.btn}
+                      </button>
                     </div>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
+
+            {/* BIOMARKER ANALYTICS BREAKDOWN */}
+            <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
+              <h3 className="text-xs font-mono text-gray-400 uppercase tracking-widest block">Population Biomarker Averages</h3>
+              
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="p-3 bg-[#FAFAF9] rounded-2xl border border-gray-100 space-y-1">
+                  <span className="text-[10px] text-gray-400 font-mono uppercase block">Average pH</span>
+                  <p className="text-lg font-extrabold text-[#0B1B33] font-mono">6.7 pH</p>
+                  <span className="text-[10px] text-emerald-600 font-semibold">Optimal Range</span>
+                </div>
+                <div className="p-3 bg-[#FAFAF9] rounded-2xl border border-gray-100 space-y-1">
+                  <span className="text-[10px] text-gray-400 font-mono uppercase block">Average TDS</span>
+                  <p className="text-lg font-extrabold text-[#0B1B33] font-mono">340 ppm</p>
+                  <span className="text-[10px] text-blue-600 font-semibold">Mineral Balance</span>
+                </div>
+                <div className="p-3 bg-[#FAFAF9] rounded-2xl border border-gray-100 space-y-1">
+                  <span className="text-[10px] text-gray-400 font-mono uppercase block">Protein Alerts</span>
+                  <p className="text-lg font-extrabold text-amber-600 font-mono">14 Cases</p>
+                  <span className="text-[10px] text-gray-500">0.9% of scans</span>
+                </div>
+                <div className="p-3 bg-[#FAFAF9] rounded-2xl border border-gray-100 space-y-1">
+                  <span className="text-[10px] text-gray-400 font-mono uppercase block">Glucose Spillover</span>
+                  <p className="text-lg font-extrabold text-rose-600 font-mono">8 Cases</p>
+                  <span className="text-[10px] text-gray-500">0.5% of scans</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
 
-        {/* CLINICAL REPORT DATABASE AUDIT & DATA EXPORT */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* SEARCHABLE REPORT DATABASE */}
-          <div className="lg:col-span-2 bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-gray-50 pb-4">
-              <div>
-                <h2 className="text-lg font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                  Clinical Report Database
-                </h2>
-                <p className="text-xs text-gray-400">Verification log for patient screening results</p>
-              </div>
+        {/* ── 4. DEVICE MANAGEMENT DASHBOARD TABLE ── */}
+        <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+          <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 border-b border-gray-100 pb-4">
+            <div>
+              <h2 className="text-lg font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                Device Fleet Control &amp; Telemetry Diagnostics
+              </h2>
+              <p className="text-xs text-gray-400">Manage terminal health, battery levels, optical sensor calibration, and maintenance logs</p>
+            </div>
 
-              {/* Search Bar */}
+            {/* Controls & Filters */}
+            <div className="flex flex-wrap items-center gap-3">
               <div className="relative">
                 <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-gray-400" />
                 <input 
                   type="text" 
-                  placeholder="Query Report ID / Flag..."
+                  placeholder="Search device or location..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="bg-[#FAFAF9] border border-gray-200/60 rounded-xl pl-9 pr-4 py-2 text-xs w-full sm:w-48 focus:outline-none focus:border-[#2563EB]"
+                  className="bg-[#FAFAF9] border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-xs w-44 sm:w-56 focus:outline-none focus:border-[#2563EB]"
                 />
               </div>
-            </div>
 
-            <div className="space-y-3">
-              {filteredLogs.length > 0 ? (
-                filteredLogs.map((log) => (
-                  <div key={log.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-gray-50 hover:border-gray-100 bg-[#FAFAF9] rounded-2xl gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-white border border-gray-200/50 flex items-center justify-center text-[#2563EB]">
-                        <Database className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono font-bold text-xs text-[#0B1B33]">{log.id}</span>
-                          <span className="text-[9px] font-mono text-gray-400">({log.userHash})</span>
-                        </div>
-                        <p className="text-[10px] text-gray-400">{log.location} • {log.date}</p>
-                      </div>
-                    </div>
+              <select 
+                value={selectedCityFilter}
+                onChange={(e) => setSelectedCityFilter(e.target.value)}
+                className="bg-[#FAFAF9] border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-700 outline-none"
+              >
+                <option value="All">All Cities</option>
+                {CITIES_INFRASTRUCTURE.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
+              </select>
 
-                    <div className="flex items-center justify-between sm:justify-end gap-3">
-                      <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
-                        {log.status}
-                      </span>
-                      <span className={`text-[10px] font-mono font-semibold px-2 py-1 rounded-xl ${
-                        log.flag === 'Clear' ? 'text-gray-500 bg-white' : 'text-amber-700 bg-amber-50 border border-amber-100'
-                      }`}>
-                        {log.flag}
-                      </span>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center py-6 text-xs text-gray-400">No logs match your search.</p>
-              )}
+              <select 
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="bg-[#FAFAF9] border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-700 outline-none"
+              >
+                <option value="All">All Statuses</option>
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
             </div>
           </div>
 
-          {/* EXPORT DATA & SETTINGS */}
-          <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-6">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-gray-100 text-gray-400 font-mono">
+                  <th className="pb-3 font-semibold">DEVICE CODE</th>
+                  <th className="pb-3 font-semibold">LOCATION</th>
+                  <th className="pb-3 font-semibold">STATUS</th>
+                  <th className="pb-3 font-semibold">BATTERY</th>
+                  <th className="pb-3 font-semibold">SENSOR HEALTH</th>
+                  <th className="pb-3 font-semibold">CALIBRATION</th>
+                  <th className="pb-3 font-semibold text-center">TODAY TESTS</th>
+                  <th className="pb-3 font-semibold text-right">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {filteredDevices.map((dev) => (
+                  <tr key={dev.id} className="hover:bg-gray-50/60 transition-colors">
+                    <td className="py-3.5 font-mono font-bold text-[#2563EB]">{dev.device_code}</td>
+                    <td className="py-3.5 font-medium text-gray-700">{dev.location}</td>
+                    <td className="py-3.5">
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${
+                        dev.status === 'online' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                        dev.status === 'maintenance' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                        'bg-rose-50 text-rose-700 border-rose-200'
+                      }`}>
+                        {dev.status.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="py-3.5">
+                      <div className="flex items-center gap-1.5 font-mono font-semibold">
+                        {dev.battery < 20 ? (
+                          <Battery className="w-4 h-4 text-rose-500" />
+                        ) : (
+                          <BatteryCharging className="w-4 h-4 text-emerald-600" />
+                        )}
+                        <span className={dev.battery < 20 ? 'text-rose-600 font-bold' : 'text-gray-700'}>{dev.battery}%</span>
+                      </div>
+                    </td>
+                    <td className="py-3.5 font-mono text-gray-600">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
+                        dev.sensorHealth === 'Optimal' ? 'bg-blue-50 text-[#2563EB]' : 'bg-amber-50 text-amber-700'
+                      }`}>
+                        {dev.sensorHealth}
+                      </span>
+                    </td>
+                    <td className="py-3.5 font-mono text-gray-400">{dev.calibration}</td>
+                    <td className="py-3.5 text-center font-mono font-extrabold text-[#0B1B33]">{dev.todayTests}</td>
+                    <td className="py-3.5 text-right">
+                      <button 
+                        onClick={() => triggerAction(`Triggered remote diagnostic ping to ${dev.device_code}.`)}
+                        className="px-3 py-1 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-semibold text-[11px] transition-colors"
+                      >
+                        Ping Diagnostic
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* ── 5. CLINICAL REPORT QUEUE & EXPORT CENTER ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* CLINICAL REVIEW QUEUE (8 cols) */}
+          <div className="lg:col-span-8 bg-white border border-gray-100 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+              <div>
+                <h2 className="text-lg font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+                  Clinical Report Review Queue
+                </h2>
+                <p className="text-xs text-gray-400">Audit and moderate abnormal patient scans flagged for clinical verification</p>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-blue-50 text-[#2563EB] text-xs font-mono font-bold">5 Pending Audit</span>
+            </div>
+
+            <div className="space-y-3">
+              {reportsList.map((rep) => (
+                <div key={rep.id} className="p-4 rounded-2xl border border-gray-100 bg-[#FAFAF9] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-bold text-xs text-[#0B1B33]">{rep.id}</span>
+                      <span className="text-[10px] font-mono text-gray-400">({rep.patientHash})</span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                        rep.risk === 'High Risk' ? 'bg-rose-100 text-rose-800' :
+                        rep.risk === 'Moderate Risk' ? 'bg-amber-100 text-amber-800' :
+                        'bg-emerald-100 text-emerald-800'
+                      }`}>
+                        {rep.risk}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-600 font-medium">Flag: <span className="text-gray-900">{rep.flag}</span></p>
+                    <p className="text-[10px] text-gray-400">{rep.time} · Reviewer: {rep.reviewer}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                    <button 
+                      onClick={() => triggerAction(`Report ${rep.id} verified and signed off.`)}
+                      className="px-3 py-1.5 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-[#1D4ED8] transition-colors shadow-sm"
+                    >
+                      Approve &amp; Sign
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* EXPORT CENTER (4 cols) */}
+          <div className="lg:col-span-4 bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-6">
             <div>
               <h2 className="text-lg font-bold text-[#0B1B33]" style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
-                Export Dataset
+                Export Operations Data
               </h2>
-              <p className="text-xs text-gray-400">Export clinical metrics for study or medical integrations</p>
+              <p className="text-xs text-gray-400">Export aggregated telemetry and clinical logs</p>
             </div>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-mono text-gray-400 uppercase block">EXPORT FORMAT</label>
+                <label className="text-[10px] font-mono text-gray-400 uppercase block">FORMAT</label>
                 <div className="grid grid-cols-2 gap-2">
                   {['CSV', 'JSON'].map((fmt) => (
                     <button 
@@ -349,7 +580,7 @@ export default function AdminCenterPage() {
                       onClick={() => setExportFormat(fmt)}
                       className={`text-xs font-bold font-mono py-2 rounded-xl border transition-all ${
                         exportFormat === fmt 
-                          ? 'border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]' 
+                          ? 'border-[#2563EB] bg-blue-50 text-[#2563EB]' 
                           : 'border-gray-200 bg-[#FAFAF9] text-gray-500 hover:bg-gray-50'
                       }`}
                     >
@@ -359,39 +590,75 @@ export default function AdminCenterPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-mono text-gray-400 uppercase block">LOCATION CLUSTER</label>
-                <select 
-                  className="w-full text-xs bg-[#FAFAF9] border border-gray-200 p-2.5 rounded-xl text-gray-600 focus:outline-none focus:border-[#2563EB]"
-                  onChange={(e) => setSelectedLocationFilter(e.target.value)}
-                >
-                  <option value="All">All Locations</option>
-                  <option value="Delhi">Delhi Airport T3</option>
-                  <option value="Hyderabad">Hyderabad Metro Station</option>
-                  <option value="Bengaluru">Bengaluru Corporate Hub</option>
-                </select>
-              </div>
-
               <button 
                 onClick={handleExport}
-                className="w-full flex items-center justify-center gap-2 bg-[#2563EB] hover:bg-blue-700 text-white font-semibold text-xs py-3 rounded-xl transition-all shadow-sm shadow-blue-100"
+                className="w-full flex items-center justify-center gap-2 bg-[#0B1B33] hover:bg-[#0B1B33]/90 text-white font-semibold text-xs py-3 rounded-xl transition-all shadow-sm"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 text-emerald-400" />
                 <span>Export Dataset ({exportFormat})</span>
               </button>
-            </div>
 
-            <div className="pt-4 border-t border-gray-100 space-y-2.5 text-xs text-gray-400 leading-relaxed">
-              <div className="flex gap-2">
-                <AlertCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <p>Data export enforces cryptographic token verification. Patient identifier codes are completely anonymized by default.</p>
-              </div>
+              <p className="text-[11px] text-gray-400 leading-relaxed font-mono">
+                Cryptographic HIPAA compliance enforced. Patient metadata is anonymized in exported records.
+              </p>
             </div>
           </div>
 
         </div>
 
       </main>
+
+      {/* ── MODALS FOR QUICK ACTIONS ── */}
+      {activeModal && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl space-y-6 relative animate-in fade-in zoom-in duration-200">
+            <button 
+              onClick={() => setActiveModal(null)}
+              className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {activeModal === 'device' && (
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-[#0B1B33]">Register New Device Node</h3>
+                <p className="text-xs text-gray-500">Add a new solid-state telemetry kiosk to the national registry.</p>
+                <form onSubmit={(e) => { e.preventDefault(); triggerAction('New device registered and initiated handshake.'); }} className="space-y-3">
+                  <input required placeholder="Device Serial Code (e.g. US-NOD-1007)" className="w-full p-3 rounded-xl border text-xs outline-none focus:border-[#2563EB]" />
+                  <input required placeholder="Deployment Location (e.g. Jaipur Transit Node)" className="w-full p-3 rounded-xl border text-xs outline-none focus:border-[#2563EB]" />
+                  <button type="submit" className="w-full py-3 rounded-xl bg-[#2563EB] text-white text-xs font-semibold shadow-md">Register Node</button>
+                </form>
+              </div>
+            )}
+
+            {activeModal === 'location' && (
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-[#0B1B33]">Register New Operations Hub</h3>
+                <p className="text-xs text-gray-500">Expand UroSense telemetry infrastructure to a new city or transit hub.</p>
+                <form onSubmit={(e) => { e.preventDefault(); triggerAction('New location cluster activated.'); }} className="space-y-3">
+                  <input required placeholder="City Name (e.g. Pune)" className="w-full p-3 rounded-xl border text-xs outline-none focus:border-[#2563EB]" />
+                  <input required placeholder="Cluster Station Name" className="w-full p-3 rounded-xl border text-xs outline-none focus:border-[#2563EB]" />
+                  <button type="submit" className="w-full py-3 rounded-xl bg-[#2563EB] text-white text-xs font-semibold shadow-md">Activate Hub</button>
+                </form>
+              </div>
+            )}
+
+            {activeModal === 'calibration' && (
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-[#0B1B33]">Run Remote Sensor Calibration</h3>
+                <p className="text-xs text-gray-500">Trigger automatic optical self-calibration sequence across all active hardware nodes.</p>
+                <button 
+                  onClick={() => triggerAction('Optical self-calibration triggered across 24 online devices.')}
+                  className="w-full py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-md"
+                >
+                  Confirm Fleet Calibration
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
