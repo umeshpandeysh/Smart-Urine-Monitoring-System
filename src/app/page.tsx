@@ -52,53 +52,51 @@ export default function HomePage() {
 
         {/* ══════════════════════════════════════════════════
             HERO
-        {/* ══════════════════════════════════════════════════
-            HERO
         ══════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-[#071324] text-white py-16 md:py-24 border-b border-blue-900/50 shadow-2xl">
-          <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'radial-gradient(#2563EB 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
-          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+        <section className="relative overflow-hidden bg-white py-16 md:py-24 border-b border-slate-100">
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#2563EB0a 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
+          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-[#2563EB]/5 blur-3xl pointer-events-none" />
 
-          <div className="relative max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
-            {/* Left */}
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-400/40 text-cyan-300 shadow-lg text-xs font-mono font-bold tracking-widest uppercase">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-                Next-Gen AI Biomarker Intelligence
+          <div className="relative max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column */}
+            <div className="space-y-7 max-w-[640px]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold">
+                <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
+                Smart Urine Health Analysis
               </div>
 
-              <h1 className="font-extrabold text-white" style={{ fontSize: 'clamp(2.75rem, 6vw, 4.25rem)', lineHeight: 1.08, letterSpacing: '-0.03em', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
+              <h1 className="font-extrabold text-[#0F172A] tracking-tight leading-[1.12]" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.75rem)', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>
                 Know Your Health<br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">Before Symptoms</span><br />
-                Appear.
+                <span className="text-[#2563EB]">Before Symptoms</span><br />
+                Appear
               </h1>
 
-              <p className="text-gray-300 max-w-lg leading-relaxed text-base md:text-lg font-normal">
-                UroSense bridges physical point-of-use hardware sensors with automated clinical intelligence — interpreting hydration, glucose, and kidney filtering load in under 60 seconds.
+              <p className="text-[#475569] text-base md:text-lg leading-relaxed font-normal">
+                UroSense is a smart urine analysis platform that helps detect hydration issues, glucose abnormalities, kidney stress indicators, and urinary health risks — within minutes, without a lab.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
-                <Link href="/login" className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-extrabold text-base hover:from-cyan-400 hover:to-blue-500 shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:scale-105">
-                  Access Health Report <ArrowRight className="w-5 h-5" />
+                <Link href="/login" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#2563EB] text-white font-semibold text-sm hover:bg-[#1D4ED8] shadow-md shadow-blue-500/15 transition-all duration-200 hover:-translate-y-0.5">
+                  Access My Health Report <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-6 pt-4 border-t border-white/10">
+              <div className="flex flex-wrap gap-6 pt-3 border-t border-slate-100">
                 {[
-                  { icon: CheckCircle2, text: 'Touchless Telemetry' },
-                  { icon: Shield, text: 'AES-256 OTP Privacy' },
-                  { icon: Heart, text: 'Clinical Insights' },
+                  { icon: CheckCircle2, text: 'Non-invasive & touchless' },
+                  { icon: Shield, text: 'OTP-verified privacy' },
+                  { icon: Heart, text: 'Clinically informed results' },
                 ].map(t => (
-                  <div key={t.text} className="flex items-center gap-2 text-xs text-gray-300 font-bold font-mono">
-                    <t.icon className="w-4.5 h-4.5 text-cyan-400 flex-shrink-0" />{t.text}
+                  <div key={t.text} className="flex items-center gap-2 text-xs text-[#64748B] font-medium">
+                    <t.icon className="w-4 h-4 text-[#0D9488] flex-shrink-0" />{t.text}
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right — Doctor image + live card */}
+            {/* Right Column — Doctor image + live report card */}
             <div className="relative flex flex-col gap-5">
-              <div className="rounded-3xl overflow-hidden shadow-2xl border border-gray-100 bg-gray-50">
+              <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-100 bg-slate-50">
                 <Image
                   src="/hero-doctor.png"
                   alt="UroSense doctor reviewing patient health report"
@@ -109,13 +107,13 @@ export default function HomePage() {
               </div>
 
               {/* Patient Friendly Live Result Card */}
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-xl p-5 space-y-4">
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-xl p-5 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488] animate-pulse" />
-                    <span className="text-xs font-semibold text-[#0B1B33] uppercase tracking-wider">Live Analysis Result</span>
+                    <span className="text-xs font-semibold text-[#0F172A] uppercase tracking-wider">Live Analysis Result</span>
                   </div>
-                  <span className="text-[10px] font-mono text-gray-400">US-NODE-01</span>
+                  <span className="text-[10px] font-mono text-slate-400">US-NODE-01</span>
                 </div>
 
                 {/* Patient-Friendly Medical Findings */}
@@ -128,10 +126,10 @@ export default function HomePage() {
                     { label: 'Blood Sugar Indicator', value: 'Normal' },
                     { label: 'Protein Leakage Risk', value: 'Low' },
                   ].map(m => (
-                    <div key={m.label} className="bg-[#F8FAFC] rounded-xl p-3 border border-gray-50 flex flex-col justify-between">
-                      <p className="text-[11px] text-gray-400 font-medium leading-snug">{m.label}</p>
+                    <div key={m.label} className="bg-[#F8FAFC] rounded-xl p-3 border border-slate-100 flex flex-col justify-between">
+                      <p className="text-[11px] text-slate-500 font-medium leading-snug">{m.label}</p>
                       <div className="flex items-center justify-between mt-1">
-                        <span className="text-sm font-bold text-[#0B1B33]">{m.value}</span>
+                        <span className="text-sm font-bold text-[#0F172A]">{m.value}</span>
                         <CheckCircle2 className="w-3.5 h-3.5 text-[#0D9488]" />
                       </div>
                     </div>
@@ -139,38 +137,38 @@ export default function HomePage() {
                 </div>
 
                 {/* Advanced Technical View Collapsible Accordion */}
-                <div className="border-t border-gray-100 pt-3">
+                <div className="border-t border-slate-100 pt-3">
                   <button 
                     onClick={() => setShowAdvanced(!showAdvanced)}
-                    className="flex items-center justify-between w-full text-xs font-semibold text-gray-500 hover:text-[#0B1B33] transition-colors py-1 focus:outline-none"
+                    className="flex items-center justify-between w-full text-xs font-semibold text-slate-500 hover:text-[#0F172A] transition-colors py-1 focus:outline-none"
                   >
                     <span>Advanced Technical View</span>
                     {showAdvanced ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                   </button>
 
                   {showAdvanced && (
-                    <div className="grid grid-cols-4 gap-2 mt-2 bg-gray-50 p-2.5 rounded-lg border border-gray-100 text-[10px] font-mono text-gray-500">
+                    <div className="grid grid-cols-4 gap-2 mt-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100 text-[10px] font-mono text-slate-500">
                       <div>
-                        <p className="text-gray-400">TDS</p>
-                        <p className="font-bold text-[#0B1B33]">310 ppm</p>
+                        <p className="text-slate-400">TDS</p>
+                        <p className="font-bold text-[#0F172A]">310 ppm</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Turbidity</p>
-                        <p className="font-bold text-[#0B1B33]">1.2 NTU</p>
+                        <p className="text-slate-400">Turbidity</p>
+                        <p className="font-bold text-[#0F172A]">1.2 NTU</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">pH Level</p>
-                        <p className="font-bold text-[#0B1B33]">6.2 pH</p>
+                        <p className="text-slate-400">pH Level</p>
+                        <p className="font-bold text-[#0F172A]">6.2 pH</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Temperature</p>
-                        <p className="font-bold text-[#0B1B33]">36.8 °C</p>
+                        <p className="text-slate-400">Temperature</p>
+                        <p className="font-bold text-[#0F172A]">36.8 °C</p>
                       </div>
                     </div>
                   )}
                 </div>
 
-                <p className="text-center text-[11px] text-gray-400 pt-1">Report ready · Scan QR code to access</p>
+                <p className="text-center text-[11px] text-slate-400 pt-1">Report ready · Scan QR code to access</p>
               </div>
             </div>
           </div>
