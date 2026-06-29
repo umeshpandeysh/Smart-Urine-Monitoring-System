@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  ShieldCheck, ArrowLeft, Database, MapPin, 
-  Search, Download, AlertCircle, RefreshCw, Activity,
-  Server, Cpu, Users, FileText, CheckCircle2, AlertTriangle,
-  Clock, Filter, Plus, Settings, Sliders, Battery, BatteryCharging,
-  TrendingUp, BarChart3, ChevronRight, Bell, UserPlus, ShieldAlert, X
+  ShieldCheck, MapPin, 
+  Search, Download, Activity,
+  Cpu, Users, FileText, CheckCircle2, AlertTriangle,
+  Clock, Plus, Sliders, Battery, BatteryCharging,
+  TrendingUp, Bell, ShieldAlert, X
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -298,7 +298,7 @@ export default function AdminCenterPage() {
                   <tr className="border-b border-gray-100 text-gray-400 font-mono">
                     <th className="pb-3 font-semibold">CITY / REGION</th>
                     <th className="pb-3 font-semibold text-center">KIOSKS</th>
-                    <th className="pb-3 font-semibold text-center">TODAY'S SCANS</th>
+                    <th className="pb-3 font-semibold text-center">TODAY&apos;S SCANS</th>
                     <th className="pb-3 font-semibold text-center">SUCCESS RATE</th>
                     <th className="pb-3 font-semibold text-right">STATUS</th>
                   </tr>

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/landing/navbar';
 import Footer from '@/components/landing/footer';
-import { Shield, Lock, CheckCircle2, FileText, UserCheck } from 'lucide-react';
+import { Shield, Lock, FileText, UserCheck } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — UroSense',

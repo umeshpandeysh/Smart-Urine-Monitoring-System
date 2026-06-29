@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/landing/navbar';
 import Footer from '@/components/landing/footer';
 import {
-  Target, Eye, Shield, Cpu, Activity, ArrowRight,
-  Database, Globe, HeartPulse, Sparkles
+  Target, Eye, Shield, Cpu, Activity,
+  Globe, HeartPulse, Sparkles
 } from 'lucide-react';
 
 export const metadata: Metadata = {
